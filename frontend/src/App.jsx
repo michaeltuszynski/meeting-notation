@@ -8,6 +8,8 @@ function App() {
     const [audioLevel, setAudioLevel] = useState(0);
     const [metrics, setMetrics] = useState(null);
     const [error, setError] = useState(null);
+    const [extractedTerms, setExtractedTerms] = useState([]);
+    const [termDefinitions, setTermDefinitions] = useState({});
     
     const socketRef = useRef(null);
     const audioContextRef = useRef(null);
@@ -37,20 +39,22 @@ function App() {
         
         socket.on('transcript:update', (data) => {
             console.log('Transcript update:', data);
-            setTranscript(prev => [...prev, {
-                text: data.text,
-                isFinal: data.isFinal,
-                confidence: data.confidence,
-                timestamp: data.timestamp,
-                latency: data.latency
-            }]);
-            
-            // Update metrics
-            if (data.latency) {
-                setMetrics(prev => ({
-                    ...prev,
-                    lastLatency: data.latency
-                }));
+            if (data.text && data.text.trim()) {
+                setTranscript(prev => [...prev, {
+                    text: data.text,
+                    isFinal: data.isFinal,
+                    confidence: data.confidence,
+                    timestamp: data.timestamp,
+                    latency: data.latency
+                }]);
+                
+                // Update metrics
+                if (data.latency) {
+                    setMetrics(prev => ({
+                        ...prev,
+                        lastLatency: data.latency
+                    }));
+                }
             }
         });
         
@@ -62,6 +66,31 @@ function App() {
         socket.on('audio:error', (data) => {
             setError(data.message);
             setTimeout(() => setError(null), 5000);
+        });
+        
+        socket.on('terms:extracted', (data) => {
+            console.log('Terms extracted:', data);
+            setExtractedTerms(prev => {
+                // Add new terms and keep only last 20 unique terms
+                const newTerms = [...new Set([...data.terms, ...prev])].slice(0, 20);
+                return newTerms;
+            });
+        });
+        
+        socket.on('definitions:updated', (data) => {
+            console.log('Definitions received:', data);
+            setTermDefinitions(prev => {
+                const newDefs = { ...prev };
+                data.forEach(item => {
+                    newDefs[item.term] = item.definition;
+                });
+                return newDefs;
+            });
+        });
+        
+        socket.on('metrics:response', (data) => {
+            console.log('Metrics received:', data);
+            setMetrics(data);
         });
         
         // Request metrics periodically
@@ -203,7 +232,7 @@ function App() {
     };
     
     return (
-        <div style={{ padding: '20px', fontFamily: 'system-ui', maxWidth: '1200px', margin: '0 auto' }}>
+        <div style={{ padding: '20px', fontFamily: 'system-ui' }}>
             <h1>🎙️ Meeting Intelligence Assistant</h1>
             
             {/* Status Bar */}
@@ -239,7 +268,7 @@ function App() {
                             <strong>Avg Latency:</strong> {formatLatency(Math.round(metrics.avgLatency))}
                         </div>
                         <div>
-                            <strong>Last Latency:</strong> {formatLatency(metrics.lastLatency)}
+                            <strong>Last Latency:</strong> {formatLatency(metrics.deepgram?.lastLatency || metrics.lastLatency)}
                         </div>
                     </>
                 )}
@@ -321,17 +350,24 @@ function App() {
                 )}
             </div>
             
-            {/* Transcript Display */}
+            {/* Two Column Layout */}
             <div style={{ 
-                padding: '20px', 
-                background: '#ffffff',
-                border: '1px solid #dee2e6',
-                borderRadius: '8px',
-                minHeight: '400px',
-                maxHeight: '600px',
-                overflowY: 'auto'
+                display: 'flex', 
+                gap: '20px'
             }}>
-                <h2 style={{ marginTop: 0 }}>📝 Live Transcript</h2>
+                {/* Transcript Display */}
+                <div style={{ 
+                    flex: '2',
+                    minWidth: '0',
+                    padding: '20px', 
+                    background: '#ffffff',
+                    border: '1px solid #dee2e6',
+                    borderRadius: '8px',
+                    minHeight: '400px',
+                    maxHeight: '600px',
+                    overflowY: 'auto'
+                }}>
+                    <h2 style={{ marginTop: 0 }}>📝 Live Transcript</h2>
                 {transcript.length === 0 ? (
                     <p style={{ color: '#6c757d', fontStyle: 'italic' }}>
                         {isRecording ? 'Listening... Speak to see transcript' : 'Click "Start Recording" to begin'}
@@ -374,6 +410,104 @@ function App() {
                         ))}
                     </div>
                 )}
+                </div>
+                
+                {/* Extracted Terms Sidebar */}
+                <div style={{
+                    flex: '1',
+                    minWidth: '0',
+                    padding: '20px',
+                    background: '#ffffff',
+                    border: '1px solid #dee2e6',
+                    borderRadius: '8px',
+                    maxHeight: '600px',
+                    overflowY: 'auto'
+                }}>
+                    <h2 style={{ marginTop: 0 }}>🔍 Key Terms</h2>
+                    {extractedTerms.length === 0 ? (
+                        <p style={{ color: '#6c757d', fontStyle: 'italic' }}>
+                            Terms will appear here as they're extracted from the conversation
+                        </p>
+                    ) : (
+                        <div>
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                                {extractedTerms.map((term, index) => (
+                                    <div
+                                        key={index}
+                                        style={{
+                                            padding: '6px 12px',
+                                            background: termDefinitions[term] ? '#d4edda' : '#e7f3ff',
+                                            border: `1px solid ${termDefinitions[term] ? '#28a745' : '#0066cc'}`,
+                                            borderRadius: '20px',
+                                            fontSize: '14px',
+                                            color: termDefinitions[term] ? '#155724' : '#0066cc',
+                                            fontWeight: '500',
+                                            whiteSpace: 'nowrap',
+                                            cursor: termDefinitions[term] ? 'help' : 'default',
+                                            position: 'relative',
+                                            title: termDefinitions[term]?.summary || 'Fetching definition...'
+                                        }}
+                                    >
+                                        {term}
+                                        {termDefinitions[term] && (
+                                            <span style={{
+                                                marginLeft: '4px',
+                                                fontSize: '12px',
+                                                opacity: 0.7
+                                            }}>ⓘ</span>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                            
+                            {/* Definition Display */}
+                            {Object.keys(termDefinitions).length > 0 && (
+                                <div style={{
+                                    marginTop: '20px',
+                                    padding: '15px',
+                                    background: '#f8f9fa',
+                                    borderRadius: '5px',
+                                    maxHeight: '200px',
+                                    overflowY: 'auto'
+                                }}>
+                                    <h4 style={{ margin: '0 0 10px 0', fontSize: '14px' }}>Recent Definitions</h4>
+                                    {extractedTerms
+                                        .filter(term => termDefinitions[term])
+                                        .slice(0, 3)
+                                        .map((term, index) => (
+                                            <div key={index} style={{ marginBottom: '10px' }}>
+                                                <strong style={{ color: '#0066cc' }}>{term}:</strong>
+                                                <div style={{ fontSize: '13px', marginTop: '2px' }}>
+                                                    {termDefinitions[term].summary}
+                                                </div>
+                                            </div>
+                                        ))}
+                                </div>
+                            )}
+                        </div>
+                    )}
+                    
+                    {/* Metrics Section */}
+                    {metrics?.gpt4oMini && (
+                        <div style={{
+                            marginTop: '30px',
+                            padding: '15px',
+                            background: '#f8f9fa',
+                            borderRadius: '5px',
+                            fontSize: '12px'
+                        }}>
+                            <h3 style={{ margin: '0 0 10px 0', fontSize: '14px' }}>GPT-4o Mini Metrics</h3>
+                            <div style={{ display: 'grid', gap: '5px' }}>
+                                <div>Extractions: {metrics.gpt4oMini.totalExtractions}</div>
+                                <div>Avg Latency: {formatLatency(Math.round(metrics.gpt4oMini.averageLatency))}</div>
+                                <div>Last: {formatLatency(metrics.gpt4oMini.lastLatency)}</div>
+                                {metrics.gpt4oMini.errors > 0 && (
+                                    <div style={{ color: '#dc3545' }}>Errors: {metrics.gpt4oMini.errors}</div>
+                                )}
+                            </div>
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );

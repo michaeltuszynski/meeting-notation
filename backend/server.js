@@ -6,6 +6,8 @@ require('dotenv').config();
 
 const DeepgramService = require('./transcription/deepgram');
 const { AudioProcessor } = require('./utils/audio');
+const GPT4oMiniService = require('./llm/gpt4omini');
+const TavilyService = require('./knowledge/tavily');
 
 const app = express();
 app.use(cors());
@@ -23,6 +25,8 @@ const io = new Server(server, {
 
 // Initialize services
 const deepgramService = new DeepgramService(process.env.DEEPGRAM_API_KEY);
+const gpt4oMiniService = new GPT4oMiniService();
+const tavilyService = new TavilyService();
 const audioProcessors = new Map(); // One processor per client
 
 // Connect to Deepgram on server start
@@ -31,9 +35,29 @@ deepgramService.connect().catch(err => {
 });
 
 // Deepgram event handlers
-deepgramService.on('transcript', (transcript) => {
+deepgramService.on('transcript', async (transcript) => {
   // Broadcast transcript to all connected clients
   io.emit('transcript:update', transcript);
+  
+  // Add transcript to GPT-4o Mini for term extraction
+  if (transcript.text && transcript.text.trim()) {
+    console.log(`[GPT-4o Mini] Adding transcript: "${transcript.text}"`);
+    gpt4oMiniService.addTranscript(transcript.text);
+    
+    // Try to extract terms (will only extract if conditions are met)
+    const extraction = await gpt4oMiniService.extractTerms();
+    if (extraction) {
+      io.emit('terms:extracted', extraction);
+      console.log(`[Terms] Extracted: ${extraction.terms.join(', ')}`);
+      
+      // Fetch definitions for extracted terms
+      const definitions = await tavilyService.searchTerms(extraction.terms);
+      if (definitions.length > 0) {
+        io.emit('definitions:updated', definitions);
+        console.log(`[Knowledge] Found ${definitions.length} definitions`);
+      }
+    }
+  }
 });
 
 deepgramService.on('error', (error) => {
@@ -61,7 +85,11 @@ io.on('connection', (socket) => {
   // Send connection status and metrics
   socket.emit('service:status', {
     deepgram: deepgramService.isConnected,
-    metrics: deepgramService.getMetrics()
+    metrics: {
+      deepgram: deepgramService.getMetrics(),
+      gpt4oMini: gpt4oMiniService.getMetrics(),
+      tavily: tavilyService.getMetrics()
+    }
   });
   
   let audioChunkCount = 0;
@@ -145,7 +173,11 @@ io.on('connection', (socket) => {
   });
   
   socket.on('metrics:request', () => {
-    socket.emit('metrics:response', deepgramService.getMetrics());
+    socket.emit('metrics:response', {
+      deepgram: deepgramService.getMetrics(),
+      gpt4oMini: gpt4oMiniService.getMetrics(),
+      tavily: tavilyService.getMetrics()
+    });
   });
   
   socket.on('disconnect', () => {

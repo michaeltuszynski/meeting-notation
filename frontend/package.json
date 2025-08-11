@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "node server.js",
-    "build": "echo 'Build script not configured yet'"
+    "dev": "webpack --watch & node server.js",
+    "build": "webpack --mode production",
+    "start": "node server.js"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
@@ -14,5 +15,15 @@
     "react-redux": "^9.2.0",
     "react-use-websocket": "^4.13.0",
     "socket.io-client": "^4.8.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.0",
+    "@babel/preset-env": "^7.23.0",
+    "@babel/preset-react": "^7.22.0",
+    "babel-loader": "^9.1.0",
+    "css-loader": "^6.8.0",
+    "style-loader": "^3.3.0",
+    "webpack": "^5.88.0",
+    "webpack-cli": "^5.1.0"
   }
 }

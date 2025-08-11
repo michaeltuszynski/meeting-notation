@@ -1,0 +1,47 @@
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "9000:9000"
+    environment:
+      - PORT=9000
+      - NODE_ENV=production
+      - DEEPGRAM_API_KEY=${DEEPGRAM_API_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - TAVILY_API_KEY=${TAVILY_API_KEY}
+    env_file:
+      - .env
+    networks:
+      - meeting-network
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=production
+      - REACT_APP_BACKEND_URL=http://localhost:9000
+      - REACT_APP_WS_URL=ws://localhost:9000
+    depends_on:
+      - backend
+    networks:
+      - meeting-network
+    restart: unless-stopped
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - meeting-network
+    restart: unless-stopped
+
+networks:
+  meeting-network:
+    driver: bridge
+
+volumes:
+  redis-data:

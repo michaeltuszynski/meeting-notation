@@ -1,0 +1,25 @@
+# Meeting Intelligence Assistant - AI Coding Rules
+
+## Critical Performance Requirements
+- EVERY change must maintain <2s end-to-end latency
+- Run `npm run perf:check` after modifications
+
+## Environment
+- Always use venv Python, not system Python
+- Use project Node.js (v20), not system Node
+- Run `source activate.sh` before development
+
+## Code Standards
+- Use async/await over promises
+- Implement streaming/chunking for real-time processing
+- Clear audio buffers after processing
+- Use Web Workers for CPU-intensive tasks
+
+## WebSocket Requirements
+- Always handle connection drops gracefully
+- Never lose audio data during reconnection
+- Implement exponential backoff
+
+## Testing
+- Write latency tests for new features
+- Test WebSocket reconnection scenarios

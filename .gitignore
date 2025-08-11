@@ -1,0 +1,27 @@
+# Virtual environments
+node_modules/
+node_env/
+venv/
+.local/
+
+# Environment
+.env
+.env.local
+
+# Build
+dist/
+build/
+*.log
+
+# IDE
+.DS_Store
+.vscode/
+.idea/
+
+# Testing
+coverage/
+*.heapsnapshot
+
+# Claude
+.claude/cache/
+CLAUDE.local.md

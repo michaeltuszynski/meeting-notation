@@ -132,12 +132,39 @@ deepgramService.on('transcript', async (transcript) => {
         }
       }
       
-      // Fetch web definitions for terms not in context
-      const termsNeedingDefinitions = extraction.terms.filter(term => {
-        return !contextualIntelligence.getContextualDefinition(term);
-      });
+      // Fetch web definitions for terms not in context AND with frequency >= 3
+      const termsNeedingDefinitions = [];
+      
+      for (const term of extraction.terms) {
+        // Skip if already has contextual definition
+        if (contextualIntelligence.getContextualDefinition(term)) {
+          continue;
+        }
+        
+        // Check frequency in database (only fetch definitions for terms with 3+ mentions)
+        if (activeMeetingId) {
+          try {
+            const frequencyResult = await db.query(
+              'SELECT frequency FROM extracted_terms WHERE meeting_id = $1 AND term = $2',
+              [activeMeetingId, term]
+            );
+            
+            const frequency = frequencyResult.rows.length > 0 ? frequencyResult.rows[0].frequency : 1;
+            
+            if (frequency >= 3) {
+              termsNeedingDefinitions.push(term);
+              console.log(`[Knowledge] Term "${term}" has ${frequency} mentions - queuing for definition`);
+            } else {
+              console.log(`[Knowledge] Term "${term}" has ${frequency} mentions - skipping definition (needs 3+)`);
+            }
+          } catch (error) {
+            console.error(`Error checking frequency for term "${term}":`, error);
+          }
+        }
+      }
       
       if (termsNeedingDefinitions.length > 0) {
+        console.log(`[Knowledge] Fetching definitions for ${termsNeedingDefinitions.length} high-frequency terms: ${termsNeedingDefinitions.join(', ')}`);
         const definitions = await tavilyService.searchTerms(termsNeedingDefinitions);
         if (definitions.length > 0) {
           io.emit('definitions:updated', definitions);
@@ -388,6 +415,117 @@ io.on('connection', (socket) => {
       topics: topicFlow,
       timestamp: Date.now()
     });
+  });
+
+  // Settings management
+  socket.on('settings:get', () => {
+    try {
+      // Load settings from environment variables and defaults
+      const settings = {
+        deepgramApiKey: process.env.DEEPGRAM_API_KEY ? '***configured***' : '',
+        openaiApiKey: process.env.OPENAI_API_KEY ? '***configured***' : '',
+        anthropicApiKey: process.env.ANTHROPIC_API_KEY ? '***configured***' : '',
+        geminiApiKey: process.env.GEMINI_API_KEY ? '***configured***' : '',
+        tavilyApiKey: process.env.TAVILY_API_KEY ? '***configured***' : '',
+        llmProvider: process.env.LLM_PROVIDER || 'openai',
+        llmModel: process.env.LLM_MODEL || 'gpt-4o-mini',
+        maxContextLength: parseInt(process.env.MAX_CONTEXT_LENGTH) || 8000,
+        enableNotifications: process.env.ENABLE_NOTIFICATIONS !== 'false',
+        autoSaveInterval: parseInt(process.env.AUTO_SAVE_INTERVAL) || 30,
+        transcriptionConfidenceThreshold: parseFloat(process.env.TRANSCRIPTION_CONFIDENCE_THRESHOLD) || 0.8,
+        enableContextualIntelligence: process.env.ENABLE_CONTEXTUAL_INTELLIGENCE !== 'false',
+        enableKnowledgeRetrieval: process.env.ENABLE_KNOWLEDGE_RETRIEVAL !== 'false',
+        cacheExpiryHours: parseInt(process.env.CACHE_EXPIRY_HOURS) || 24
+      };
+
+      socket.emit('settings:response', {
+        success: true,
+        settings
+      });
+    } catch (error) {
+      console.error('Error loading settings:', error);
+      socket.emit('settings:response', {
+        success: false,
+        error: 'Failed to load settings'
+      });
+    }
+  });
+
+  socket.on('settings:save', (newSettings) => {
+    try {
+      console.log('[Settings] Received settings update:', {
+        ...newSettings,
+        deepgramApiKey: newSettings.deepgramApiKey ? '[REDACTED]' : 'empty',
+        openaiApiKey: newSettings.openaiApiKey ? '[REDACTED]' : 'empty',
+        anthropicApiKey: newSettings.anthropicApiKey ? '[REDACTED]' : 'empty',
+        geminiApiKey: newSettings.geminiApiKey ? '[REDACTED]' : 'empty',
+        tavilyApiKey: newSettings.tavilyApiKey ? '[REDACTED]' : 'empty'
+      });
+
+      // In a production environment, you would save these to a secure configuration store
+      // For now, we'll just acknowledge receipt and provide guidance
+      
+      let requiresRestart = false;
+      const warnings = [];
+
+      // Check if API keys have changed (would require service restart)
+      if (newSettings.deepgramApiKey && newSettings.deepgramApiKey !== '***configured***' && newSettings.deepgramApiKey !== process.env.DEEPGRAM_API_KEY) {
+        warnings.push('Deepgram API key update requires service restart');
+        requiresRestart = true;
+      }
+      
+      if (newSettings.openaiApiKey && newSettings.openaiApiKey !== '***configured***' && newSettings.openaiApiKey !== process.env.OPENAI_API_KEY) {
+        warnings.push('OpenAI API key update requires service restart');
+        requiresRestart = true;
+      }
+      
+      if (newSettings.anthropicApiKey && newSettings.anthropicApiKey !== '***configured***' && newSettings.anthropicApiKey !== process.env.ANTHROPIC_API_KEY) {
+        warnings.push('Anthropic API key update requires service restart');
+        requiresRestart = true;
+      }
+      
+      if (newSettings.geminiApiKey && newSettings.geminiApiKey !== '***configured***' && newSettings.geminiApiKey !== process.env.GEMINI_API_KEY) {
+        warnings.push('Gemini API key update requires service restart');
+        requiresRestart = true;
+      }
+      
+      if (newSettings.tavilyApiKey && newSettings.tavilyApiKey !== '***configured***' && newSettings.tavilyApiKey !== process.env.TAVILY_API_KEY) {
+        warnings.push('Tavily API key update requires service restart');
+        requiresRestart = true;
+      }
+
+      // Check if LLM provider or model has changed
+      if (newSettings.llmProvider && newSettings.llmProvider !== (process.env.LLM_PROVIDER || 'openai')) {
+        warnings.push('LLM provider change requires service restart');
+        requiresRestart = true;
+      }
+      
+      if (newSettings.llmModel && newSettings.llmModel !== (process.env.LLM_MODEL || 'gpt-4o-mini')) {
+        warnings.push('LLM model change requires service restart');
+        requiresRestart = true;
+      }
+
+      // Apply runtime settings that don't require restart
+      if (newSettings.maxContextLength) {
+        contextualIntelligence.setMaxContextLength(newSettings.maxContextLength);
+      }
+
+      socket.emit('settings:saved', {
+        success: true,
+        message: warnings.length > 0 
+          ? `Settings saved. Note: ${warnings.join(', ')}`
+          : 'Settings saved successfully',
+        requiresRestart,
+        warnings
+      });
+
+    } catch (error) {
+      console.error('Error saving settings:', error);
+      socket.emit('settings:saved', {
+        success: false,
+        error: 'Failed to save settings'
+      });
+    }
   });
   
   socket.on('disconnect', () => {

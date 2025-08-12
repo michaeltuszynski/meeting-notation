@@ -141,8 +141,9 @@ module.exports = (meetingService, storageService, reportService) => {
   // Generate meeting report
   router.get('/:id/report', async (req, res) => {
     try {
-      const report = await reportService.generateMeetingReport(req.params.id);
-      const { format = 'json' } = req.query;
+      const { format = 'json', regenerate = 'false' } = req.query;
+      const forceRegenerate = regenerate === 'true';
+      const report = await reportService.generateMeetingReport(req.params.id, forceRegenerate);
       
       if (format === 'html') {
         const html = await reportService.generateReportHTML(report);

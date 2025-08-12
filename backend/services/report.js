@@ -9,9 +9,9 @@ class ReportService {
     });
   }
 
-  async generateMeetingReport(meetingId) {
+  async generateMeetingReport(meetingId, forceRegenerate = false) {
     try {
-      console.log(`[Report Service] Generating report for meeting ${meetingId}`);
+      console.log(`[Report Service] ${forceRegenerate ? 'Regenerating' : 'Getting'} report for meeting ${meetingId}`);
       
       // Get meeting details
       const meetingQuery = `
@@ -27,6 +27,14 @@ class ReportService {
       }
       
       const meeting = meetingResult.rows[0];
+      
+      // Check if we already have a cached report and don't need to regenerate
+      if (!forceRegenerate && meeting.summary) {
+        console.log(`[Report Service] Using cached report for meeting ${meetingId}`);
+        return await this.buildReportFromCache(meeting, meetingId);
+      }
+      
+      console.log(`[Report Service] Generating new report for meeting ${meetingId}`);
       
       // Get all final transcripts
       const transcripts = await this.storageService.getTranscripts(meetingId, { 
@@ -77,6 +85,51 @@ class ReportService {
       
     } catch (error) {
       console.error('[Report Service] Error generating report:', error);
+      throw error;
+    }
+  }
+
+  async buildReportFromCache(meeting, meetingId) {
+    try {
+      // Get all final transcripts
+      const transcripts = await this.storageService.getTranscripts(meetingId, { 
+        finalOnly: true,
+        limit: null 
+      });
+      
+      // Get extracted terms with definitions
+      const terms = await this.storageService.getExtractedTerms(meetingId);
+      
+      // Combine transcripts into full text for word count (if not cached)
+      const fullTranscript = transcripts.map(t => t.text).join(' ').trim();
+      
+      // Build report using cached summary
+      const report = {
+        meeting: {
+          id: meeting.id,
+          title: meeting.title,
+          startTime: meeting.start_time,
+          endTime: meeting.end_time,
+          duration: this.formatDuration(meeting.duration_seconds),
+          status: meeting.status
+        },
+        statistics: {
+          wordCount: meeting.word_count || this.countWords(fullTranscript),
+          uniqueTerms: meeting.term_count || terms.length,
+          transcriptSegments: transcripts.length,
+          totalDefinitions: terms.filter(t => t.definition).length
+        },
+        summary: meeting.summary, // Use cached summary
+        keyTerms: this.formatKeyTerms(terms),
+        fullTranscript: this.formatTranscript(transcripts),
+        generatedAt: meeting.updated_at || new Date(), // Use original generation time
+        cached: true // Flag to indicate this was cached
+      };
+      
+      return report;
+      
+    } catch (error) {
+      console.error('[Report Service] Error building cached report:', error);
       throw error;
     }
   }
@@ -151,6 +204,7 @@ Please provide a professional summary of this meeting.`;
 
   formatKeyTerms(terms) {
     return terms
+      .filter(term => term.frequency >= 3) // Only include terms with 3+ mentions
       .sort((a, b) => b.frequency - a.frequency)
       .map(term => ({
         term: term.term,

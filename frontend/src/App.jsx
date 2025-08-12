@@ -4,6 +4,7 @@ import MeetingSidebar from './components/MeetingSidebar';
 import ReportView from './components/ReportView';
 import DefinitionHistory from './components/DefinitionHistory';
 import ContextualInsights from './components/ContextualInsights';
+import useElectronAudio from './hooks/useElectronAudio';
 
 function App() {
     const [transcript, setTranscript] = useState([]);
@@ -19,6 +20,7 @@ function App() {
     const [showReport, setShowReport] = useState(false);
     const [reportMeetingId, setReportMeetingId] = useState(null);
     const [rightPanelView, setRightPanelView] = useState('contextual'); // 'contextual' or 'definitions'
+    const [useElectronBridge, setUseElectronBridge] = useState(false); // Toggle for Electron audio bridge
     
     const socketRef = useRef(null);
     const audioContextRef = useRef(null);
@@ -26,6 +28,28 @@ function App() {
     const sourceRef = useRef(null);
     const streamRef = useRef(null);
     const animationRef = useRef(null);
+    
+    // Electron audio capture hook
+    const {
+        isElectron,
+        audioSources,
+        selectedSource,
+        setSelectedSource,
+        isCapturing: isElectronCapturing,
+        startCapture: startElectronCapture,
+        stopCapture: stopElectronCapture,
+        getAudioSources
+    } = useElectronAudio();
+    
+    // Debug: Log Electron detection
+    useEffect(() => {
+        console.log('[App] Electron detected:', isElectron);
+        console.log('[App] window.electronAPI:', window.electronAPI);
+        console.log('[App] window.meetingAPI (old):', window.meetingAPI);
+        if (isElectron) {
+            console.log('[App] Audio sources:', audioSources);
+        }
+    }, [isElectron, audioSources]);
     
     useEffect(() => {
         // Use the webpack-defined environment variable or fallback
@@ -227,6 +251,25 @@ function App() {
             setIsRecording(true);
             setError(null);
             
+            // Use Electron audio capture if enabled and available
+            if (isElectron && useElectronBridge) {
+                console.log('[App] Using Electron audio bridge for system audio capture');
+                
+                // If no source selected, get sources first
+                if (!selectedSource && audioSources.length === 0) {
+                    await getAudioSources();
+                }
+                
+                const success = await startElectronCapture();
+                if (!success) {
+                    setError('Failed to start Electron audio capture. Please check audio source selection.');
+                    setIsRecording(false);
+                }
+                return;
+            }
+            
+            console.log('[App] Using browser microphone capture');
+            
             // Request microphone permission
             const stream = await navigator.mediaDevices.getUserMedia({
                 audio: {
@@ -311,6 +354,19 @@ function App() {
     const stopRecording = () => {
         console.log('Stopping recording...');
         
+        // Stop Electron capture if using it
+        if (isElectron && useElectronBridge && isElectronCapturing) {
+            stopElectronCapture();
+            setIsRecording(false);
+            setAudioLevel(0);
+            
+            // End meeting if it's active
+            if (activeMeeting && activeMeeting.status === 'active') {
+                handleEndMeeting();
+            }
+            return;
+        }
+        
         // Stop audio processing
         if (processorRef.current && sourceRef.current) {
             sourceRef.current.disconnect();
@@ -387,6 +443,18 @@ function App() {
                         {showSidebar ? '◀' : '▶'} Meetings
                     </button>
                     <h1 style={{ margin: 0 }}>🎙️ Meeting Intelligence Assistant</h1>
+                    {/* Debug: Show Electron status */}
+                    {isElectron && (
+                        <span style={{ 
+                            padding: '4px 8px', 
+                            background: '#17a2b8', 
+                            color: 'white', 
+                            borderRadius: '4px',
+                            fontSize: '12px'
+                        }}>
+                            Electron Mode
+                        </span>
+                    )}
                     {activeMeeting && (
                         <div style={{
                             padding: '5px 10px',
@@ -427,6 +495,18 @@ function App() {
                     }}>
                         {isRecording ? '● Recording' : '○ Stopped'}
                     </span>
+                    {isRecording && isElectron && (
+                        <span style={{ 
+                            marginLeft: '10px',
+                            fontSize: '12px',
+                            padding: '2px 6px',
+                            background: useElectronBridge ? '#007bff' : '#28a745',
+                            color: 'white',
+                            borderRadius: '3px'
+                        }}>
+                            {useElectronBridge ? 'System Audio' : 'Microphone'}
+                        </span>
+                    )}
                 </div>
                 {metrics && (
                     <>
@@ -479,11 +559,114 @@ function App() {
                 display: 'flex', 
                 gap: '10px', 
                 marginBottom: '20px',
-                alignItems: 'center'
+                alignItems: 'center',
+                flexWrap: 'wrap'
             }}>
+                {/* Electron Bridge Toggle - Only show in Electron environment */}
+                {isElectron && (
+                    <div style={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: '10px',
+                        padding: '8px 12px',
+                        background: useElectronBridge ? '#e7f3ff' : '#f8f9fa',
+                        borderRadius: '4px',
+                        border: `1px solid ${useElectronBridge ? '#007bff' : '#dee2e6'}`
+                    }}>
+                        <label style={{ 
+                            fontSize: '14px', 
+                            fontWeight: '500',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            cursor: 'pointer'
+                        }}>
+                            <input
+                                type="checkbox"
+                                checked={useElectronBridge}
+                                onChange={(e) => {
+                                    setUseElectronBridge(e.target.checked);
+                                    if (e.target.checked) {
+                                        getAudioSources();
+                                    }
+                                }}
+                                disabled={isRecording}
+                                style={{ cursor: isRecording ? 'not-allowed' : 'pointer' }}
+                            />
+                            <span>
+                                {useElectronBridge ? '🖥️ System Audio' : '🎤 Microphone'} Mode
+                            </span>
+                        </label>
+                        {useElectronBridge && (
+                            <span style={{ 
+                                fontSize: '12px', 
+                                color: '#007bff',
+                                padding: '2px 6px',
+                                background: 'white',
+                                borderRadius: '3px'
+                            }}>
+                                Capture all system sounds
+                            </span>
+                        )}
+                    </div>
+                )}
+                
+                {/* Audio Source Selection for Electron Bridge */}
+                {isElectron && useElectronBridge && (
+                    <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                        <label style={{ fontSize: '14px', fontWeight: '500' }}>
+                            Audio Source:
+                        </label>
+                        <select
+                            value={selectedSource?.id || ''}
+                            onChange={(e) => {
+                                const source = audioSources.find(s => s.id === e.target.value);
+                                setSelectedSource(source);
+                            }}
+                            disabled={isRecording}
+                            style={{
+                                padding: '8px 12px',
+                                fontSize: '14px',
+                                borderRadius: '4px',
+                                border: '1px solid #ced4da',
+                                background: isRecording ? '#e9ecef' : 'white',
+                                cursor: isRecording ? 'not-allowed' : 'pointer',
+                                minWidth: '200px'
+                            }}
+                        >
+                            {audioSources.length === 0 && (
+                                <option value="">Loading sources...</option>
+                            )}
+                            {audioSources.map(source => (
+                                <option key={source.id} value={source.id}>
+                                    {source.name}
+                                    {(source.name.includes('Screen') || source.name.includes('BlackHole')) && ' (Recommended)'}
+                                </option>
+                            ))}
+                        </select>
+                        <button
+                            onClick={getAudioSources}
+                            disabled={isRecording}
+                            style={{
+                                padding: '8px 12px',
+                                fontSize: '14px',
+                                background: '#6c757d',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '4px',
+                                cursor: isRecording ? 'not-allowed' : 'pointer',
+                                opacity: isRecording ? 0.5 : 1
+                            }}
+                            title="Refresh audio sources"
+                        >
+                            🔄
+                        </button>
+                    </div>
+                )}
+                
                 <button
                     onClick={isRecording ? stopRecording : startRecording}
-                    disabled={!isConnected || !activeMeeting || activeMeeting?.status === 'completed'}
+                    disabled={!isConnected || !activeMeeting || activeMeeting?.status === 'completed' || (isElectron && useElectronBridge && !selectedSource)}
                     style={{
                         padding: '12px 24px',
                         fontSize: '16px',
@@ -492,12 +675,12 @@ function App() {
                         background: isRecording ? '#dc3545' : (!activeMeeting ? '#6c757d' : '#28a745'),
                         border: 'none',
                         borderRadius: '5px',
-                        cursor: (isConnected && activeMeeting && activeMeeting.status !== 'completed') ? 'pointer' : 'not-allowed',
-                        opacity: (isConnected && activeMeeting && activeMeeting.status !== 'completed') ? 1 : 0.5
+                        cursor: (isConnected && activeMeeting && activeMeeting.status !== 'completed' && (!isElectron || !useElectronBridge || selectedSource)) ? 'pointer' : 'not-allowed',
+                        opacity: (isConnected && activeMeeting && activeMeeting.status !== 'completed' && (!isElectron || !useElectronBridge || selectedSource)) ? 1 : 0.5
                     }}
-                    title={!activeMeeting ? 'Start a meeting first' : (activeMeeting.status === 'completed' ? 'Meeting has ended' : '')}
+                    title={!activeMeeting ? 'Start a meeting first' : (activeMeeting.status === 'completed' ? 'Meeting has ended' : (isElectron && useElectronBridge && !selectedSource ? 'Select an audio source' : ''))}
                 >
-                    {isRecording ? '⏹ Stop Recording' : '🎤 Start Recording'}
+                    {isRecording ? '⏹ Stop Recording' : (isElectron && useElectronBridge ? '🖥️ Start System Capture' : '🎤 Start Recording')}
                 </button>
                 
                 <button

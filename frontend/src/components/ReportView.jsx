@@ -1,5 +1,112 @@
 import React, { useState, useEffect } from 'react';
 
+// Simple markdown renderer
+const renderMarkdown = (text) => {
+    if (!text) return null;
+    
+    // Split by lines and process each line
+    const lines = text.split('\n');
+    const elements = [];
+    let currentList = null;
+    let listType = null;
+    
+    lines.forEach((line, index) => {
+        // Headers
+        if (line.startsWith('### ')) {
+            if (currentList) {
+                elements.push(currentList);
+                currentList = null;
+            }
+            elements.push(
+                <h4 key={index} style={{ marginTop: '15px', marginBottom: '10px', fontWeight: 'bold' }}>
+                    {line.substring(4)}
+                </h4>
+            );
+        } else if (line.startsWith('## ')) {
+            if (currentList) {
+                elements.push(currentList);
+                currentList = null;
+            }
+            elements.push(
+                <h3 key={index} style={{ marginTop: '20px', marginBottom: '10px', fontWeight: 'bold' }}>
+                    {line.substring(3)}
+                </h3>
+            );
+        } else if (line.startsWith('# ')) {
+            if (currentList) {
+                elements.push(currentList);
+                currentList = null;
+            }
+            elements.push(
+                <h2 key={index} style={{ marginTop: '20px', marginBottom: '15px', fontWeight: 'bold' }}>
+                    {line.substring(2)}
+                </h2>
+            );
+        }
+        // Bold text (handle **text**)
+        else if (line.includes('**')) {
+            if (currentList) {
+                elements.push(currentList);
+                currentList = null;
+            }
+            const parts = line.split(/\*\*/);
+            const formatted = parts.map((part, i) => 
+                i % 2 === 1 ? <strong key={i}>{part}</strong> : part
+            );
+            elements.push(
+                <p key={index} style={{ marginBottom: '10px', lineHeight: '1.6' }}>
+                    {formatted}
+                </p>
+            );
+        }
+        // Bullet points
+        else if (line.startsWith('- ') || line.startsWith('* ')) {
+            const listItem = <li key={index} style={{ marginBottom: '5px' }}>{line.substring(2)}</li>;
+            if (!currentList || listType !== 'ul') {
+                if (currentList) elements.push(currentList);
+                currentList = <ul key={`ul-${index}`} style={{ marginLeft: '20px', marginBottom: '10px' }}>{[listItem]}</ul>;
+                listType = 'ul';
+            } else {
+                currentList = <ul key={currentList.key} style={{ marginLeft: '20px', marginBottom: '10px' }}>
+                    {[...currentList.props.children, listItem]}
+                </ul>;
+            }
+        }
+        // Numbered lists
+        else if (/^\d+\.\s/.test(line)) {
+            const listItem = <li key={index} style={{ marginBottom: '5px' }}>{line.replace(/^\d+\.\s/, '')}</li>;
+            if (!currentList || listType !== 'ol') {
+                if (currentList) elements.push(currentList);
+                currentList = <ol key={`ol-${index}`} style={{ marginLeft: '20px', marginBottom: '10px' }}>{[listItem]}</ol>;
+                listType = 'ol';
+            } else {
+                currentList = <ol key={currentList.key} style={{ marginLeft: '20px', marginBottom: '10px' }}>
+                    {[...currentList.props.children, listItem]}
+                </ol>;
+            }
+        }
+        // Regular paragraphs
+        else if (line.trim()) {
+            if (currentList) {
+                elements.push(currentList);
+                currentList = null;
+            }
+            elements.push(
+                <p key={index} style={{ marginBottom: '10px', lineHeight: '1.6' }}>
+                    {line}
+                </p>
+            );
+        }
+    });
+    
+    // Add any remaining list
+    if (currentList) {
+        elements.push(currentList);
+    }
+    
+    return <div>{elements}</div>;
+};
+
 function ReportView({ meetingId, onClose }) {
     const [report, setReport] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -34,6 +141,72 @@ function ReportView({ meetingId, onClose }) {
             window.open(url, '_blank');
         } else {
             window.location.href = url;
+        }
+    };
+    
+    const exportMarkdown = () => {
+        if (!report) return;
+        
+        const markdown = `# Meeting Report: ${report.meeting.title}\n\n` +
+            `**Date:** ${new Date(report.meeting.startTime).toLocaleDateString()}\n` +
+            `**Duration:** ${report.meeting.duration}\n` +
+            `**Total Words:** ${report.statistics.wordCount}\n` +
+            `**Key Terms:** ${report.statistics.uniqueTerms}\n` +
+            `**Definitions:** ${report.statistics.totalDefinitions}\n\n` +
+            `## Executive Summary\n\n${report.summary}\n\n` +
+            `## Key Terms & Definitions\n\n` +
+            report.keyTerms.map(term => 
+                `### ${term.term} (${term.frequency}x)\n${term.definition}\n`
+            ).join('\n') +
+            `\n## Full Transcript\n\n` +
+            report.fullTranscript.map(segment => 
+                `**${new Date(segment.timestamp).toLocaleTimeString()}:** ${segment.text}`
+            ).join('\n\n');
+        
+        // Create blob and download
+        const blob = new Blob([markdown], { type: 'text/markdown' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `meeting-report-${meetingId}.md`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    };
+    
+    const copyMarkdownToClipboard = async () => {
+        if (!report) return;
+        
+        const markdown = `# Meeting Report: ${report.meeting.title}\n\n` +
+            `**Date:** ${new Date(report.meeting.startTime).toLocaleDateString()}\n` +
+            `**Duration:** ${report.meeting.duration}\n` +
+            `**Total Words:** ${report.statistics.wordCount}\n` +
+            `**Key Terms:** ${report.statistics.uniqueTerms}\n` +
+            `**Definitions:** ${report.statistics.totalDefinitions}\n\n` +
+            `## Executive Summary\n\n${report.summary}\n\n` +
+            `## Key Terms & Definitions\n\n` +
+            report.keyTerms.map(term => 
+                `### ${term.term} (${term.frequency}x)\n${term.definition}\n`
+            ).join('\n') +
+            `\n## Full Transcript\n\n` +
+            report.fullTranscript.map(segment => 
+                `**${new Date(segment.timestamp).toLocaleTimeString()}:** ${segment.text}`
+            ).join('\n\n');
+        
+        try {
+            await navigator.clipboard.writeText(markdown);
+            // Show success feedback
+            const button = document.getElementById('copy-markdown-btn');
+            const originalText = button.innerText;
+            button.innerText = '✓ Copied!';
+            button.style.background = '#28a745';
+            setTimeout(() => {
+                button.innerText = originalText;
+                button.style.background = '#6c757d';
+            }, 2000);
+        } catch (err) {
+            console.error('Failed to copy markdown:', err);
         }
     };
     
@@ -177,7 +350,8 @@ function ReportView({ meetingId, onClose }) {
                 padding: '15px 20px',
                 borderBottom: '1px solid #dee2e6',
                 display: 'flex',
-                gap: '10px'
+                gap: '10px',
+                flexWrap: 'wrap'
             }}>
                 <button onClick={() => exportReport('html')} style={{
                     padding: '8px 16px',
@@ -185,9 +359,43 @@ function ReportView({ meetingId, onClose }) {
                     color: 'white',
                     border: 'none',
                     borderRadius: '4px',
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '5px'
                 }}>
                     📄 Export HTML
+                </button>
+                <button onClick={exportMarkdown} style={{
+                    padding: '8px 16px',
+                    background: '#007bff',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '5px'
+                }}>
+                    📝 Export Markdown
+                </button>
+                <button 
+                    id="copy-markdown-btn"
+                    onClick={copyMarkdownToClipboard} 
+                    style={{
+                        padding: '8px 16px',
+                        background: '#6c757d',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '5px',
+                        transition: 'background 0.3s'
+                    }}
+                >
+                    📋 Copy Markdown
                 </button>
                 <button onClick={() => window.print()} style={{
                     padding: '8px 16px',
@@ -195,7 +403,10 @@ function ReportView({ meetingId, onClose }) {
                     color: 'white',
                     border: 'none',
                     borderRadius: '4px',
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '5px'
                 }}>
                     🖨️ Print
                 </button>
@@ -270,8 +481,8 @@ function ReportView({ meetingId, onClose }) {
                     <h3 style={{ marginTop: 0, marginBottom: '15px', color: '#2c3e50' }}>
                         📋 Executive Summary
                     </h3>
-                    <div style={{ whiteSpace: 'pre-line', lineHeight: '1.6' }}>
-                        {report.summary}
+                    <div style={{ lineHeight: '1.6' }}>
+                        {renderMarkdown(report.summary)}
                     </div>
                 </div>
                 

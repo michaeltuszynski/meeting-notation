@@ -38124,6 +38124,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_MeetingSidebar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/MeetingSidebar */ "./src/components/MeetingSidebar.jsx");
 /* harmony import */ var _components_ReportView__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/ReportView */ "./src/components/ReportView.jsx");
 /* harmony import */ var _components_DefinitionHistory__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/DefinitionHistory */ "./src/components/DefinitionHistory.jsx");
+/* harmony import */ var _components_ContextualInsights__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/ContextualInsights */ "./src/components/ContextualInsights.jsx");
+/* harmony import */ var _hooks_useElectronAudio__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./hooks/useElectronAudio */ "./src/hooks/useElectronAudio.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
 function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
@@ -38144,6 +38146,8 @@ function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) 
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+
+
 
 
 
@@ -38199,12 +38203,42 @@ function App() {
     _useState22 = _slicedToArray(_useState21, 2),
     reportMeetingId = _useState22[0],
     setReportMeetingId = _useState22[1];
+  var _useState23 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('contextual'),
+    _useState24 = _slicedToArray(_useState23, 2),
+    rightPanelView = _useState24[0],
+    setRightPanelView = _useState24[1]; // 'contextual' or 'definitions'
+  var _useState25 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState26 = _slicedToArray(_useState25, 2),
+    useElectronBridge = _useState26[0],
+    setUseElectronBridge = _useState26[1]; // Toggle for Electron audio bridge
+
   var socketRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
   var audioContextRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
   var processorRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
   var sourceRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
   var streamRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
   var animationRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+
+  // Electron audio capture hook
+  var _useElectronAudio = (0,_hooks_useElectronAudio__WEBPACK_IMPORTED_MODULE_6__["default"])(),
+    isElectron = _useElectronAudio.isElectron,
+    audioSources = _useElectronAudio.audioSources,
+    selectedSource = _useElectronAudio.selectedSource,
+    setSelectedSource = _useElectronAudio.setSelectedSource,
+    isElectronCapturing = _useElectronAudio.isCapturing,
+    startElectronCapture = _useElectronAudio.startCapture,
+    stopElectronCapture = _useElectronAudio.stopCapture,
+    getAudioSources = _useElectronAudio.getAudioSources;
+
+  // Debug: Log Electron detection
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    console.log('[App] Electron detected:', isElectron);
+    console.log('[App] window.electronAPI:', window.electronAPI);
+    console.log('[App] window.meetingAPI (old):', window.meetingAPI);
+    if (isElectron) {
+      console.log('[App] Audio sources:', audioSources);
+    }
+  }, [isElectron, audioSources]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // Use the webpack-defined environment variable or fallback
     var wsUrl = 'http://localhost:9000';
@@ -38343,6 +38377,12 @@ function App() {
         while (1) switch (_context.p = _context.n) {
           case 0:
             _context.p = 0;
+            // Set meeting context in backend
+            if (socketRef.current) {
+              socketRef.current.emit('meeting:setContext', meeting.id);
+            }
+
+            // Load meeting transcripts and terms
             _context.n = 1;
             return Promise.all([fetch("http://localhost:9000/api/meetings/".concat(meeting.id, "/transcripts")), fetch("http://localhost:9000/api/meetings/".concat(meeting.id, "/terms"))]);
           case 1:
@@ -38398,7 +38438,7 @@ function App() {
   }();
   var startRecording = /*#__PURE__*/function () {
     var _ref2 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
-      var stream, audioContext, source, processor, chunkCount, AMPLIFICATION_FACTOR, _t2;
+      var success, stream, audioContext, source, processor, chunkCount, AMPLIFICATION_FACTOR, _t2;
       return _regenerator().w(function (_context2) {
         while (1) switch (_context2.p = _context2.n) {
           case 0:
@@ -38421,8 +38461,35 @@ function App() {
             setIsRecording(true);
             setError(null);
 
-            // Request microphone permission
+            // Use Electron audio capture if enabled and available
+            if (!(isElectron && useElectronBridge)) {
+              _context2.n = 5;
+              break;
+            }
+            console.log('[App] Using Electron audio bridge for system audio capture');
+
+            // If no source selected, get sources first
+            if (!(!selectedSource && audioSources.length === 0)) {
+              _context2.n = 3;
+              break;
+            }
             _context2.n = 3;
+            return getAudioSources();
+          case 3:
+            _context2.n = 4;
+            return startElectronCapture();
+          case 4:
+            success = _context2.v;
+            if (!success) {
+              setError('Failed to start Electron audio capture. Please check audio source selection.');
+              setIsRecording(false);
+            }
+            return _context2.a(2);
+          case 5:
+            console.log('[App] Using browser microphone capture');
+
+            // Request microphone permission
+            _context2.n = 6;
             return navigator.mediaDevices.getUserMedia({
               audio: {
                 channelCount: 1,
@@ -38432,7 +38499,7 @@ function App() {
                 autoGainControl: true
               }
             });
-          case 3:
+          case 6:
             stream = _context2.v;
             streamRef.current = stream;
 
@@ -38493,18 +38560,18 @@ function App() {
             source.connect(processor);
             processor.connect(audioContext.destination);
             console.log('Recording started successfully');
-            _context2.n = 5;
+            _context2.n = 8;
             break;
-          case 4:
-            _context2.p = 4;
+          case 7:
+            _context2.p = 7;
             _t2 = _context2.v;
             console.error('Error starting recording:', _t2);
             setError('Failed to start recording: ' + _t2.message);
             setIsRecording(false);
-          case 5:
+          case 8:
             return _context2.a(2);
         }
-      }, _callee2, null, [[0, 4]]);
+      }, _callee2, null, [[0, 7]]);
     }));
     return function startRecording() {
       return _ref2.apply(this, arguments);
@@ -38512,6 +38579,19 @@ function App() {
   }();
   var stopRecording = function stopRecording() {
     console.log('Stopping recording...');
+
+    // Stop Electron capture if using it
+    if (isElectron && useElectronBridge && isElectronCapturing) {
+      stopElectronCapture();
+      setIsRecording(false);
+      setAudioLevel(0);
+
+      // End meeting if it's active
+      if (activeMeeting && activeMeeting.status === 'active') {
+        handleEndMeeting();
+      }
+      return;
+    }
 
     // Stop audio processing
     if (processorRef.current && sourceRef.current) {
@@ -38598,7 +38678,15 @@ function App() {
     style: {
       margin: 0
     }
-  }, "\uD83C\uDF99\uFE0F Meeting Intelligence Assistant"), activeMeeting && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, "\uD83C\uDF99\uFE0F Meeting Intelligence Assistant"), isElectron && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    style: {
+      padding: '4px 8px',
+      background: '#17a2b8',
+      color: 'white',
+      borderRadius: '4px',
+      fontSize: '12px'
+    }
+  }, "Electron Mode"), activeMeeting && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     style: {
       padding: '5px 10px',
       background: activeMeeting.status === 'active' ? '#d4edda' : '#f8f9fa',
@@ -38626,7 +38714,16 @@ function App() {
       color: isRecording ? '#dc3545' : '#6c757d',
       fontWeight: 'bold'
     }
-  }, isRecording ? '● Recording' : '○ Stopped')), metrics && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("strong", null, "Avg Latency:"), " ", formatLatency(Math.round(metrics.avgLatency))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("strong", null, "Last Latency:"), " ", formatLatency(((_metrics$deepgram = metrics.deepgram) === null || _metrics$deepgram === void 0 ? void 0 : _metrics$deepgram.lastLatency) || metrics.lastLatency)))), error && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, isRecording ? '● Recording' : '○ Stopped'), isRecording && isElectron && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    style: {
+      marginLeft: '10px',
+      fontSize: '12px',
+      padding: '2px 6px',
+      background: useElectronBridge ? '#007bff' : '#28a745',
+      color: 'white',
+      borderRadius: '3px'
+    }
+  }, useElectronBridge ? 'System Audio' : 'Microphone')), metrics && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("strong", null, "Avg Latency:"), " ", formatLatency(Math.round(metrics.avgLatency))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("strong", null, "Last Latency:"), " ", formatLatency(((_metrics$deepgram = metrics.deepgram) === null || _metrics$deepgram === void 0 ? void 0 : _metrics$deepgram.lastLatency) || metrics.lastLatency)))), error && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     style: {
       padding: '10px',
       background: '#f8d7da',
@@ -38655,11 +38752,102 @@ function App() {
       display: 'flex',
       gap: '10px',
       marginBottom: '20px',
+      alignItems: 'center',
+      flexWrap: 'wrap'
+    }
+  }, isElectron && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '10px',
+      padding: '8px 12px',
+      background: useElectronBridge ? '#e7f3ff' : '#f8f9fa',
+      borderRadius: '4px',
+      border: "1px solid ".concat(useElectronBridge ? '#007bff' : '#dee2e6')
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", {
+    style: {
+      fontSize: '14px',
+      fontWeight: '500',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px',
+      cursor: 'pointer'
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+    type: "checkbox",
+    checked: useElectronBridge,
+    onChange: function onChange(e) {
+      setUseElectronBridge(e.target.checked);
+      if (e.target.checked) {
+        getAudioSources();
+      }
+    },
+    disabled: isRecording,
+    style: {
+      cursor: isRecording ? 'not-allowed' : 'pointer'
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, useElectronBridge ? '🖥️ System Audio' : '🎤 Microphone', " Mode")), useElectronBridge && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    style: {
+      fontSize: '12px',
+      color: '#007bff',
+      padding: '2px 6px',
+      background: 'white',
+      borderRadius: '3px'
+    }
+  }, "Capture all system sounds")), isElectron && useElectronBridge && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    style: {
+      display: 'flex',
+      gap: '10px',
       alignItems: 'center'
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", {
+    style: {
+      fontSize: '14px',
+      fontWeight: '500'
+    }
+  }, "Audio Source:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("select", {
+    value: (selectedSource === null || selectedSource === void 0 ? void 0 : selectedSource.id) || '',
+    onChange: function onChange(e) {
+      var source = audioSources.find(function (s) {
+        return s.id === e.target.value;
+      });
+      setSelectedSource(source);
+    },
+    disabled: isRecording,
+    style: {
+      padding: '8px 12px',
+      fontSize: '14px',
+      borderRadius: '4px',
+      border: '1px solid #ced4da',
+      background: isRecording ? '#e9ecef' : 'white',
+      cursor: isRecording ? 'not-allowed' : 'pointer',
+      minWidth: '200px'
+    }
+  }, audioSources.length === 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", {
+    value: ""
+  }, "Loading sources..."), audioSources.map(function (source) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", {
+      key: source.id,
+      value: source.id
+    }, source.name, (source.name.includes('Screen') || source.name.includes('BlackHole')) && ' (Recommended)');
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: getAudioSources,
+    disabled: isRecording,
+    style: {
+      padding: '8px 12px',
+      fontSize: '14px',
+      background: '#6c757d',
+      color: 'white',
+      border: 'none',
+      borderRadius: '4px',
+      cursor: isRecording ? 'not-allowed' : 'pointer',
+      opacity: isRecording ? 0.5 : 1
+    },
+    title: "Refresh audio sources"
+  }, "\uD83D\uDD04")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
     onClick: isRecording ? stopRecording : startRecording,
-    disabled: !isConnected || !activeMeeting || (activeMeeting === null || activeMeeting === void 0 ? void 0 : activeMeeting.status) === 'completed',
+    disabled: !isConnected || !activeMeeting || (activeMeeting === null || activeMeeting === void 0 ? void 0 : activeMeeting.status) === 'completed' || isElectron && useElectronBridge && !selectedSource,
     style: {
       padding: '12px 24px',
       fontSize: '16px',
@@ -38668,11 +38856,11 @@ function App() {
       background: isRecording ? '#dc3545' : !activeMeeting ? '#6c757d' : '#28a745',
       border: 'none',
       borderRadius: '5px',
-      cursor: isConnected && activeMeeting && activeMeeting.status !== 'completed' ? 'pointer' : 'not-allowed',
-      opacity: isConnected && activeMeeting && activeMeeting.status !== 'completed' ? 1 : 0.5
+      cursor: isConnected && activeMeeting && activeMeeting.status !== 'completed' && (!isElectron || !useElectronBridge || selectedSource) ? 'pointer' : 'not-allowed',
+      opacity: isConnected && activeMeeting && activeMeeting.status !== 'completed' && (!isElectron || !useElectronBridge || selectedSource) ? 1 : 0.5
     },
-    title: !activeMeeting ? 'Start a meeting first' : activeMeeting.status === 'completed' ? 'Meeting has ended' : ''
-  }, isRecording ? '⏹ Stop Recording' : '🎤 Start Recording'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    title: !activeMeeting ? 'Start a meeting first' : activeMeeting.status === 'completed' ? 'Meeting has ended' : isElectron && useElectronBridge && !selectedSource ? 'Select an audio source' : ''
+  }, isRecording ? '⏹ Stop Recording' : isElectron && useElectronBridge ? '🖥️ Start System Capture' : '🎤 Start Recording'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
     onClick: clearTranscript,
     style: {
       padding: '12px 24px',
@@ -38756,12 +38944,56 @@ function App() {
     style: {
       flex: '1',
       minWidth: '0',
-      maxHeight: '600px'
+      maxHeight: '600px',
+      display: 'flex',
+      flexDirection: 'column'
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_DefinitionHistory__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    style: {
+      display: 'flex',
+      gap: '5px',
+      marginBottom: '10px'
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: function onClick() {
+      return setRightPanelView('contextual');
+    },
+    style: {
+      flex: 1,
+      padding: '8px',
+      background: rightPanelView === 'contextual' ? '#007bff' : '#6c757d',
+      color: 'white',
+      border: 'none',
+      borderRadius: '4px 0 0 4px',
+      cursor: 'pointer',
+      fontSize: '13px'
+    }
+  }, "Intelligence"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: function onClick() {
+      return setRightPanelView('definitions');
+    },
+    style: {
+      flex: 1,
+      padding: '8px',
+      background: rightPanelView === 'definitions' ? '#007bff' : '#6c757d',
+      color: 'white',
+      border: 'none',
+      borderRadius: '0 4px 4px 0',
+      cursor: 'pointer',
+      fontSize: '13px'
+    }
+  }, "Definitions")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    style: {
+      flex: 1,
+      minHeight: 0
+    }
+  }, rightPanelView === 'contextual' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ContextualInsights__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    socket: socketRef.current,
+    currentTopic: activeMeeting === null || activeMeeting === void 0 ? void 0 : activeMeeting.title
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_DefinitionHistory__WEBPACK_IMPORTED_MODULE_4__["default"], {
     definitions: termDefinitions,
     terms: extractedTerms
-  })))), showReport && reportMeetingId && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ReportView__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }))))), showReport && reportMeetingId && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ReportView__WEBPACK_IMPORTED_MODULE_3__["default"], {
     meetingId: reportMeetingId,
     onClose: function onClose() {
       setShowReport(false);
@@ -38770,6 +39002,513 @@ function App() {
   }));
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (App);
+
+/***/ }),
+
+/***/ "./src/components/ContextualInsights.jsx":
+/*!***********************************************!*\
+  !*** ./src/components/ContextualInsights.jsx ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+
+function ContextualInsights(_ref) {
+  var socket = _ref.socket,
+    currentTopic = _ref.currentTopic;
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+    _useState2 = _slicedToArray(_useState, 2),
+    insights = _useState2[0],
+    setInsights = _useState2[1];
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+    _useState4 = _slicedToArray(_useState3, 2),
+    talkingPoints = _useState4[0],
+    setTalkingPoints = _useState4[1];
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+    _useState6 = _slicedToArray(_useState5, 2),
+    rollingSummary = _useState6[0],
+    setRollingSummary = _useState6[1];
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+    _useState8 = _slicedToArray(_useState7, 2),
+    glossary = _useState8[0],
+    setGlossary = _useState8[1];
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('insights'),
+    _useState0 = _slicedToArray(_useState9, 2),
+    activeTab = _useState0[0],
+    setActiveTab = _useState0[1];
+  var _useState1 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState10 = _slicedToArray(_useState1, 2),
+    showTalkingPointsModal = _useState10[0],
+    setShowTalkingPointsModal = _useState10[1];
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+    _useState12 = _slicedToArray(_useState11, 2),
+    talkingPointTopic = _useState12[0],
+    setTalkingPointTopic = _useState12[1];
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    if (!socket) return;
+
+    // Listen for contextual insights
+    socket.on('contextual:insights', function (data) {
+      console.log('Received contextual insights:', data);
+      setInsights(data);
+    });
+
+    // Listen for talking points response
+    socket.on('intelligence:talking-points-response', function (data) {
+      setTalkingPoints(data.points || []);
+      setShowTalkingPointsModal(true);
+    });
+
+    // Listen for rolling summary
+    socket.on('intelligence:summary-response', function (data) {
+      setRollingSummary(data.summary || '');
+    });
+
+    // Listen for glossary updates
+    socket.on('intelligence:glossary-response', function (data) {
+      setGlossary(data.glossary || []);
+    });
+    return function () {
+      socket.off('contextual:insights');
+      socket.off('intelligence:talking-points-response');
+      socket.off('intelligence:summary-response');
+      socket.off('intelligence:glossary-response');
+    };
+  }, [socket]);
+  var requestTalkingPoints = function requestTalkingPoints() {
+    if (socket && talkingPointTopic.trim()) {
+      socket.emit('intelligence:talking-points', talkingPointTopic);
+    }
+  };
+  var requestRollingSummary = function requestRollingSummary() {
+    var duration = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 120000;
+    if (socket) {
+      socket.emit('intelligence:rolling-summary', duration);
+    }
+  };
+  var requestGlossary = function requestGlossary() {
+    if (socket) {
+      socket.emit('intelligence:get-glossary');
+      setActiveTab('glossary');
+    }
+  };
+  var renderInsightsTab = function renderInsightsTab() {
+    if (!insights) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+        style: {
+          padding: '20px',
+          color: '#6c757d',
+          fontStyle: 'italic'
+        }
+      }, "Waiting for contextual insights...");
+    }
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      style: {
+        padding: '15px'
+      }
+    }, insights.currentTopic && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      style: {
+        padding: '10px',
+        background: '#e7f3ff',
+        borderRadius: '5px',
+        marginBottom: '15px'
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("strong", null, "Current Topic:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      style: {
+        marginTop: '5px'
+      }
+    }, insights.currentTopic)), insights.concepts && insights.concepts.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      style: {
+        marginBottom: '15px'
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h4", {
+      style: {
+        fontSize: '14px',
+        marginBottom: '10px'
+      }
+    }, "Key Concepts"), insights.concepts.map(function (concept, idx) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+        key: idx,
+        style: {
+          padding: '8px',
+          marginBottom: '8px',
+          background: concept.importance === 'high' ? '#fff3cd' : '#f8f9fa',
+          borderLeft: "3px solid ".concat(concept.importance === 'high' ? '#ffc107' : concept.importance === 'medium' ? '#17a2b8' : '#6c757d'),
+          borderRadius: '3px'
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+        style: {
+          fontWeight: '500'
+        }
+      }, concept.concept), concept.context && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+        style: {
+          fontSize: '12px',
+          color: '#6c757d',
+          marginTop: '3px'
+        }
+      }, concept.context));
+    })), insights.suggestedQuestions && insights.suggestedQuestions.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      style: {
+        marginBottom: '15px'
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h4", {
+      style: {
+        fontSize: '14px',
+        marginBottom: '10px'
+      }
+    }, "Questions You Could Ask"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", {
+      style: {
+        margin: 0,
+        paddingLeft: '20px'
+      }
+    }, insights.suggestedQuestions.map(function (question, idx) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", {
+        key: idx,
+        style: {
+          marginBottom: '5px',
+          fontSize: '13px'
+        }
+      }, question);
+    }))), insights.potentialActions && insights.potentialActions.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      style: {
+        marginBottom: '15px'
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h4", {
+      style: {
+        fontSize: '14px',
+        marginBottom: '10px'
+      }
+    }, "Potential Action Items"), insights.potentialActions.map(function (action, idx) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+        key: idx,
+        style: {
+          padding: '8px',
+          marginBottom: '5px',
+          background: '#d4edda',
+          borderLeft: '3px solid #28a745',
+          borderRadius: '3px',
+          fontSize: '13px'
+        }
+      }, action);
+    })), insights.needsClarification && insights.needsClarification.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      style: {
+        marginBottom: '15px'
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h4", {
+      style: {
+        fontSize: '14px',
+        marginBottom: '10px',
+        color: '#dc3545'
+      }
+    }, "Needs Clarification"), insights.needsClarification.map(function (item, idx) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+        key: idx,
+        style: {
+          padding: '8px',
+          marginBottom: '5px',
+          background: '#f8d7da',
+          borderLeft: '3px solid #dc3545',
+          borderRadius: '3px',
+          fontSize: '13px'
+        }
+      }, item);
+    })));
+  };
+  var renderAssistantTab = function renderAssistantTab() {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      style: {
+        padding: '15px'
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      style: {
+        marginBottom: '20px'
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h4", {
+      style: {
+        fontSize: '14px',
+        marginBottom: '10px'
+      }
+    }, "Generate Talking Points"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      style: {
+        display: 'flex',
+        gap: '10px'
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+      type: "text",
+      placeholder: "Enter topic...",
+      value: talkingPointTopic,
+      onChange: function onChange(e) {
+        return setTalkingPointTopic(e.target.value);
+      },
+      onKeyPress: function onKeyPress(e) {
+        return e.key === 'Enter' && requestTalkingPoints();
+      },
+      style: {
+        flex: 1,
+        padding: '8px',
+        border: '1px solid #ced4da',
+        borderRadius: '4px',
+        fontSize: '13px'
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+      onClick: requestTalkingPoints,
+      style: {
+        padding: '8px 15px',
+        background: '#007bff',
+        color: 'white',
+        border: 'none',
+        borderRadius: '4px',
+        cursor: 'pointer',
+        fontSize: '13px'
+      }
+    }, "Generate"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      style: {
+        marginBottom: '20px'
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h4", {
+      style: {
+        fontSize: '14px',
+        marginBottom: '10px'
+      }
+    }, "Rolling Summary"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      style: {
+        display: 'flex',
+        gap: '10px',
+        marginBottom: '10px'
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+      onClick: function onClick() {
+        return requestRollingSummary(60000);
+      },
+      style: {
+        padding: '6px 12px',
+        background: '#6c757d',
+        color: 'white',
+        border: 'none',
+        borderRadius: '4px',
+        cursor: 'pointer',
+        fontSize: '12px'
+      }
+    }, "Last 1 min"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+      onClick: function onClick() {
+        return requestRollingSummary(120000);
+      },
+      style: {
+        padding: '6px 12px',
+        background: '#6c757d',
+        color: 'white',
+        border: 'none',
+        borderRadius: '4px',
+        cursor: 'pointer',
+        fontSize: '12px'
+      }
+    }, "Last 2 min"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+      onClick: function onClick() {
+        return requestRollingSummary(300000);
+      },
+      style: {
+        padding: '6px 12px',
+        background: '#6c757d',
+        color: 'white',
+        border: 'none',
+        borderRadius: '4px',
+        cursor: 'pointer',
+        fontSize: '12px'
+      }
+    }, "Last 5 min")), rollingSummary && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      style: {
+        padding: '10px',
+        background: '#f8f9fa',
+        borderRadius: '5px',
+        fontSize: '13px',
+        lineHeight: '1.5'
+      }
+    }, rollingSummary)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+      onClick: requestGlossary,
+      style: {
+        padding: '8px 15px',
+        background: '#17a2b8',
+        color: 'white',
+        border: 'none',
+        borderRadius: '4px',
+        cursor: 'pointer',
+        fontSize: '13px'
+      }
+    }, "View Meeting Glossary")));
+  };
+  var renderGlossaryTab = function renderGlossaryTab() {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      style: {
+        padding: '15px'
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h4", {
+      style: {
+        fontSize: '14px',
+        marginBottom: '15px'
+      }
+    }, "Meeting-Specific Terms"), glossary.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      style: {
+        color: '#6c757d',
+        fontStyle: 'italic',
+        fontSize: '13px'
+      }
+    }, "No terms defined yet in this meeting context.") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, glossary.map(function (item, idx) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+        key: idx,
+        style: {
+          padding: '10px',
+          marginBottom: '10px',
+          background: '#f8f9fa',
+          borderLeft: '3px solid #17a2b8',
+          borderRadius: '3px'
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+        style: {
+          fontWeight: '500',
+          marginBottom: '5px'
+        }
+      }, item.term), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+        style: {
+          fontSize: '13px',
+          color: '#495057'
+        }
+      }, item.definition), item.context && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+        style: {
+          fontSize: '11px',
+          color: '#6c757d',
+          marginTop: '5px'
+        }
+      }, "Context: ", item.context));
+    })));
+  };
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    style: {
+      background: '#ffffff',
+      border: '1px solid #dee2e6',
+      borderRadius: '8px',
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column'
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    style: {
+      borderBottom: '1px solid #dee2e6',
+      background: '#f8f9fa'
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", {
+    style: {
+      margin: 0,
+      padding: '10px 15px',
+      fontSize: '16px',
+      borderBottom: '1px solid #dee2e6'
+    }
+  }, "Meeting Intelligence"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    style: {
+      display: 'flex'
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: function onClick() {
+      return setActiveTab('insights');
+    },
+    style: {
+      flex: 1,
+      padding: '10px',
+      background: activeTab === 'insights' ? '#ffffff' : 'transparent',
+      border: 'none',
+      borderBottom: activeTab === 'insights' ? '2px solid #007bff' : 'none',
+      cursor: 'pointer',
+      fontSize: '13px',
+      fontWeight: activeTab === 'insights' ? '500' : 'normal'
+    }
+  }, "Insights"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: function onClick() {
+      return setActiveTab('assistant');
+    },
+    style: {
+      flex: 1,
+      padding: '10px',
+      background: activeTab === 'assistant' ? '#ffffff' : 'transparent',
+      border: 'none',
+      borderBottom: activeTab === 'assistant' ? '2px solid #007bff' : 'none',
+      cursor: 'pointer',
+      fontSize: '13px',
+      fontWeight: activeTab === 'assistant' ? '500' : 'normal'
+    }
+  }, "Assistant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: function onClick() {
+      return setActiveTab('glossary');
+    },
+    style: {
+      flex: 1,
+      padding: '10px',
+      background: activeTab === 'glossary' ? '#ffffff' : 'transparent',
+      border: 'none',
+      borderBottom: activeTab === 'glossary' ? '2px solid #007bff' : 'none',
+      cursor: 'pointer',
+      fontSize: '13px',
+      fontWeight: activeTab === 'glossary' ? '500' : 'normal'
+    }
+  }, "Glossary"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    style: {
+      flex: 1,
+      overflowY: 'auto'
+    }
+  }, activeTab === 'insights' && renderInsightsTab(), activeTab === 'assistant' && renderAssistantTab(), activeTab === 'glossary' && renderGlossaryTab()), showTalkingPointsModal && talkingPoints.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    style: {
+      position: 'fixed',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      background: 'white',
+      padding: '20px',
+      borderRadius: '8px',
+      boxShadow: '0 4px 20px rgba(0,0,0,0.2)',
+      zIndex: 1000,
+      maxWidth: '500px',
+      width: '90%'
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", {
+    style: {
+      marginTop: 0
+    }
+  }, "Talking Points"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", {
+    style: {
+      paddingLeft: '20px'
+    }
+  }, talkingPoints.map(function (point, idx) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", {
+      key: idx,
+      style: {
+        marginBottom: '10px'
+      }
+    }, point);
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: function onClick() {
+      return setShowTalkingPointsModal(false);
+    },
+    style: {
+      padding: '8px 15px',
+      background: '#6c757d',
+      color: 'white',
+      border: 'none',
+      borderRadius: '4px',
+      cursor: 'pointer',
+      marginTop: '10px'
+    }
+  }, "Close")));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ContextualInsights);
 
 /***/ }),
 
@@ -39497,11 +40236,165 @@ function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
-function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 
+
+// Simple markdown renderer
+var renderMarkdown = function renderMarkdown(text) {
+  if (!text) return null;
+
+  // Split by lines and process each line
+  var lines = text.split('\n');
+  var elements = [];
+  var currentList = null;
+  var listType = null;
+  lines.forEach(function (line, index) {
+    // Headers
+    if (line.startsWith('### ')) {
+      if (currentList) {
+        elements.push(currentList);
+        currentList = null;
+      }
+      elements.push(/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h4", {
+        key: index,
+        style: {
+          marginTop: '15px',
+          marginBottom: '10px',
+          fontWeight: 'bold'
+        }
+      }, line.substring(4)));
+    } else if (line.startsWith('## ')) {
+      if (currentList) {
+        elements.push(currentList);
+        currentList = null;
+      }
+      elements.push(/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", {
+        key: index,
+        style: {
+          marginTop: '20px',
+          marginBottom: '10px',
+          fontWeight: 'bold'
+        }
+      }, line.substring(3)));
+    } else if (line.startsWith('# ')) {
+      if (currentList) {
+        elements.push(currentList);
+        currentList = null;
+      }
+      elements.push(/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h2", {
+        key: index,
+        style: {
+          marginTop: '20px',
+          marginBottom: '15px',
+          fontWeight: 'bold'
+        }
+      }, line.substring(2)));
+    }
+    // Bold text (handle **text**)
+    else if (line.includes('**')) {
+      if (currentList) {
+        elements.push(currentList);
+        currentList = null;
+      }
+      var parts = line.split(/\*\*/);
+      var formatted = parts.map(function (part, i) {
+        return i % 2 === 1 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("strong", {
+          key: i
+        }, part) : part;
+      });
+      elements.push(/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+        key: index,
+        style: {
+          marginBottom: '10px',
+          lineHeight: '1.6'
+        }
+      }, formatted));
+    }
+    // Bullet points
+    else if (line.startsWith('- ') || line.startsWith('* ')) {
+      var listItem = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", {
+        key: index,
+        style: {
+          marginBottom: '5px'
+        }
+      }, line.substring(2));
+      if (!currentList || listType !== 'ul') {
+        if (currentList) elements.push(currentList);
+        currentList = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", {
+          key: "ul-".concat(index),
+          style: {
+            marginLeft: '20px',
+            marginBottom: '10px'
+          }
+        }, [listItem]);
+        listType = 'ul';
+      } else {
+        currentList = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", {
+          key: currentList.key,
+          style: {
+            marginLeft: '20px',
+            marginBottom: '10px'
+          }
+        }, [].concat(_toConsumableArray(currentList.props.children), [listItem]));
+      }
+    }
+    // Numbered lists
+    else if (/^\d+\.\s/.test(line)) {
+      var _listItem = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", {
+        key: index,
+        style: {
+          marginBottom: '5px'
+        }
+      }, line.replace(/^\d+\.\s/, ''));
+      if (!currentList || listType !== 'ol') {
+        if (currentList) elements.push(currentList);
+        currentList = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ol", {
+          key: "ol-".concat(index),
+          style: {
+            marginLeft: '20px',
+            marginBottom: '10px'
+          }
+        }, [_listItem]);
+        listType = 'ol';
+      } else {
+        currentList = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ol", {
+          key: currentList.key,
+          style: {
+            marginLeft: '20px',
+            marginBottom: '10px'
+          }
+        }, [].concat(_toConsumableArray(currentList.props.children), [_listItem]));
+      }
+    }
+    // Regular paragraphs
+    else if (line.trim()) {
+      if (currentList) {
+        elements.push(currentList);
+        currentList = null;
+      }
+      elements.push(/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+        key: index,
+        style: {
+          marginBottom: '10px',
+          lineHeight: '1.6'
+        }
+      }, line));
+    }
+  });
+
+  // Add any remaining list
+  if (currentList) {
+    elements.push(currentList);
+  }
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, elements);
+};
 function ReportView(_ref) {
   var meetingId = _ref.meetingId,
     onClose = _ref.onClose;
@@ -39573,6 +40466,72 @@ function ReportView(_ref) {
       window.location.href = url;
     }
   };
+  var exportMarkdown = function exportMarkdown() {
+    if (!report) return;
+    var markdown = "# Meeting Report: ".concat(report.meeting.title, "\n\n") + "**Date:** ".concat(new Date(report.meeting.startTime).toLocaleDateString(), "\n") + "**Duration:** ".concat(report.meeting.duration, "\n") + "**Total Words:** ".concat(report.statistics.wordCount, "\n") + "**Key Terms:** ".concat(report.statistics.uniqueTerms, "\n") + "**Definitions:** ".concat(report.statistics.totalDefinitions, "\n\n") + "## Executive Summary\n\n".concat(report.summary, "\n\n") + "## Key Terms & Definitions\n\n" + report.keyTerms.map(function (term) {
+      return "### ".concat(term.term, " (").concat(term.frequency, "x)\n").concat(term.definition, "\n");
+    }).join('\n') + "\n## Full Transcript\n\n" + report.fullTranscript.map(function (segment) {
+      return "**".concat(new Date(segment.timestamp).toLocaleTimeString(), ":** ").concat(segment.text);
+    }).join('\n\n');
+
+    // Create blob and download
+    var blob = new Blob([markdown], {
+      type: 'text/markdown'
+    });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = "meeting-report-".concat(meetingId, ".md");
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+  var copyMarkdownToClipboard = /*#__PURE__*/function () {
+    var _ref3 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
+      var markdown, button, originalText, _t2;
+      return _regenerator().w(function (_context2) {
+        while (1) switch (_context2.p = _context2.n) {
+          case 0:
+            if (report) {
+              _context2.n = 1;
+              break;
+            }
+            return _context2.a(2);
+          case 1:
+            markdown = "# Meeting Report: ".concat(report.meeting.title, "\n\n") + "**Date:** ".concat(new Date(report.meeting.startTime).toLocaleDateString(), "\n") + "**Duration:** ".concat(report.meeting.duration, "\n") + "**Total Words:** ".concat(report.statistics.wordCount, "\n") + "**Key Terms:** ".concat(report.statistics.uniqueTerms, "\n") + "**Definitions:** ".concat(report.statistics.totalDefinitions, "\n\n") + "## Executive Summary\n\n".concat(report.summary, "\n\n") + "## Key Terms & Definitions\n\n" + report.keyTerms.map(function (term) {
+              return "### ".concat(term.term, " (").concat(term.frequency, "x)\n").concat(term.definition, "\n");
+            }).join('\n') + "\n## Full Transcript\n\n" + report.fullTranscript.map(function (segment) {
+              return "**".concat(new Date(segment.timestamp).toLocaleTimeString(), ":** ").concat(segment.text);
+            }).join('\n\n');
+            _context2.p = 2;
+            _context2.n = 3;
+            return navigator.clipboard.writeText(markdown);
+          case 3:
+            // Show success feedback
+            button = document.getElementById('copy-markdown-btn');
+            originalText = button.innerText;
+            button.innerText = '✓ Copied!';
+            button.style.background = '#28a745';
+            setTimeout(function () {
+              button.innerText = originalText;
+              button.style.background = '#6c757d';
+            }, 2000);
+            _context2.n = 5;
+            break;
+          case 4:
+            _context2.p = 4;
+            _t2 = _context2.v;
+            console.error('Failed to copy markdown:', _t2);
+          case 5:
+            return _context2.a(2);
+        }
+      }, _callee2, null, [[2, 4]]);
+    }));
+    return function copyMarkdownToClipboard() {
+      return _ref3.apply(this, arguments);
+    };
+  }();
   var formatDuration = function formatDuration(seconds) {
     if (!seconds) return '0m';
     var hours = Math.floor(seconds / 3600);
@@ -39728,7 +40687,8 @@ function ReportView(_ref) {
       padding: '15px 20px',
       borderBottom: '1px solid #dee2e6',
       display: 'flex',
-      gap: '10px'
+      gap: '10px',
+      flexWrap: 'wrap'
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
     onClick: function onClick() {
@@ -39740,9 +40700,40 @@ function ReportView(_ref) {
       color: 'white',
       border: 'none',
       borderRadius: '4px',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '5px'
     }
   }, "\uD83D\uDCC4 Export HTML"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: exportMarkdown,
+    style: {
+      padding: '8px 16px',
+      background: '#007bff',
+      color: 'white',
+      border: 'none',
+      borderRadius: '4px',
+      cursor: 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '5px'
+    }
+  }, "\uD83D\uDCDD Export Markdown"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    id: "copy-markdown-btn",
+    onClick: copyMarkdownToClipboard,
+    style: {
+      padding: '8px 16px',
+      background: '#6c757d',
+      color: 'white',
+      border: 'none',
+      borderRadius: '4px',
+      cursor: 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '5px',
+      transition: 'background 0.3s'
+    }
+  }, "\uD83D\uDCCB Copy Markdown"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
     onClick: function onClick() {
       return window.print();
     },
@@ -39752,7 +40743,10 @@ function ReportView(_ref) {
       color: 'white',
       border: 'none',
       borderRadius: '4px',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '5px'
     }
   }, "\uD83D\uDDA8\uFE0F Print")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     style: {
@@ -39854,10 +40848,9 @@ function ReportView(_ref) {
     }
   }, "\uD83D\uDCCB Executive Summary"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     style: {
-      whiteSpace: 'pre-line',
       lineHeight: '1.6'
     }
-  }, report.summary)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, renderMarkdown(report.summary))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     style: {
       marginBottom: '30px'
     }
@@ -39951,6 +40944,286 @@ function ReportView(_ref) {
   })))));
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ReportView);
+
+/***/ }),
+
+/***/ "./src/hooks/useElectronAudio.js":
+/*!***************************************!*\
+  !*** ./src/hooks/useElectronAudio.js ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
+function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+
+
+/**
+ * Hook to handle Electron audio capture when running in Electron environment
+ */
+var useElectronAudio = function useElectronAudio() {
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState2 = _slicedToArray(_useState, 2),
+    isElectron = _useState2[0],
+    setIsElectron = _useState2[1];
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+    _useState4 = _slicedToArray(_useState3, 2),
+    audioSources = _useState4[0],
+    setAudioSources = _useState4[1];
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+    _useState6 = _slicedToArray(_useState5, 2),
+    selectedSource = _useState6[0],
+    setSelectedSource = _useState6[1];
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState8 = _slicedToArray(_useState7, 2),
+    isCapturing = _useState8[0],
+    setIsCapturing = _useState8[1];
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+    _useState0 = _slicedToArray(_useState9, 2),
+    captureMetrics = _useState0[0],
+    setCaptureMetrics = _useState0[1];
+  var audioScriptLoaded = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(false);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    var _electronAPI$audio;
+    // Check if running in Electron by looking for the correct API structure
+    var electronAPI = window.electronAPI;
+    console.log('[useElectronAudio] Checking for Electron API:', electronAPI);
+    console.log('[useElectronAudio] Has audio property?', electronAPI === null || electronAPI === void 0 ? void 0 : electronAPI.audio);
+    console.log('[useElectronAudio] Has getSources?', electronAPI === null || electronAPI === void 0 || (_electronAPI$audio = electronAPI.audio) === null || _electronAPI$audio === void 0 ? void 0 : _electronAPI$audio.getSources);
+
+    // Check if the audio property exists with the expected methods
+    if (electronAPI && electronAPI.audio && typeof electronAPI.audio.getSources === 'function') {
+      setIsElectron(true);
+      console.log('[useElectronAudio] Electron environment detected with correct audio API');
+
+      // Load renderer audio script dynamically
+      if (!audioScriptLoaded.current) {
+        var script = document.createElement('script');
+        script.src = '/electron-audio-bridge/renderer-audio.js';
+        script.onload = function () {
+          console.log('[useElectronAudio] Renderer audio script loaded');
+          audioScriptLoaded.current = true;
+        };
+        script.onerror = function (error) {
+          console.error('[useElectronAudio] Failed to load renderer audio script:', error);
+        };
+        document.head.appendChild(script);
+      }
+
+      // Load Socket.IO client if not already loaded
+      if (!window.io) {
+        var socketScript = document.createElement('script');
+        socketScript.src = 'https://cdn.socket.io/4.5.4/socket.io.min.js';
+        socketScript.onload = function () {
+          console.log('[useElectronAudio] Socket.IO client loaded');
+        };
+        document.head.appendChild(socketScript);
+      }
+    }
+  }, []);
+  var getAudioSources = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(/*#__PURE__*/_asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
+    var sources, defaultSource, _t;
+    return _regenerator().w(function (_context) {
+      while (1) switch (_context.p = _context.n) {
+        case 0:
+          if (!(!isElectron || !window.electronAPI)) {
+            _context.n = 1;
+            break;
+          }
+          return _context.a(2, []);
+        case 1:
+          _context.p = 1;
+          _context.n = 2;
+          return window.electronAPI.audio.getSources();
+        case 2:
+          sources = _context.v;
+          console.log('[useElectronAudio] Available audio sources:', sources);
+          setAudioSources(sources);
+
+          // Auto-select the first suitable source (usually the screen)
+          if (sources.length > 0 && !selectedSource) {
+            defaultSource = sources.find(function (s) {
+              return s.name.includes('Screen') || s.name.includes('Entire') || s.name.includes('BlackHole') || s.name.includes('VB-Cable');
+            }) || sources[0];
+            setSelectedSource(defaultSource);
+            console.log('[useElectronAudio] Auto-selected source:', defaultSource.name);
+          }
+          return _context.a(2, sources);
+        case 3:
+          _context.p = 3;
+          _t = _context.v;
+          console.error('[useElectronAudio] Error getting audio sources:', _t);
+          return _context.a(2, []);
+      }
+    }, _callee, null, [[1, 3]]);
+  })), [isElectron, selectedSource]);
+  var startCapture = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(/*#__PURE__*/_asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
+    var sourceId,
+      source,
+      result,
+      _args2 = arguments,
+      _t2;
+    return _regenerator().w(function (_context2) {
+      while (1) switch (_context2.p = _context2.n) {
+        case 0:
+          sourceId = _args2.length > 0 && _args2[0] !== undefined ? _args2[0] : null;
+          if (!(!isElectron || !window.electronAPI)) {
+            _context2.n = 1;
+            break;
+          }
+          console.warn('[useElectronAudio] Not in Electron environment');
+          return _context2.a(2, false);
+        case 1:
+          _context2.p = 1;
+          source = sourceId || (selectedSource === null || selectedSource === void 0 ? void 0 : selectedSource.id);
+          if (source) {
+            _context2.n = 2;
+            break;
+          }
+          console.error('[useElectronAudio] No audio source selected');
+          return _context2.a(2, false);
+        case 2:
+          console.log('[useElectronAudio] Starting capture with source:', source);
+          _context2.n = 3;
+          return window.electronAPI.audio.startCapture(source);
+        case 3:
+          result = _context2.v;
+          if (!result.success) {
+            _context2.n = 4;
+            break;
+          }
+          setIsCapturing(true);
+          console.log('[useElectronAudio] Audio capture started successfully');
+          return _context2.a(2, true);
+        case 4:
+          return _context2.a(2, false);
+        case 5:
+          _context2.p = 5;
+          _t2 = _context2.v;
+          console.error('[useElectronAudio] Error starting capture:', _t2);
+          return _context2.a(2, false);
+      }
+    }, _callee2, null, [[1, 5]]);
+  })), [isElectron, selectedSource]);
+  var stopCapture = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(/*#__PURE__*/_asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
+    var result, _t3;
+    return _regenerator().w(function (_context3) {
+      while (1) switch (_context3.p = _context3.n) {
+        case 0:
+          if (!(!isElectron || !window.electronAPI)) {
+            _context3.n = 1;
+            break;
+          }
+          return _context3.a(2, false);
+        case 1:
+          _context3.p = 1;
+          console.log('[useElectronAudio] Stopping capture');
+          _context3.n = 2;
+          return window.electronAPI.audio.stopCapture();
+        case 2:
+          result = _context3.v;
+          if (!result.success) {
+            _context3.n = 3;
+            break;
+          }
+          setIsCapturing(false);
+          console.log('[useElectronAudio] Audio capture stopped');
+          return _context3.a(2, true);
+        case 3:
+          return _context3.a(2, false);
+        case 4:
+          _context3.p = 4;
+          _t3 = _context3.v;
+          console.error('[useElectronAudio] Error stopping capture:', _t3);
+          return _context3.a(2, false);
+      }
+    }, _callee3, null, [[1, 4]]);
+  })), [isElectron]);
+  var getMetrics = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(/*#__PURE__*/_asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4() {
+    var metrics, _t4;
+    return _regenerator().w(function (_context4) {
+      while (1) switch (_context4.p = _context4.n) {
+        case 0:
+          if (!(!isElectron || !window.electronAPI)) {
+            _context4.n = 1;
+            break;
+          }
+          return _context4.a(2, null);
+        case 1:
+          _context4.p = 1;
+          _context4.n = 2;
+          return window.electronAPI.audio.getMetrics();
+        case 2:
+          metrics = _context4.v;
+          setCaptureMetrics(metrics);
+          return _context4.a(2, metrics);
+        case 3:
+          _context4.p = 3;
+          _t4 = _context4.v;
+          console.error('[useElectronAudio] Error getting metrics:', _t4);
+          return _context4.a(2, null);
+      }
+    }, _callee4, null, [[1, 3]]);
+  })), [isElectron]);
+
+  // Set up event listeners for audio events
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    if (!isElectron) return;
+    var handleCaptureStarted = function handleCaptureStarted(event) {
+      console.log('[useElectronAudio] Capture started event:', event.detail);
+      setIsCapturing(true);
+    };
+    var handleCaptureStopped = function handleCaptureStopped(event) {
+      console.log('[useElectronAudio] Capture stopped event:', event.detail);
+      setIsCapturing(false);
+    };
+    var handleCaptureError = function handleCaptureError(event) {
+      console.error('[useElectronAudio] Capture error:', event.detail);
+      setIsCapturing(false);
+    };
+    window.addEventListener('audio:capture-started', handleCaptureStarted);
+    window.addEventListener('audio:capture-stopped', handleCaptureStopped);
+    window.addEventListener('audio:capture-error', handleCaptureError);
+    return function () {
+      window.removeEventListener('audio:capture-started', handleCaptureStarted);
+      window.removeEventListener('audio:capture-stopped', handleCaptureStopped);
+      window.removeEventListener('audio:capture-error', handleCaptureError);
+    };
+  }, [isElectron]);
+
+  // Fetch audio sources on mount
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    if (isElectron) {
+      getAudioSources();
+    }
+  }, [isElectron, getAudioSources]);
+  return {
+    isElectron: isElectron,
+    audioSources: audioSources,
+    selectedSource: selectedSource,
+    setSelectedSource: setSelectedSource,
+    isCapturing: isCapturing,
+    captureMetrics: captureMetrics,
+    startCapture: startCapture,
+    stopCapture: stopCapture,
+    getAudioSources: getAudioSources,
+    getMetrics: getMetrics
+  };
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (useElectronAudio);
 
 /***/ })
 

@@ -2,7 +2,8 @@ const express = require('express');
 const { createServer } = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors');
-require('dotenv').config();
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
 
 const DeepgramService = require('./transcription/deepgram');
 const { AudioProcessor } = require('./utils/audio');
@@ -22,9 +23,9 @@ app.use(express.json());
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: process.env.NODE_ENV === 'development' 
-      ? 'http://localhost:4000' 
-      : 'http://localhost:4000'
+    origin: ['http://localhost:3000', 'http://localhost:4000', 'file://*'],
+    methods: ['GET', 'POST'],
+    credentials: true
   },
   maxHttpBufferSize: 1e6 // 1MB for audio chunks
 });

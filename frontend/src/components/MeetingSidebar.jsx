@@ -1,15 +1,71 @@
 import React, { useState, useEffect } from 'react';
 
-function MeetingSidebar({ onSelectMeeting, activeMeetingId, onNewMeeting, onGenerateReport }) {
+function MeetingSidebar({ onSelectMeeting, activeMeetingId, onNewMeeting, onGenerateReport, socket }) {
     const [meetings, setMeetings] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [showNewMeetingModal, setShowNewMeetingModal] = useState(false);
     const [newMeetingTitle, setNewMeetingTitle] = useState('');
+    const [editingMeetingId, setEditingMeetingId] = useState(null);
+    const [editingTitle, setEditingTitle] = useState('');
 
     useEffect(() => {
         fetchMeetings();
-    }, []);
+        
+        // Listen for meeting events if socket is available
+        if (socket) {
+            // When a meeting starts, refresh the list
+            socket.on('meeting:started', (meeting) => {
+                setMeetings(prevMeetings => {
+                    // Check if meeting already exists
+                    const exists = prevMeetings.some(m => m.id === meeting.id);
+                    if (exists) {
+                        // Update existing meeting
+                        return prevMeetings.map(m => 
+                            m.id === meeting.id ? meeting : m
+                        );
+                    } else {
+                        // Add new meeting at the top
+                        return [meeting, ...prevMeetings];
+                    }
+                });
+            });
+            
+            // When a meeting ends, update its status
+            socket.on('meeting:ended', (meeting) => {
+                console.log('[MeetingSidebar] Received meeting:ended event:', meeting);
+                setMeetings(prevMeetings => 
+                    prevMeetings.map(m => 
+                        m.id === meeting.id ? { ...m, status: 'completed' } : m
+                    )
+                );
+            });
+            
+            // When a meeting is deleted
+            socket.on('meeting:deleted', (data) => {
+                setMeetings(prevMeetings => 
+                    prevMeetings.filter(m => m.id !== data.meetingId)
+                );
+            });
+            
+            // When a meeting title is updated
+            socket.on('meeting:updated', (meeting) => {
+                setMeetings(prevMeetings => 
+                    prevMeetings.map(m => 
+                        m.id === meeting.id ? { ...m, title: meeting.title } : m
+                    )
+                );
+            });
+            
+            // Cleanup listeners on unmount
+            return () => {
+                socket.off('meeting:started');
+                socket.off('meeting:ended');
+                socket.off('meeting:deleted');
+                socket.off('meeting:updated');
+            };
+        }
+    }, [socket]);
 
     const fetchMeetings = async () => {
         try {
@@ -66,6 +122,61 @@ function MeetingSidebar({ onSelectMeeting, activeMeetingId, onNewMeeting, onGene
             fetchMeetings();
         } catch (error) {
             console.error('Error deleting meeting:', error);
+        }
+    };
+
+    const renameMeeting = async (meetingId, newTitle) => {
+        if (!newTitle.trim()) {
+            alert('Meeting title cannot be empty');
+            return false;
+        }
+
+        try {
+            const response = await fetch(`http://localhost:9000/api/meetings/${meetingId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ title: newTitle.trim() })
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to rename meeting');
+            }
+
+            // Update local state
+            setMeetings(prevMeetings => 
+                prevMeetings.map(m => 
+                    m.id === meetingId ? { ...m, title: newTitle.trim() } : m
+                )
+            );
+            
+            setEditingMeetingId(null);
+            setEditingTitle('');
+            return true;
+        } catch (error) {
+            console.error('Error renaming meeting:', error);
+            alert('Failed to rename meeting');
+            return false;
+        }
+    };
+
+    const startEditing = (meeting, e) => {
+        e.stopPropagation();
+        setEditingMeetingId(meeting.id);
+        setEditingTitle(meeting.title);
+    };
+
+    const cancelEditing = () => {
+        setEditingMeetingId(null);
+        setEditingTitle('');
+    };
+
+    const handleKeyPress = async (e, meetingId) => {
+        if (e.key === 'Enter') {
+            await renameMeeting(meetingId, editingTitle);
+        } else if (e.key === 'Escape') {
+            cancelEditing();
         }
     };
 
@@ -208,6 +319,7 @@ function MeetingSidebar({ onSelectMeeting, activeMeetingId, onNewMeeting, onGene
                         <div
                             key={meeting.id}
                             onClick={() => onSelectMeeting(meeting)}
+                            className="meeting-card"
                             style={{
                                 padding: '10px',
                                 marginBottom: '8px',
@@ -221,11 +333,17 @@ function MeetingSidebar({ onSelectMeeting, activeMeetingId, onNewMeeting, onGene
                                 if (meeting.id !== activeMeetingId) {
                                     e.currentTarget.style.background = '#f1f3f5';
                                 }
+                                // Show edit button on hover
+                                const editBtn = e.currentTarget.querySelector('.edit-btn');
+                                if (editBtn) editBtn.style.opacity = '0.7';
                             }}
                             onMouseLeave={(e) => {
                                 if (meeting.id !== activeMeetingId) {
                                     e.currentTarget.style.background = '#ffffff';
                                 }
+                                // Hide edit button when not hovering
+                                const editBtn = e.currentTarget.querySelector('.edit-btn');
+                                if (editBtn) editBtn.style.opacity = '0';
                             }}
                         >
                             <div style={{
@@ -234,14 +352,75 @@ function MeetingSidebar({ onSelectMeeting, activeMeetingId, onNewMeeting, onGene
                                 alignItems: 'flex-start'
                             }}>
                                 <div style={{ flex: 1 }}>
-                                    <div style={{
-                                        fontWeight: '500',
-                                        fontSize: '14px',
-                                        marginBottom: '4px',
-                                        color: '#212529'
-                                    }}>
-                                        {meeting.title}
-                                    </div>
+                                    {editingMeetingId === meeting.id ? (
+                                        <input
+                                            type="text"
+                                            value={editingTitle}
+                                            onChange={(e) => setEditingTitle(e.target.value)}
+                                            onKeyDown={(e) => handleKeyPress(e, meeting.id)}
+                                            onBlur={() => renameMeeting(meeting.id, editingTitle)}
+                                            onClick={(e) => e.stopPropagation()}
+                                            style={{
+                                                width: '100%',
+                                                padding: '2px 4px',
+                                                fontSize: '14px',
+                                                fontWeight: '500',
+                                                color: '#212529',
+                                                border: '1px solid #007bff',
+                                                borderRadius: '3px',
+                                                background: 'white',
+                                                marginBottom: '4px'
+                                            }}
+                                            autoFocus
+                                        />
+                                    ) : (
+                                        <div style={{
+                                            fontWeight: '500',
+                                            fontSize: '14px',
+                                            marginBottom: '4px',
+                                            color: '#212529',
+                                            position: 'relative',
+                                            paddingRight: '25px'
+                                        }}>
+                                            <span>{meeting.title}</span>
+                                            <button
+                                                className="edit-btn"
+                                                onClick={(e) => startEditing(meeting, e)}
+                                                style={{
+                                                    position: 'absolute',
+                                                    right: '0',
+                                                    top: '50%',
+                                                    transform: 'translateY(-50%)',
+                                                    padding: '2px',
+                                                    fontSize: '12px',
+                                                    background: 'transparent',
+                                                    color: '#6c757d',
+                                                    border: 'none',
+                                                    cursor: 'pointer',
+                                                    opacity: 0,
+                                                    transition: 'opacity 0.2s',
+                                                    lineHeight: '1',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center'
+                                                }}
+                                                onMouseEnter={(e) => {
+                                                    e.currentTarget.style.opacity = '1';
+                                                    e.currentTarget.style.color = '#007bff';
+                                                }}
+                                                onMouseLeave={(e) => {
+                                                    e.currentTarget.style.opacity = '0.7';
+                                                    e.currentTarget.style.color = '#6c757d';
+                                                }}
+                                                title="Rename meeting"
+                                            >
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    )}
                                     <div style={{
                                         fontSize: '12px',
                                         color: '#6c757d'

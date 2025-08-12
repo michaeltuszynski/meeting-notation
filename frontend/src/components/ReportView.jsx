@@ -279,11 +279,61 @@ function ReportView({ meetingId, onClose }) {
                 boxShadow: '-2px 0 8px rgba(0,0,0,0.1)',
                 zIndex: 1000,
                 display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
                 flexDirection: 'column'
             }}>
-                <div style={{ textAlign: 'center', padding: '40px', color: '#6c757d' }}>
-                    <div style={{ fontSize: '24px', marginBottom: '10px' }}>⏳</div>
-                    {regenerating ? 'Regenerating report with fresh AI analysis...' : 'Loading report...'}
+                {/* Add CSS animation keyframes */}
+                <style>
+                    {`
+                        @keyframes spin {
+                            0% { transform: rotate(0deg); }
+                            100% { transform: rotate(360deg); }
+                        }
+                        @keyframes dots {
+                            0%, 20% { content: '.'; }
+                            40% { content: '..'; }
+                            60%, 100% { content: '...'; }
+                        }
+                    `}
+                </style>
+                
+                {/* Animated Spinner */}
+                <div style={{
+                    width: '40px',
+                    height: '40px',
+                    border: '4px solid #f3f3f3',
+                    borderTop: '4px solid #007bff',
+                    borderRadius: '50%',
+                    animation: 'spin 1s linear infinite',
+                    marginBottom: '20px'
+                }}></div>
+                
+                {/* Loading Text with Animated Dots */}
+                <div style={{ 
+                    fontSize: '18px', 
+                    fontWeight: 'bold',
+                    color: '#007bff',
+                    marginBottom: '10px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '5px'
+                }}>
+                    {regenerating ? '🤖 Regenerating report with fresh AI analysis' : '📊 Generating meeting report'}
+                    <span style={{
+                        animation: 'dots 1.5s infinite',
+                        width: '20px',
+                        textAlign: 'left'
+                    }}>...</span>
+                </div>
+                
+                <div style={{ 
+                    color: '#6c757d', 
+                    textAlign: 'center',
+                    fontSize: '14px',
+                    maxWidth: '300px'
+                }}>
+                    {regenerating ? 'This may take a moment as we re-analyze the entire meeting' : 'Analyzing transcript and generating insights...'}
                 </div>
             </div>
         );

@@ -1,4 +1,5 @@
 const { v4: uuidv4 } = require('uuid');
+const speakerTimelineService = require('./speaker-timeline');
 
 class MeetingService {
   constructor(db) {
@@ -28,7 +29,7 @@ class MeetingService {
     const query = `
       UPDATE meetings 
       SET end_time = CURRENT_TIMESTAMP, 
-          status = 'ended'
+          status = 'completed'
       WHERE id = $1 AND status = 'active'
       RETURNING *
     `;
@@ -42,10 +43,108 @@ class MeetingService {
       // Calculate and store meeting metadata
       await this.calculateMeetingMetadata(meetingId);
       
+      // Finalize speaker timeline data
+      await speakerTimelineService.finalizeMeeting(meetingId);
+      
       console.log(`[Meeting Service] Ended meeting: ${meetingId}`);
       return result.rows[0];
     } catch (error) {
       console.error('[Meeting Service] Error ending meeting:', error);
+      throw error;
+    }
+  }
+
+  async processTranscriptWithSpeakers(meetingId, transcriptData) {
+    const { text, isFinal, confidence, timestamp, words, speakers, speakerSegments, speakerChanges } = transcriptData;
+    
+    try {
+      // First save the transcript to get the transcript ID
+      const transcriptId = await this.saveTranscript(meetingId, {
+        text,
+        isFinal,
+        confidence,
+        timestamp,
+        speaker: speakers && speakers.length > 0 ? speakers[0] : null // Primary speaker for the segment
+      });
+      
+      // Process speaker segments if available
+      if (speakerSegments && speakerSegments.length > 0) {
+        await speakerTimelineService.processSpeakerSegments(meetingId, speakerSegments);
+      }
+      
+      // Process word-level speaker data if available
+      if (words && words.length > 0) {
+        await speakerTimelineService.processWordsWithSpeakers(meetingId, words, transcriptId);
+      }
+      
+      // Process speaker changes/transitions if available
+      if (speakerChanges && speakerChanges.length > 0) {
+        await speakerTimelineService.processSpeakerTransitions(meetingId, speakerChanges);
+      }
+      
+      return {
+        transcriptId,
+        speakersProcessed: speakers ? speakers.length : 0,
+        segmentsProcessed: speakerSegments ? speakerSegments.length : 0,
+        wordsProcessed: words ? words.length : 0,
+        transitionsProcessed: speakerChanges ? speakerChanges.length : 0
+      };
+      
+    } catch (error) {
+      console.error('[Meeting Service] Error processing transcript with speakers:', error);
+      throw error;
+    }
+  }
+
+  async saveTranscript(meetingId, transcriptData) {
+    const { text, isFinal, confidence, speaker, timestamp } = transcriptData;
+    
+    const query = `
+      INSERT INTO transcripts (meeting_id, text, is_final, confidence, speaker, timestamp, sequence_number)
+      VALUES ($1, $2, $3, $4, $5, $6, COALESCE((SELECT MAX(sequence_number) FROM transcripts WHERE meeting_id = $1), 0) + 1)
+      RETURNING id
+    `;
+    
+    try {
+      const result = await this.db.query(query, [
+        meetingId,
+        text,
+        isFinal || false,
+        confidence,
+        speaker,
+        timestamp || new Date()
+      ]);
+      
+      return result.rows[0].id;
+    } catch (error) {
+      console.error('[Meeting Service] Error saving transcript:', error);
+      throw error;
+    }
+  }
+
+  async getSpeakerTimelineData(meetingId, options = {}) {
+    try {
+      return await speakerTimelineService.getTimelineData(meetingId, options);
+    } catch (error) {
+      console.error('[Meeting Service] Error getting speaker timeline data:', error);
+      throw error;
+    }
+  }
+
+  async getSpeakingTimeAnalytics(meetingId) {
+    try {
+      return await speakerTimelineService.getSpeakingTimeAnalytics(meetingId);
+    } catch (error) {
+      console.error('[Meeting Service] Error getting speaking time analytics:', error);
+      throw error;
+    }
+  }
+
+  async getSpeakerTransitions(meetingId) {
+    try {
+      return await speakerTimelineService.getSpeakerTransitions(meetingId);
+    } catch (error) {
+      console.error('[Meeting Service] Error getting speaker transitions:', error);
       throw error;
     }
   }
@@ -211,6 +310,30 @@ class MeetingService {
       return result.rows[0];
     } catch (error) {
       console.error('[Meeting Service] Error deleting meeting:', error);
+      throw error;
+    }
+  }
+
+  async updateMeetingTitle(meetingId, newTitle) {
+    try {
+      // Update the title in the database
+      const query = `
+        UPDATE meetings 
+        SET title = $1, updated_at = NOW()
+        WHERE id = $2
+        RETURNING *
+      `;
+      
+      const result = await this.db.query(query, [newTitle, meetingId]);
+      
+      if (result.rows.length === 0) {
+        return null;
+      }
+      
+      console.log(`[MeetingService] Updated meeting ${meetingId} title to: ${newTitle}`);
+      return result.rows[0];
+    } catch (error) {
+      console.error('[MeetingService] Error updating meeting title:', error);
       throw error;
     }
   }

@@ -1,0 +1,79 @@
+/* Resizable Panels Custom Styles */
+
+/* Panel resize handle styling */
+[data-panel-resize-handle-id] {
+  position: relative;
+  outline: none;
+  cursor: col-resize;
+}
+
+[data-panel-resize-handle-id]:hover {
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+[data-panel-resize-handle-id]:active {
+  background-color: rgba(59, 130, 246, 0.2);
+}
+
+/* Panel drag indicator */
+[data-panel-resize-handle-id]::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 4px;
+  height: 40px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(156, 163, 175, 0.3) 20%,
+    rgba(156, 163, 175, 0.5) 50%,
+    rgba(156, 163, 175, 0.3) 80%,
+    transparent
+  );
+  border-radius: 2px;
+  pointer-events: none;
+  transition: all 0.2s ease;
+}
+
+[data-panel-resize-handle-id]:hover::after {
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(59, 130, 246, 0.3) 20%,
+    rgba(59, 130, 246, 0.5) 50%,
+    rgba(59, 130, 246, 0.3) 80%,
+    transparent
+  );
+  width: 6px;
+}
+
+/* Panel transitions */
+[data-panel] {
+  transition: flex 0.1s ease-out;
+}
+
+/* Ensure panels maintain minimum readable size */
+[data-panel-group] {
+  height: 100%;
+}
+
+/* Custom scrollbar for transcript and definitions */
+.overflow-y-auto::-webkit-scrollbar {
+  width: 8px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

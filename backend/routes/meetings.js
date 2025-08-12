@@ -65,6 +65,31 @@ module.exports = (meetingService, storageService, reportService) => {
     }
   });
 
+  // Update meeting (rename)
+  router.put('/:id', async (req, res) => {
+    try {
+      const { title } = req.body;
+      if (!title || !title.trim()) {
+        return res.status(400).json({ error: 'Title is required' });
+      }
+      
+      const meeting = await meetingService.updateMeetingTitle(req.params.id, title.trim());
+      if (!meeting) {
+        return res.status(404).json({ error: 'Meeting not found' });
+      }
+      
+      // Emit event to notify frontend that meeting was updated
+      if (req.app.get('io')) {
+        req.app.get('io').emit('meeting:updated', { meetingId: req.params.id, title: title.trim() });
+      }
+      
+      res.json(meeting);
+    } catch (error) {
+      console.error('Error updating meeting:', error);
+      res.status(500).json({ error: 'Failed to update meeting' });
+    }
+  });
+
   // End meeting
   router.put('/:id/end', async (req, res) => {
     try {

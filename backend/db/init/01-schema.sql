@@ -11,7 +11,7 @@ CREATE TABLE meetings (
     description TEXT,
     start_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     end_time TIMESTAMP WITH TIME ZONE,
-    status VARCHAR(20) DEFAULT 'active' CHECK (status IN ('active', 'ended', 'archived')),
+    status VARCHAR(20) DEFAULT 'active' CHECK (status IN ('active', 'completed', 'ended', 'archived')),
     participant_count INTEGER DEFAULT 1,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
@@ -25,6 +25,11 @@ CREATE TABLE transcripts (
     is_final BOOLEAN DEFAULT false,
     confidence DECIMAL(3,2),
     speaker VARCHAR(100),
+    speaker_id VARCHAR(50),
+    speaker_confidence DECIMAL(3,2),
+    start_time DECIMAL(10,3),
+    end_time DECIMAL(10,3),
+    word_index INTEGER,
     timestamp TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     sequence_number INTEGER NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP

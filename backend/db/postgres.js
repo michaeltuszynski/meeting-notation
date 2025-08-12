@@ -94,4 +94,4 @@ class PostgresService {
   }
 }
 
-module.exports = PostgresService;
+module.exports = new PostgresService();

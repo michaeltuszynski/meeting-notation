@@ -37,6 +37,29 @@ class EnhancedSummaryService {
       errors: []
     };
   }
+  /**
+   * Clean JSON response from LLM by removing markdown code blocks
+   * @param {string} content - Raw response content from LLM
+   * @returns {any} Parsed JSON object
+   */
+  cleanAndParseJSON(content) {
+    if (!content) {
+      throw new Error('Empty content');
+    }
+    
+    // Remove markdown code blocks
+    let cleaned = content;
+    
+    // Remove ```json or ```JSON blocks
+    cleaned = cleaned.replace(/^```(?:json|JSON)?\s*\n?/gm, '');
+    cleaned = cleaned.replace(/\n?```\s*$/gm, '');
+    
+    // Trim whitespace
+    cleaned = cleaned.trim();
+    
+    // Parse the cleaned JSON
+    return JSON.parse(cleaned);
+  }
   
   /**
    * Main entry point for enhanced summary generation
@@ -286,7 +309,7 @@ Analyze this segment's structural role in the meeting.`;
         this.trackUsage('structure', userPrompt.length / 4, response.content.length / 4);
         
         try {
-          const analysis = JSON.parse(response.content);
+          const analysis = this.cleanAndParseJSON(response.content);
           structureAnalyses.push({
             segment: i + 1,
             analysis,
@@ -574,7 +597,7 @@ Extract the main topics discussed in this meeting.`;
     this.trackUsage('extraction', userPrompt.length / 4, response.content.length / 4);
     
     try {
-      return JSON.parse(response.content);
+      return this.cleanAndParseJSON(response.content);
     } catch (parseError) {
       console.warn('[Enhanced Summary] Could not parse topics extraction:', parseError.message);
       return { mainTopics: [], themeClusters: [], underlyingConcerns: [] };
@@ -627,7 +650,7 @@ Extract all decisions made during this meeting.`;
     this.trackUsage('extraction', userPrompt.length / 4, response.content.length / 4);
     
     try {
-      return JSON.parse(response.content);
+      return this.cleanAndParseJSON(response.content);
     } catch (parseError) {
       console.warn('[Enhanced Summary] Could not parse decisions extraction:', parseError.message);
       return { decisions: [], consensus: [], pendingDecisions: [] };
@@ -680,7 +703,7 @@ Extract all action items and next steps from this meeting.`;
     this.trackUsage('extraction', userPrompt.length / 4, response.content.length / 4);
     
     try {
-      return JSON.parse(response.content);
+      return this.cleanAndParseJSON(response.content);
     } catch (parseError) {
       console.warn('[Enhanced Summary] Could not parse action items extraction:', parseError.message);
       return { actionItems: [], followUps: [], dependencies: [] };
@@ -732,7 +755,7 @@ Extract questions raised and answered in this meeting.`;
     this.trackUsage('extraction', userPrompt.length / 4, response.content.length / 4);
     
     try {
-      return JSON.parse(response.content);
+      return this.cleanAndParseJSON(response.content);
     } catch (parseError) {
       console.warn('[Enhanced Summary] Could not parse questions extraction:', parseError.message);
       return { questionsAnswered: [], openQuestions: [], clarifications: [] };
@@ -784,7 +807,7 @@ Extract announcements and updates from this meeting.`;
     this.trackUsage('extraction', userPrompt.length / 4, response.content.length / 4);
     
     try {
-      return JSON.parse(response.content);
+      return this.cleanAndParseJSON(response.content);
     } catch (parseError) {
       console.warn('[Enhanced Summary] Could not parse announcements extraction:', parseError.message);
       return { announcements: [], updates: [], changes: [] };
@@ -845,7 +868,7 @@ Extract technical concepts and their explanations from this meeting.`;
     this.trackUsage('extraction', userPrompt.length / 4, response.content.length / 4);
     
     try {
-      return JSON.parse(response.content);
+      return this.cleanAndParseJSON(response.content);
     } catch (parseError) {
       console.warn('[Enhanced Summary] Could not parse technical concepts extraction:', parseError.message);
       return { technicalConcepts: [], technicalSolutions: [], systemsDiscussed: [] };
@@ -898,7 +921,7 @@ Extract timeline and temporal elements from this meeting.`;
     this.trackUsage('extraction', userPrompt.length / 4, response.content.length / 4);
     
     try {
-      return JSON.parse(response.content);
+      return this.cleanAndParseJSON(response.content);
     } catch (parseError) {
       console.warn('[Enhanced Summary] Could not parse timeline extraction:', parseError.message);
       return { deadlines: [], milestones: [], timeReferences: [], chronology: [] };
@@ -1054,7 +1077,7 @@ Enhance the topic extraction using the contextual topic flow data.`;
     this.trackUsage('contextual', userPrompt.length / 4, response.content.length / 4);
     
     try {
-      const enhancement = JSON.parse(response.content);
+      const enhancement = this.cleanAndParseJSON(response.content);
       return { type: 'topics', enhanced: true, result: enhancement };
     } catch (parseError) {
       console.warn('[Enhanced Summary] Could not parse topics enhancement:', parseError.message);
@@ -1126,7 +1149,7 @@ Enhance the technical concept extraction using the contextual glossary data.`;
     this.trackUsage('contextual', userPrompt.length / 4, response.content.length / 4);
     
     try {
-      const enhancement = JSON.parse(response.content);
+      const enhancement = this.cleanAndParseJSON(response.content);
       return { type: 'technical', enhanced: true, result: enhancement };
     } catch (parseError) {
       console.warn('[Enhanced Summary] Could not parse technical enhancement:', parseError.message);
@@ -1185,7 +1208,7 @@ Create a contextual narrative that ties all these elements together.`;
     this.trackUsage('contextual', userPrompt.length / 4, response.content.length / 4);
     
     try {
-      const narrative = JSON.parse(response.content);
+      const narrative = this.cleanAndParseJSON(response.content);
       return { type: 'narrative', enhanced: true, result: narrative };
     } catch (parseError) {
       console.warn('[Enhanced Summary] Could not parse narrative enhancement:', parseError.message);
@@ -1428,7 +1451,7 @@ Generate strategic insights and recommendations based on this meeting analysis.`
     this.trackUsage('synthesis', userPrompt.length / 4, response.content.length / 4);
     
     try {
-      return JSON.parse(response.content);
+      return this.cleanAndParseJSON(response.content);
     } catch (parseError) {
       console.warn('[Enhanced Summary] Could not parse insights:', parseError.message);
       return {

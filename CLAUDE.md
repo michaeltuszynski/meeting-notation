@@ -49,9 +49,17 @@ npm run test:perf         # Run performance tests
 
 - `electron/` - Electron main and preload scripts
 - `backend/` - WebSocket server and service integrations
+  - `db/init/` - Database initialization scripts (run on container creation)
 - `frontend/` - React application (manual setup)
 - `scripts/` - Performance monitoring and utilities
 - `.claude/` - Claude Code configuration
+
+## Database Migrations
+
+All database schema changes should be added as numbered SQL files in `backend/db/init/`:
+- Files are executed in alphabetical order when the postgres container is created
+- Use format: `XX-feature-name.sql` (e.g., `04-meeting-costs.sql`)
+- Always use `CREATE TABLE IF NOT EXISTS` for idempotency
 
 ## Environment Variables Required
 

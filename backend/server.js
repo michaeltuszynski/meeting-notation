@@ -37,7 +37,7 @@ const io = new Server(server, {
 app.set('io', io);
 
 // Initialize database
-const db = new PostgresService();
+const db = PostgresService;
 db.testConnection();
 
 // Initialize services
@@ -117,9 +117,27 @@ transcriptionService.on('transcript', async (transcript) => {
   // Broadcast corrected transcript to all connected clients
   io.emit('transcript:update', correctedTranscript);
   
-  // Save corrected transcript to database
+  // Save corrected transcript to database with speaker information
   if (correctedTranscript.text && correctedTranscript.text.trim()) {
     try {
+      // Use the enhanced meeting service to process transcript with speaker data
+      const result = await meetingService.processTranscriptWithSpeakers(activeMeetingId, {
+        text: correctedTranscript.text,
+        isFinal: correctedTranscript.isFinal,
+        confidence: correctedTranscript.confidence,
+        timestamp: new Date(),
+        words: correctedTranscript.words || [],
+        speakers: correctedTranscript.speakers || [],
+        speakerSegments: correctedTranscript.speakerSegments || [],
+        speakerChanges: correctedTranscript.speakerChanges || [],
+        originalText: transcript.text !== correctedTranscript.text ? transcript.text : null,
+        corrections: correctedTranscript.corrections || null
+      });
+      
+      console.log(`[Speaker] Processed transcript: ${result.speakersProcessed} speakers, ${result.segmentsProcessed} segments, ${result.wordsProcessed} words`);
+    } catch (error) {
+      console.error('Error saving transcript with speaker data:', error);
+      // Fallback to basic storage
       await storageService.saveTranscript(activeMeetingId, {
         text: correctedTranscript.text,
         isFinal: correctedTranscript.isFinal,
@@ -128,8 +146,6 @@ transcriptionService.on('transcript', async (transcript) => {
         originalText: transcript.text !== correctedTranscript.text ? transcript.text : null,
         corrections: correctedTranscript.corrections || null
       });
-    } catch (error) {
-      console.error('Error saving transcript:', error);
     }
   }
   
@@ -257,6 +273,21 @@ transcriptionService.on('utteranceEnd', (data) => {
   io.emit('utterance:end', { timestamp: Date.now(), data });
 });
 
+// Speaker diarization event handlers
+transcriptionService.on('speakerChange', (data) => {
+  if (!activeMeetingId) return;
+  
+  console.log(`[Speaker] Speaker change detected: ${data.changes.length} changes`);
+  
+  // Emit speaker change events to clients
+  io.emit('speaker:change', {
+    meetingId: activeMeetingId,
+    changes: data.changes,
+    timestamp: data.timestamp,
+    isFinal: data.isFinal
+  });
+});
+
 io.on('connection', (socket) => {
   console.log('Client connected:', socket.id);
   
@@ -295,11 +326,25 @@ io.on('connection', (socket) => {
   socket.on('meeting:end', async () => {
     if (activeMeetingId) {
       try {
+        // Check if meeting is already completed
+        const currentMeeting = await meetingService.getMeeting(activeMeetingId);
+        if (currentMeeting && currentMeeting.status === 'completed') {
+          console.log(`[Meeting] Meeting ${activeMeetingId} is already completed, skipping end process`);
+          socket.emit('meeting:already-ended', { 
+            message: 'This meeting has already been ended',
+            meetingId: activeMeetingId 
+          });
+          return;
+        }
+        
         // Collect usage data before resetting services
+        const transcriptionUsage = transcriptionService.getActiveProvider().getUsageForMeeting();
+        console.log(`[Meeting] Transcription usage data:`, transcriptionUsage);
+        
         const usageData = {
           llm: [gpt4oMiniService.getUsageForMeeting()],
-          transcription: [transcriptionService.getActiveProvider().getUsageForMeeting()],
-          knowledge: [knowledgeService.getActiveProvider().getUsageForMeeting()]
+          transcription: [transcriptionUsage],
+          knowledge: [] // Knowledge provider usage tracking not yet implemented
         };
         
         // Store usage data in database
@@ -311,6 +356,7 @@ io.on('connection', (socket) => {
         }
         
         const meeting = await meetingService.endMeeting(activeMeetingId);
+        console.log(`[Meeting] Emitting meeting:ended event for meeting:`, meeting);
         io.emit('meeting:ended', meeting);
         console.log(`[Meeting] Ended meeting: ${activeMeetingId}`);
         activeMeetingId = null;
@@ -320,7 +366,7 @@ io.on('connection', (socket) => {
         gpt4oMiniService.reset();
         // Reset usage tracking on services
         transcriptionService.getActiveProvider().resetMetrics();
-        knowledgeService.getActiveProvider().resetUsageTracking();
+        // Knowledge provider usage tracking not yet implemented
         console.log(`[Meeting] Reset intelligence services after ending meeting`);
       } catch (error) {
         console.error('Error ending meeting:', error);
@@ -337,6 +383,8 @@ io.on('connection', (socket) => {
   // Handle switching meeting context (for viewing historical meetings)
   socket.on('meeting:setContext', (meetingId) => {
     if (meetingId) {
+      // Set this as the active meeting for operations like ending
+      activeMeetingId = meetingId;
       // Reset services before switching context
       gpt4oMiniService.reset();
       contextualIntelligence.setCurrentMeeting(meetingId);
@@ -798,6 +846,73 @@ io.on('connection', (socket) => {
     } catch (error) {
       console.error('Error getting all corrections:', error);
       socket.emit('corrections:all-response', []);
+    }
+  });
+
+  // Speaker timeline events
+  socket.on('speaker:timeline:get', async (data) => {
+    try {
+      const { meetingId, options = {} } = data;
+      const timelineData = await meetingService.getSpeakerTimelineData(meetingId, options);
+      
+      socket.emit('speaker:timeline:response', {
+        success: true,
+        meetingId,
+        data: timelineData,
+        timestamp: Date.now()
+      });
+    } catch (error) {
+      console.error('Error getting speaker timeline:', error);
+      socket.emit('speaker:timeline:response', {
+        success: false,
+        meetingId: data.meetingId,
+        error: error.message,
+        timestamp: Date.now()
+      });
+    }
+  });
+
+  socket.on('speaker:analytics:get', async (data) => {
+    try {
+      const { meetingId } = data;
+      const analytics = await meetingService.getSpeakingTimeAnalytics(meetingId);
+      
+      socket.emit('speaker:analytics:response', {
+        success: true,
+        meetingId,
+        analytics,
+        timestamp: Date.now()
+      });
+    } catch (error) {
+      console.error('Error getting speaker analytics:', error);
+      socket.emit('speaker:analytics:response', {
+        success: false,
+        meetingId: data.meetingId,
+        error: error.message,
+        timestamp: Date.now()
+      });
+    }
+  });
+
+  socket.on('speaker:transitions:get', async (data) => {
+    try {
+      const { meetingId } = data;
+      const transitions = await meetingService.getSpeakerTransitions(meetingId);
+      
+      socket.emit('speaker:transitions:response', {
+        success: true,
+        meetingId,
+        transitions,
+        timestamp: Date.now()
+      });
+    } catch (error) {
+      console.error('Error getting speaker transitions:', error);
+      socket.emit('speaker:transitions:response', {
+        success: false,
+        meetingId: data.meetingId,
+        error: error.message,
+        timestamp: Date.now()
+      });
     }
   });
 

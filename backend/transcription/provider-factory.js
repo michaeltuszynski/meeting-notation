@@ -8,6 +8,7 @@ class TranscriptionProviderFactory extends EventEmitter {
     this.providers = new Map();
     this.currentProvider = process.env.TRANSCRIPTION_PROVIDER || 'deepgram';
     this.activeConnection = null;
+    this.activeService = null; // Track the active service instance
     this.initializeProviders();
   }
 
@@ -180,59 +181,20 @@ class TranscriptionProviderFactory extends EventEmitter {
   }
 
   async connectDeepgram(provider) {
-    const url = 'wss://api.deepgram.com/v1/listen?' + new URLSearchParams({
-      encoding: 'linear16',
-      sample_rate: '16000',
-      channels: '1',
-      model: 'nova-2',
-      language: 'en',
-      punctuate: 'true',
-      interim_results: 'true',
-      utterance_end_ms: '1000',
-      vad_events: 'true'
-    });
-
-    this.activeConnection = new WebSocket(url, {
-      headers: {
-        'Authorization': `Token ${provider.apiKey}`
-      }
-    });
-
-    this.activeConnection.on('open', () => {
-      console.log('[Deepgram] WebSocket connected');
-      this.emit('connected', { provider: 'deepgram' });
-      this.startKeepAlive();
-    });
-
-    this.activeConnection.on('message', (data) => {
-      const response = JSON.parse(data.toString());
-      
-      if (response.type === 'Results') {
-        const transcript = response.channel.alternatives[0];
-        this.emit('transcript', {
-          text: transcript.transcript,
-          isFinal: response.is_final,
-          confidence: transcript.confidence,
-          provider: 'deepgram'
-        });
-      } else if (response.type === 'UtteranceEnd') {
-        this.emit('utteranceEnd', { provider: 'deepgram' });
-      } else if (response.type === 'SpeechStarted') {
-        this.emit('speechStarted', { provider: 'deepgram' });
-      }
-    });
-
-    this.activeConnection.on('error', (error) => {
-      console.error('[Deepgram] WebSocket error:', error);
-      this.emit('error', { provider: 'deepgram', error });
-    });
-
-    this.activeConnection.on('close', () => {
-      console.log('[Deepgram] WebSocket closed');
-      this.emit('disconnected', { provider: 'deepgram' });
-      this.stopKeepAlive();
-    });
-
+    // Use the DeepgramService class if available
+    const DeepgramService = require('./deepgram');
+    this.activeService = new DeepgramService(provider.apiKey);
+    
+    // Forward events from the service to this factory
+    this.activeService.on('transcript', (data) => this.emit('transcript', data));
+    this.activeService.on('error', (error) => this.emit('error', error));
+    this.activeService.on('connected', () => this.emit('connected', { provider: 'deepgram' }));
+    this.activeService.on('disconnected', () => this.emit('disconnected', { provider: 'deepgram' }));
+    this.activeService.on('speechStarted', () => this.emit('speechStarted'));
+    this.activeService.on('utteranceEnd', () => this.emit('utteranceEnd'));
+    
+    await this.activeService.connect();
+    this.activeConnection = this.activeService.connection;
     return this.activeConnection;
   }
 
@@ -607,6 +569,11 @@ class TranscriptionProviderFactory extends EventEmitter {
   }
 
   sendAudio(audioData) {
+    // If using DeepgramService, delegate to it
+    if (this.activeService && this.activeService.sendAudio) {
+      return this.activeService.sendAudio(audioData);
+    }
+    
     if (!this.activeConnection) {
       console.error('[Transcription] No active connection');
       return false;
@@ -668,6 +635,12 @@ class TranscriptionProviderFactory extends EventEmitter {
   disconnect() {
     this.stopKeepAlive();
     
+    // If using a service instance, disconnect it
+    if (this.activeService && this.activeService.disconnect) {
+      this.activeService.disconnect();
+      this.activeService = null;
+    }
+    
     if (this.activeConnection) {
       if (this.activeConnection.close) {
         this.activeConnection.close();
@@ -719,6 +692,11 @@ class TranscriptionProviderFactory extends EventEmitter {
   }
 
   get isConnected() {
+    // If using a service instance, check its connection status
+    if (this.activeService && this.activeService.isConnected !== undefined) {
+      return this.activeService.isConnected;
+    }
+    
     if (!this.activeConnection) return false;
     
     if (this.activeConnection.readyState !== undefined) {
@@ -729,10 +707,38 @@ class TranscriptionProviderFactory extends EventEmitter {
   }
 
   getMetrics() {
+    // If using a service instance, get its metrics
+    if (this.activeService && this.activeService.getMetrics) {
+      return this.activeService.getMetrics();
+    }
+    
     return {
       provider: this.currentProvider,
       connected: this.isConnected,
       availableProviders: this.providers.size
+    };
+  }
+
+  // New method to get the active provider service
+  getActiveProvider() {
+    // Return the active service if it exists (e.g., DeepgramService)
+    if (this.activeService) {
+      return this.activeService;
+    }
+    
+    // Otherwise return a mock object with the required methods
+    return {
+      getUsageForMeeting: () => ({
+        provider: this.currentProvider,
+        model: 'streaming',
+        durationSeconds: 0,
+        totalCost: 0,
+        sessionStartTime: null,
+        lastAudioTime: null
+      }),
+      resetMetrics: () => {
+        console.log(`[${this.currentProvider}] Metrics reset (no service instance)`);
+      }
     };
   }
 }

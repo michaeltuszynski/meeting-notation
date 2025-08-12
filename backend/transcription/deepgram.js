@@ -12,6 +12,8 @@ class DeepgramService extends EventEmitter {
         this.maxReconnectAttempts = 5;
         this.reconnectDelay = 1000;
         this.startTime = null;
+        this.lastSpeaker = null;
+        this.currentSegment = null;
         this.metrics = {
             totalLatency: 0,
             transcriptionCount: 0,
@@ -38,6 +40,7 @@ class DeepgramService extends EventEmitter {
                 interim_results: true,
                 utterance_end_ms: 1000,
                 vad_events: true,
+                diarize: true,
                 encoding: 'linear16',
                 sample_rate: 16000,
                 channels: 1
@@ -95,19 +98,35 @@ class DeepgramService extends EventEmitter {
             }
 
             const transcript = data.channel?.alternatives[0]?.transcript;
+            const words = data.channel?.alternatives[0]?.words || [];
             
             if (transcript && transcript.trim() !== '') {
+                // Process speaker information from words
+                const speakerData = this.processSpeakerData(words);
+                
                 const result = {
                     text: transcript,
                     isFinal: data.is_final,
                     confidence: data.channel?.alternatives[0]?.confidence || 0,
                     timestamp: Date.now(),
                     latency: latency,
-                    words: data.channel?.alternatives[0]?.words || []
+                    words: words,
+                    speakers: speakerData.speakers,
+                    speakerSegments: speakerData.segments,
+                    speakerChanges: speakerData.changes
                 };
                 
-                console.log(`Transcript (${latency}ms): ${transcript}`);
+                console.log(`Transcript (${latency}ms) [${speakerData.speakers.length} speakers]: ${transcript}`);
                 this.emit('transcript', result);
+                
+                // Emit specific speaker events if there are speaker changes
+                if (speakerData.changes.length > 0) {
+                    this.emit('speakerChange', {
+                        changes: speakerData.changes,
+                        timestamp: Date.now(),
+                        isFinal: data.is_final
+                    });
+                }
             }
             
             this.startTime = null;
@@ -228,6 +247,90 @@ class DeepgramService extends EventEmitter {
         };
     }
 
+    processSpeakerData(words) {
+        const speakers = new Set();
+        const segments = [];
+        const changes = [];
+        
+        if (!words || words.length === 0) {
+            return { speakers: [], segments: [], changes: [] };
+        }
+        
+        let currentSpeaker = null;
+        let segmentStart = null;
+        let segmentWords = [];
+        
+        words.forEach((word, index) => {
+            const speakerId = word.speaker !== undefined ? word.speaker : 0;
+            speakers.add(speakerId);
+            
+            // Detect speaker change
+            if (currentSpeaker !== speakerId) {
+                // Finish previous segment if exists
+                if (currentSpeaker !== null && segmentWords.length > 0) {
+                    const segmentEnd = segmentWords[segmentWords.length - 1].end || segmentWords[segmentWords.length - 1].start;
+                    segments.push({
+                        speaker: currentSpeaker,
+                        startTime: segmentStart,
+                        endTime: segmentEnd,
+                        text: segmentWords.map(w => w.word).join(' '),
+                        words: segmentWords,
+                        confidence: segmentWords.reduce((sum, w) => sum + (w.confidence || 0), 0) / segmentWords.length
+                    });
+                }
+                
+                // Track global speaker change for notifications and database
+                if (this.lastSpeaker !== null && this.lastSpeaker !== speakerId) {
+                    console.log(`Speaker change detected: ${this.lastSpeaker} → ${speakerId} at ${word.start}s`);
+                    // Record actual speaker-to-speaker transitions
+                    changes.push({
+                        fromSpeaker: this.lastSpeaker,
+                        toSpeaker: speakerId,
+                        timestamp: word.start || 0,
+                        wordIndex: index
+                    });
+                } else if (this.lastSpeaker === null) {
+                    // Record initial speaker detection
+                    changes.push({
+                        fromSpeaker: null,
+                        toSpeaker: speakerId,
+                        timestamp: word.start || 0,
+                        wordIndex: index
+                    });
+                }
+                
+                // Start new segment
+                currentSpeaker = speakerId;
+                segmentStart = word.start || 0;
+                segmentWords = [];
+                
+                // Update last speaker
+                this.lastSpeaker = speakerId;
+            }
+            
+            segmentWords.push(word);
+        });
+        
+        // Finish final segment
+        if (currentSpeaker !== null && segmentWords.length > 0) {
+            const segmentEnd = segmentWords[segmentWords.length - 1].end || segmentWords[segmentWords.length - 1].start;
+            segments.push({
+                speaker: currentSpeaker,
+                startTime: segmentStart,
+                endTime: segmentEnd,
+                text: segmentWords.map(w => w.word).join(' '),
+                words: segmentWords,
+                confidence: segmentWords.reduce((sum, w) => sum + (w.confidence || 0), 0) / segmentWords.length
+            });
+        }
+        
+        return {
+            speakers: Array.from(speakers).sort(),
+            segments: segments,
+            changes: changes
+        };
+    }
+
     resetMetrics() {
         this.metrics = {
             totalLatency: 0,
@@ -240,6 +343,8 @@ class DeepgramService extends EventEmitter {
             sessionStartTime: null,
             lastAudioTime: null
         };
+        this.lastSpeaker = null;
+        this.currentSegment = null;
     }
 }
 

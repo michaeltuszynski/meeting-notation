@@ -24,6 +24,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-redux": "^9.2.0",
+    "react-resizable-panels": "^3.0.4",
     "react-use-websocket": "^4.13.0",
     "socket.io-client": "^4.8.1",
     "tailwind-merge": "^2.3.0",

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { io } from 'socket.io-client';
 import { Mic, MicOff, Settings, Activity, Clock, Users, Wifi } from 'lucide-react';
+import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 
 import { Button } from './components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './components/ui/card';
@@ -15,6 +16,7 @@ import ContextualInsights from './components/ContextualInsights';
 import CorrectableTranscript from './components/CorrectableTranscript';
 import SettingsModal from './components/Settings';
 import useElectronAudio from './hooks/useElectronAudio';
+import './styles/panels.css';
 
 function App() {
     const [transcript, setTranscript] = useState([]);
@@ -40,6 +42,7 @@ function App() {
     const processorRef = useRef(null);
     const sourceRef = useRef(null);
     const streamRef = useRef(null);
+    const transcriptEndRef = useRef(null);
     
     const {
         isElectron,
@@ -81,6 +84,13 @@ function App() {
             setElectronBridgeConnected(false);
         }
     }, [useElectronBridge]);
+
+    // Auto-scroll transcript to bottom when new entries arrive
+    useEffect(() => {
+        if (transcriptEndRef.current) {
+            transcriptEndRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [transcript]);
 
     useEffect(() => {
         const wsUrl = 'http://localhost:9000';
@@ -370,10 +380,7 @@ function App() {
             stopElectronCapture();
             setIsRecording(false);
             setAudioLevel(0);
-            
-            if (activeMeeting && activeMeeting.status === 'active') {
-                handleEndMeeting();
-            }
+            // Don't automatically end meeting - user should explicitly click End Meeting
             return;
         }
         
@@ -398,10 +405,7 @@ function App() {
         
         setIsRecording(false);
         setAudioLevel(0);
-        
-        if (activeMeeting && activeMeeting.status === 'active') {
-            handleEndMeeting();
-        }
+        // Don't automatically end meeting - user should explicitly click End Meeting
     };
 
     const formatLatency = (latency) => {
@@ -419,6 +423,7 @@ function App() {
                         activeMeetingId={activeMeeting?.id}
                         onNewMeeting={handleNewMeeting}
                         onGenerateReport={handleGenerateReport}
+                        socket={socketRef.current}
                     />
                 </div>
             )}
@@ -649,6 +654,25 @@ function App() {
                                 )}
                             </Button>
 
+                            {/* End Meeting Button - Only show when meeting is active */}
+                            {activeMeeting && activeMeeting.status === 'active' && (
+                                <Button
+                                    onClick={() => {
+                                        if (isRecording) {
+                                            stopRecording();
+                                        } else {
+                                            handleEndMeeting();
+                                        }
+                                    }}
+                                    variant="warning"
+                                    size="lg"
+                                    className="bg-orange-500 hover:bg-orange-600 text-white"
+                                >
+                                    <Clock className="h-4 w-4 mr-2" />
+                                    End Meeting
+                                </Button>
+                            )}
+
                             <Button
                                 onClick={() => {
                                     setTranscript([]);
@@ -677,73 +701,89 @@ function App() {
                     </div>
                 </div>
 
-                {/* Content Area */}
-                <div className="flex-1 flex gap-6 p-6 min-h-0">
-                    {/* Transcript Panel */}
-                    <Card className="flex-2 min-w-0">
-                        <CardHeader>
-                            <CardTitle className="flex items-center gap-2">
-                                📝 Live Transcript
-                            </CardTitle>
-                            <CardDescription>
-                                Real-time speech-to-text transcription with confidence scoring
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent className="max-h-96 overflow-y-auto">
-                            {transcript.length === 0 ? (
-                                <div className="text-center text-muted-foreground py-8">
-                                    {isRecording ? 'Listening... Speak to see transcript' : 'Click "Start Recording" to begin'}
-                                </div>
-                            ) : (
-                                <CorrectableTranscript 
-                                    transcript={transcript} 
-                                    socket={socketRef.current}
-                                    className="space-y-3"
-                                />
-                            )}
-                            <div className="mt-4 text-xs text-gray-500 text-center">
-                                💡 Click on any word to correct it globally across all meetings
+                {/* Content Area with Resizable Panels */}
+                <div className="flex-1 min-h-0">
+                    <PanelGroup direction="horizontal" className="h-full">
+                        {/* Transcript Panel */}
+                        <Panel defaultSize={50} minSize={30}>
+                            <Card className="h-full m-4 mr-2 flex flex-col">
+                                <CardHeader>
+                                    <CardTitle className="flex items-center gap-2">
+                                        📝 Live Transcript
+                                    </CardTitle>
+                                    <CardDescription>
+                                        Real-time speech-to-text transcription with confidence scoring
+                                    </CardDescription>
+                                </CardHeader>
+                                <CardContent className="flex-1 overflow-y-auto">
+                                    {transcript.length === 0 ? (
+                                        <div className="text-center text-muted-foreground py-8">
+                                            {isRecording ? 'Listening... Speak to see transcript' : 'Click "Start Recording" to begin'}
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <CorrectableTranscript 
+                                                transcript={transcript} 
+                                                socket={socketRef.current}
+                                                className="space-y-3"
+                                            />
+                                            <div ref={transcriptEndRef} />
+                                        </>
+                                    )}
+                                    <div className="mt-4 text-xs text-gray-500 text-center">
+                                        💡 Click on any word to correct it globally across all meetings
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </Panel>
+
+                        {/* Resize Handle */}
+                        <PanelResizeHandle className="w-2 hover:bg-blue-500/20 transition-colors duration-200">
+                            <div className="w-full h-full flex items-center justify-center">
+                                <div className="w-0.5 h-8 bg-gray-300 rounded-full" />
                             </div>
-                        </CardContent>
-                    </Card>
+                        </PanelResizeHandle>
 
-                    {/* Right Panel */}
-                    <div className="flex-1 flex flex-col min-w-0">
-                        {/* Toggle Buttons */}
-                        <div className="flex mb-4">
-                            <Button
-                                onClick={() => setRightPanelView('contextual')}
-                                variant={rightPanelView === 'contextual' ? 'default' : 'outline'}
-                                className="flex-1 rounded-r-none"
-                                size="sm"
-                            >
-                                Intelligence
-                            </Button>
-                            <Button
-                                onClick={() => setRightPanelView('definitions')}
-                                variant={rightPanelView === 'definitions' ? 'default' : 'outline'}
-                                className="flex-1 rounded-l-none"
-                                size="sm"
-                            >
-                                Definitions
-                            </Button>
-                        </div>
+                        {/* Right Panel */}
+                        <Panel defaultSize={50} minSize={30}>
+                            <div className="h-full m-4 ml-2 flex flex-col">
+                                {/* Toggle Buttons */}
+                                <div className="flex mb-4">
+                                    <Button
+                                        onClick={() => setRightPanelView('contextual')}
+                                        variant={rightPanelView === 'contextual' ? 'default' : 'outline'}
+                                        className="flex-1 rounded-r-none"
+                                        size="sm"
+                                    >
+                                        Intelligence
+                                    </Button>
+                                    <Button
+                                        onClick={() => setRightPanelView('definitions')}
+                                        variant={rightPanelView === 'definitions' ? 'default' : 'outline'}
+                                        className="flex-1 rounded-l-none"
+                                        size="sm"
+                                    >
+                                        Glossary
+                                    </Button>
+                                </div>
 
-                        {/* Content */}
-                        <div className="flex-1 min-h-0">
-                            {rightPanelView === 'contextual' ? (
-                                <ContextualInsights 
-                                    socket={socketRef.current}
-                                    currentTopic={activeMeeting?.title}
-                                />
-                            ) : (
-                                <DefinitionHistory 
-                                    definitions={termDefinitions}
-                                    terms={extractedTerms}
-                                />
-                            )}
-                        </div>
-                    </div>
+                                {/* Content */}
+                                <div className="flex-1 min-h-0 overflow-y-auto">
+                                    {rightPanelView === 'contextual' ? (
+                                        <ContextualInsights 
+                                            socket={socketRef.current}
+                                            currentTopic={activeMeeting?.title}
+                                        />
+                                    ) : (
+                                        <DefinitionHistory 
+                                            definitions={termDefinitions}
+                                            terms={extractedTerms}
+                                        />
+                                    )}
+                                </div>
+                            </div>
+                        </Panel>
+                    </PanelGroup>
                 </div>
             </div>
 

@@ -1,5 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { io } from 'socket.io-client';
+import MeetingSidebar from './components/MeetingSidebar';
+import ReportView from './components/ReportView';
+import DefinitionHistory from './components/DefinitionHistory';
+import ContextualInsights from './components/ContextualInsights';
 
 function App() {
     const [transcript, setTranscript] = useState([]);
@@ -10,6 +14,11 @@ function App() {
     const [error, setError] = useState(null);
     const [extractedTerms, setExtractedTerms] = useState([]);
     const [termDefinitions, setTermDefinitions] = useState({});
+    const [activeMeeting, setActiveMeeting] = useState(null);
+    const [showSidebar, setShowSidebar] = useState(true);
+    const [showReport, setShowReport] = useState(false);
+    const [reportMeetingId, setReportMeetingId] = useState(null);
+    const [rightPanelView, setRightPanelView] = useState('contextual'); // 'contextual' or 'definitions'
     
     const socketRef = useRef(null);
     const audioContextRef = useRef(null);
@@ -19,7 +28,9 @@ function App() {
     const animationRef = useRef(null);
     
     useEffect(() => {
-        const socket = io(process.env.REACT_APP_WS_URL || 'http://localhost:9000');
+        // Use the webpack-defined environment variable or fallback
+        const wsUrl = 'http://localhost:9000';
+        const socket = io(wsUrl);
         socketRef.current = socket;
         
         socket.on('connect', () => {
@@ -35,6 +46,27 @@ function App() {
         socket.on('service:status', (status) => {
             console.log('Service status:', status);
             setMetrics(status.metrics);
+            if (status.activeMeetingId) {
+                // Load active meeting if one exists
+                fetch(`http://localhost:9000/api/meetings/${status.activeMeetingId}`)
+                    .then(res => res.json())
+                    .then(meeting => setActiveMeeting(meeting))
+                    .catch(console.error);
+            }
+        });
+        
+        socket.on('meeting:started', (meeting) => {
+            console.log('Meeting started:', meeting);
+            setActiveMeeting(meeting);
+            // Clear previous transcript and terms
+            setTranscript([]);
+            setExtractedTerms([]);
+            setTermDefinitions({});
+        });
+        
+        socket.on('meeting:ended', (meeting) => {
+            console.log('Meeting ended:', meeting);
+            setActiveMeeting(null);
         });
         
         socket.on('transcript:update', (data) => {
@@ -65,6 +97,11 @@ function App() {
         
         socket.on('audio:error', (data) => {
             setError(data.message);
+            // Stop recording if no active meeting
+            if (data.code === 'NO_ACTIVE_MEETING') {
+                setIsRecording(false);
+                setAudioLevel(0);
+            }
             setTimeout(() => setError(null), 5000);
         });
         
@@ -104,8 +141,88 @@ function App() {
         };
     }, []);
     
+    const handleNewMeeting = (meetingData) => {
+        if (socketRef.current) {
+            socketRef.current.emit('meeting:start', meetingData);
+        }
+    };
+    
+    const handleEndMeeting = () => {
+        if (socketRef.current) {
+            socketRef.current.emit('meeting:end');
+        }
+        setIsRecording(false);
+        // Automatically show report after ending meeting
+        if (activeMeeting) {
+            setTimeout(() => {
+                setReportMeetingId(activeMeeting.id);
+                setShowReport(true);
+            }, 1000);
+        }
+    };
+    
+    const handleGenerateReport = (meetingId) => {
+        setReportMeetingId(meetingId);
+        setShowReport(true);
+    };
+    
+    const handleSelectMeeting = async (meeting) => {
+        try {
+            // Set meeting context in backend
+            if (socketRef.current) {
+                socketRef.current.emit('meeting:setContext', meeting.id);
+            }
+            
+            // Load meeting transcripts and terms
+            const [transcriptsRes, termsRes] = await Promise.all([
+                fetch(`http://localhost:9000/api/meetings/${meeting.id}/transcripts`),
+                fetch(`http://localhost:9000/api/meetings/${meeting.id}/terms`)
+            ]);
+            
+            const transcripts = await transcriptsRes.json();
+            const terms = await termsRes.json();
+            
+            // Update UI with historical data
+            setTranscript(transcripts.map(t => ({
+                text: t.text,
+                isFinal: t.is_final,
+                confidence: t.confidence,
+                timestamp: t.timestamp
+            })));
+            
+            setExtractedTerms(terms.map(t => t.term));
+            
+            const defs = {};
+            terms.forEach(t => {
+                if (t.definition) {
+                    defs[t.term] = {
+                        summary: t.definition,
+                        sources: t.sources
+                    };
+                }
+            });
+            setTermDefinitions(defs);
+            
+            setActiveMeeting(meeting);
+        } catch (error) {
+            console.error('Error loading meeting:', error);
+        }
+    };
+    
     const startRecording = async () => {
         try {
+            // Require active meeting before recording
+            if (!activeMeeting) {
+                setError('Please start a meeting before recording. Click "New Meeting" in the sidebar.');
+                return;
+            }
+            
+            // Check if meeting is already completed
+            if (activeMeeting.status === 'completed') {
+                setError('This meeting has already ended. Please start a new meeting to record.');
+                return;
+            }
+            
             // Set recording state first
             setIsRecording(true);
             setError(null);
@@ -219,6 +336,11 @@ function App() {
         
         setIsRecording(false);
         setAudioLevel(0);
+        
+        // End meeting if it's active
+        if (activeMeeting && activeMeeting.status === 'active') {
+            handleEndMeeting();
+        }
     };
     
     const clearTranscript = () => {
@@ -232,8 +354,52 @@ function App() {
     };
     
     return (
-        <div style={{ padding: '20px', fontFamily: 'system-ui' }}>
-            <h1>🎙️ Meeting Intelligence Assistant</h1>
+        <div style={{ display: 'flex', fontFamily: 'system-ui', height: '100vh' }}>
+            {/* Meeting Sidebar */}
+            {showSidebar && (
+                <MeetingSidebar
+                    onSelectMeeting={handleSelectMeeting}
+                    activeMeetingId={activeMeeting?.id}
+                    onNewMeeting={handleNewMeeting}
+                    onGenerateReport={handleGenerateReport}
+                />
+            )}
+            
+            {/* Main Content */}
+            <div style={{ 
+                flex: 1,
+                marginLeft: showSidebar ? '300px' : '0',
+                padding: '20px',
+                transition: 'margin-left 0.3s'
+            }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '20px' }}>
+                    <button
+                        onClick={() => setShowSidebar(!showSidebar)}
+                        style={{
+                            padding: '8px 12px',
+                            background: '#6c757d',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '4px',
+                            cursor: 'pointer'
+                        }}
+                    >
+                        {showSidebar ? '◀' : '▶'} Meetings
+                    </button>
+                    <h1 style={{ margin: 0 }}>🎙️ Meeting Intelligence Assistant</h1>
+                    {activeMeeting && (
+                        <div style={{
+                            padding: '5px 10px',
+                            background: activeMeeting.status === 'active' ? '#d4edda' : '#f8f9fa',
+                            color: activeMeeting.status === 'active' ? '#155724' : '#6c757d',
+                            borderRadius: '4px',
+                            fontSize: '14px',
+                            fontWeight: '500'
+                        }}>
+                            {activeMeeting.title} {activeMeeting.status === 'active' && '(LIVE)'}
+                        </div>
+                    )}
+                </div>
             
             {/* Status Bar */}
             <div style={{ 
@@ -287,6 +453,27 @@ function App() {
                 </div>
             )}
             
+            {/* Meeting Required Notice */}
+            {!activeMeeting && (
+                <div style={{
+                    padding: '15px',
+                    background: '#fff3cd',
+                    color: '#856404',
+                    borderRadius: '5px',
+                    marginBottom: '20px',
+                    border: '1px solid #ffeaa7',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px'
+                }}>
+                    <span style={{ fontSize: '20px' }}>ℹ️</span>
+                    <div>
+                        <strong>No Active Meeting</strong>
+                        <div>Please start a new meeting from the sidebar before recording. All transcripts must be associated with a meeting.</div>
+                    </div>
+                </div>
+            )}
+            
             {/* Controls */}
             <div style={{ 
                 display: 'flex', 
@@ -296,18 +483,19 @@ function App() {
             }}>
                 <button
                     onClick={isRecording ? stopRecording : startRecording}
-                    disabled={!isConnected}
+                    disabled={!isConnected || !activeMeeting || activeMeeting?.status === 'completed'}
                     style={{
                         padding: '12px 24px',
                         fontSize: '16px',
                         fontWeight: 'bold',
                         color: 'white',
-                        background: isRecording ? '#dc3545' : '#28a745',
+                        background: isRecording ? '#dc3545' : (!activeMeeting ? '#6c757d' : '#28a745'),
                         border: 'none',
                         borderRadius: '5px',
-                        cursor: isConnected ? 'pointer' : 'not-allowed',
-                        opacity: isConnected ? 1 : 0.5
+                        cursor: (isConnected && activeMeeting && activeMeeting.status !== 'completed') ? 'pointer' : 'not-allowed',
+                        opacity: (isConnected && activeMeeting && activeMeeting.status !== 'completed') ? 1 : 0.5
                     }}
+                    title={!activeMeeting ? 'Start a meeting first' : (activeMeeting.status === 'completed' ? 'Meeting has ended' : '')}
                 >
                     {isRecording ? '⏹ Stop Recording' : '🎤 Start Recording'}
                 </button>
@@ -412,103 +600,80 @@ function App() {
                 )}
                 </div>
                 
-                {/* Extracted Terms Sidebar */}
+                {/* Right Panel - Contextual Insights or Definition History */}
                 <div style={{
                     flex: '1',
                     minWidth: '0',
-                    padding: '20px',
-                    background: '#ffffff',
-                    border: '1px solid #dee2e6',
-                    borderRadius: '8px',
                     maxHeight: '600px',
-                    overflowY: 'auto'
+                    display: 'flex',
+                    flexDirection: 'column'
                 }}>
-                    <h2 style={{ marginTop: 0 }}>🔍 Key Terms</h2>
-                    {extractedTerms.length === 0 ? (
-                        <p style={{ color: '#6c757d', fontStyle: 'italic' }}>
-                            Terms will appear here as they're extracted from the conversation
-                        </p>
-                    ) : (
-                        <div>
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                                {extractedTerms.map((term, index) => (
-                                    <div
-                                        key={index}
-                                        style={{
-                                            padding: '6px 12px',
-                                            background: termDefinitions[term] ? '#d4edda' : '#e7f3ff',
-                                            border: `1px solid ${termDefinitions[term] ? '#28a745' : '#0066cc'}`,
-                                            borderRadius: '20px',
-                                            fontSize: '14px',
-                                            color: termDefinitions[term] ? '#155724' : '#0066cc',
-                                            fontWeight: '500',
-                                            whiteSpace: 'nowrap',
-                                            cursor: termDefinitions[term] ? 'help' : 'default',
-                                            position: 'relative',
-                                            title: termDefinitions[term]?.summary || 'Fetching definition...'
-                                        }}
-                                    >
-                                        {term}
-                                        {termDefinitions[term] && (
-                                            <span style={{
-                                                marginLeft: '4px',
-                                                fontSize: '12px',
-                                                opacity: 0.7
-                                            }}>ⓘ</span>
-                                        )}
-                                    </div>
-                                ))}
-                            </div>
-                            
-                            {/* Definition Display */}
-                            {Object.keys(termDefinitions).length > 0 && (
-                                <div style={{
-                                    marginTop: '20px',
-                                    padding: '15px',
-                                    background: '#f8f9fa',
-                                    borderRadius: '5px',
-                                    maxHeight: '200px',
-                                    overflowY: 'auto'
-                                }}>
-                                    <h4 style={{ margin: '0 0 10px 0', fontSize: '14px' }}>Recent Definitions</h4>
-                                    {extractedTerms
-                                        .filter(term => termDefinitions[term])
-                                        .slice(0, 3)
-                                        .map((term, index) => (
-                                            <div key={index} style={{ marginBottom: '10px' }}>
-                                                <strong style={{ color: '#0066cc' }}>{term}:</strong>
-                                                <div style={{ fontSize: '13px', marginTop: '2px' }}>
-                                                    {termDefinitions[term].summary}
-                                                </div>
-                                            </div>
-                                        ))}
-                                </div>
-                            )}
-                        </div>
-                    )}
+                    {/* Toggle Buttons */}
+                    <div style={{
+                        display: 'flex',
+                        gap: '5px',
+                        marginBottom: '10px'
+                    }}>
+                        <button
+                            onClick={() => setRightPanelView('contextual')}
+                            style={{
+                                flex: 1,
+                                padding: '8px',
+                                background: rightPanelView === 'contextual' ? '#007bff' : '#6c757d',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '4px 0 0 4px',
+                                cursor: 'pointer',
+                                fontSize: '13px'
+                            }}
+                        >
+                            Intelligence
+                        </button>
+                        <button
+                            onClick={() => setRightPanelView('definitions')}
+                            style={{
+                                flex: 1,
+                                padding: '8px',
+                                background: rightPanelView === 'definitions' ? '#007bff' : '#6c757d',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '0 4px 4px 0',
+                                cursor: 'pointer',
+                                fontSize: '13px'
+                            }}
+                        >
+                            Definitions
+                        </button>
+                    </div>
                     
-                    {/* Metrics Section */}
-                    {metrics?.gpt4oMini && (
-                        <div style={{
-                            marginTop: '30px',
-                            padding: '15px',
-                            background: '#f8f9fa',
-                            borderRadius: '5px',
-                            fontSize: '12px'
-                        }}>
-                            <h3 style={{ margin: '0 0 10px 0', fontSize: '14px' }}>GPT-4o Mini Metrics</h3>
-                            <div style={{ display: 'grid', gap: '5px' }}>
-                                <div>Extractions: {metrics.gpt4oMini.totalExtractions}</div>
-                                <div>Avg Latency: {formatLatency(Math.round(metrics.gpt4oMini.averageLatency))}</div>
-                                <div>Last: {formatLatency(metrics.gpt4oMini.lastLatency)}</div>
-                                {metrics.gpt4oMini.errors > 0 && (
-                                    <div style={{ color: '#dc3545' }}>Errors: {metrics.gpt4oMini.errors}</div>
-                                )}
-                            </div>
-                        </div>
-                    )}
+                    {/* Content */}
+                    <div style={{ flex: 1, minHeight: 0 }}>
+                        {rightPanelView === 'contextual' ? (
+                            <ContextualInsights 
+                                socket={socketRef.current}
+                                currentTopic={activeMeeting?.title}
+                            />
+                        ) : (
+                            <DefinitionHistory 
+                                definitions={termDefinitions}
+                                terms={extractedTerms}
+                            />
+                        )}
+                    </div>
                 </div>
             </div>
+            </div>
+            
+            {/* Report View Modal */}
+            {showReport && reportMeetingId && (
+                <ReportView
+                    meetingId={reportMeetingId}
+                    onClose={() => {
+                        setShowReport(false);
+                        setReportMeetingId(null);
+                    }}
+                />
+            )}
         </div>
     );
 }

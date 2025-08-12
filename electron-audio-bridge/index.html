@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting Audio Bridge</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎙️ Meeting Audio Bridge</h1>
+            <div class="status-bar">
+                <div class="status-item">
+                    <span class="status-label">Backend:</span>
+                    <span id="backend-status" class="status-value disconnected">Disconnected</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Streaming:</span>
+                    <span id="streaming-status" class="status-value inactive">Inactive</span>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <!-- Source Selection -->
+            <section class="source-section">
+                <h2>Select Audio Source</h2>
+                <button id="refresh-sources" class="btn-secondary">
+                    🔄 Refresh Sources
+                </button>
+                <div id="sources-list" class="sources-list">
+                    <div class="loading">Loading sources...</div>
+                </div>
+            </section>
+
+            <!-- Audio Level Meter -->
+            <section class="audio-section">
+                <h3>Audio Level</h3>
+                <div class="audio-meter">
+                    <div id="audio-level" class="audio-level"></div>
+                </div>
+                <div id="audio-stats" class="audio-stats">
+                    <span>Not streaming</span>
+                </div>
+            </section>
+
+            <!-- Controls -->
+            <section class="controls">
+                <button id="start-btn" class="btn-primary" disabled>
+                    ▶️ Start Streaming
+                </button>
+                <button id="stop-btn" class="btn-danger" disabled>
+                    ⏹️ Stop Streaming
+                </button>
+            </section>
+
+            <!-- Settings -->
+            <section class="settings">
+                <details>
+                    <summary>⚙️ Settings</summary>
+                    <div class="settings-content">
+                        <label>
+                            <input type="checkbox" id="auto-minimize" checked>
+                            Minimize to tray when streaming
+                        </label>
+                        <label>
+                            <input type="checkbox" id="auto-reconnect" checked>
+                            Auto-reconnect to backend
+                        </label>
+                        <label>
+                            Sample Rate:
+                            <select id="sample-rate">
+                                <option value="16000" selected>16 kHz (Recommended)</option>
+                                <option value="22050">22.05 kHz</option>
+                                <option value="44100">44.1 kHz</option>
+                                <option value="48000">48 kHz</option>
+                            </select>
+                        </label>
+                    </div>
+                </details>
+            </section>
+        </main>
+
+        <footer>
+            <p class="tips">💡 Tip: Select your meeting app window for best results</p>
+        </footer>
+    </div>
+
+    <script src="renderer.js"></script>
+</body>
+</html>

@@ -7,7 +7,13 @@ require('dotenv').config();
 const DeepgramService = require('./transcription/deepgram');
 const { AudioProcessor } = require('./utils/audio');
 const GPT4oMiniService = require('./llm/gpt4omini');
+const ContextualIntelligenceService = require('./llm/contextual-intelligence');
 const TavilyService = require('./knowledge/tavily');
+const PostgresService = require('./db/postgres');
+const MeetingService = require('./services/meeting');
+const StorageService = require('./services/storage');
+const ReportService = require('./services/report');
+const meetingRoutes = require('./routes/meetings');
 
 const app = express();
 app.use(cors());
@@ -23,11 +29,25 @@ const io = new Server(server, {
   maxHttpBufferSize: 1e6 // 1MB for audio chunks
 });
 
+// Initialize database
+const db = new PostgresService();
+db.testConnection();
+
 // Initialize services
 const deepgramService = new DeepgramService(process.env.DEEPGRAM_API_KEY);
 const gpt4oMiniService = new GPT4oMiniService();
+const contextualIntelligence = new ContextualIntelligenceService();
 const tavilyService = new TavilyService();
+const meetingService = new MeetingService(db);
+const storageService = new StorageService(db);
+const reportService = new ReportService(db, storageService);
 const audioProcessors = new Map(); // One processor per client
+
+// Current active meeting
+let activeMeetingId = null;
+
+// API Routes - must be after service initialization
+app.use('/api/meetings', meetingRoutes(meetingService, storageService, reportService));
 
 // Connect to Deepgram on server start
 deepgramService.connect().catch(err => {
@@ -36,25 +56,105 @@ deepgramService.connect().catch(err => {
 
 // Deepgram event handlers
 deepgramService.on('transcript', async (transcript) => {
+  // Only process transcripts if there's an active meeting
+  if (!activeMeetingId) {
+    console.warn('Received transcript but no active meeting - ignoring');
+    return;
+  }
+  
   // Broadcast transcript to all connected clients
   io.emit('transcript:update', transcript);
   
-  // Add transcript to GPT-4o Mini for term extraction
+  // Save transcript to database
   if (transcript.text && transcript.text.trim()) {
-    console.log(`[GPT-4o Mini] Adding transcript: "${transcript.text}"`);
-    gpt4oMiniService.addTranscript(transcript.text);
+    try {
+      await storageService.saveTranscript(activeMeetingId, {
+        text: transcript.text,
+        isFinal: transcript.isFinal,
+        confidence: transcript.confidence,
+        timestamp: new Date()
+      });
+    } catch (error) {
+      console.error('Error saving transcript:', error);
+    }
+  }
+  
+  // Add transcript to both intelligence services
+  if (transcript.text && transcript.text.trim()) {
+    console.log(`[Intelligence] Processing transcript: "${transcript.text.substring(0, 50)}..."`);
     
-    // Try to extract terms (will only extract if conditions are met)
+    // Add to contextual intelligence for richer insights
+    contextualIntelligence.addTranscript(transcript.text);
+    
+    // Extract contextual insights
+    const insights = await contextualIntelligence.extractContextualInsights();
+    if (insights) {
+      io.emit('contextual:insights', insights);
+      console.log(`[Contextual] Extracted insights - Topic: ${insights.currentTopic}`);
+      
+      // Save insights to database if meeting is active
+      if (activeMeetingId && insights.concepts) {
+        try {
+          // Save concepts as enriched terms
+          const conceptTerms = insights.concepts.map(c => c.concept);
+          await storageService.saveExtractedTerms(activeMeetingId, conceptTerms);
+          
+          // Save contextual definitions
+          if (insights.contextualDefinitions) {
+            for (const [term, definition] of Object.entries(insights.contextualDefinitions)) {
+              await storageService.saveTermDefinition(
+                term,
+                definition,
+                [{ url: 'meeting-context', title: 'From Meeting Context' }]
+              );
+            }
+          }
+        } catch (error) {
+          console.error('Error saving contextual insights:', error);
+        }
+      }
+    }
+    
+    // Also use original term extraction for backwards compatibility
+    gpt4oMiniService.addTranscript(transcript.text);
     const extraction = await gpt4oMiniService.extractTerms();
     if (extraction) {
       io.emit('terms:extracted', extraction);
       console.log(`[Terms] Extracted: ${extraction.terms.join(', ')}`);
       
-      // Fetch definitions for extracted terms
-      const definitions = await tavilyService.searchTerms(extraction.terms);
-      if (definitions.length > 0) {
-        io.emit('definitions:updated', definitions);
-        console.log(`[Knowledge] Found ${definitions.length} definitions`);
+      // Save extracted terms to database if meeting is active
+      if (activeMeetingId) {
+        try {
+          await storageService.saveExtractedTerms(activeMeetingId, extraction.terms);
+        } catch (error) {
+          console.error('Error saving extracted terms:', error);
+        }
+      }
+      
+      // Fetch web definitions for terms not in context
+      const termsNeedingDefinitions = extraction.terms.filter(term => {
+        return !contextualIntelligence.getContextualDefinition(term);
+      });
+      
+      if (termsNeedingDefinitions.length > 0) {
+        const definitions = await tavilyService.searchTerms(termsNeedingDefinitions);
+        if (definitions.length > 0) {
+          io.emit('definitions:updated', definitions);
+          console.log(`[Knowledge] Found ${definitions.length} web definitions`);
+          
+          // Save definitions to database
+          for (const def of definitions) {
+            try {
+              await storageService.saveTermDefinition(
+                def.term,
+                def.definition.summary,
+                def.definition.sources
+              );
+            } catch (error) {
+              console.error('Error saving term definition:', error);
+            }
+          }
+        }
       }
     }
   }
@@ -85,6 +185,7 @@ io.on('connection', (socket) => {
   // Send connection status and metrics
   socket.emit('service:status', {
     deepgram: deepgramService.isConnected,
+    activeMeetingId,
     metrics: {
       deepgram: deepgramService.getMetrics(),
       gpt4oMini: gpt4oMiniService.getMetrics(),
@@ -92,9 +193,65 @@ io.on('connection', (socket) => {
     }
   });
   
+  // Meeting management events
+  socket.on('meeting:start', async (data) => {
+    try {
+      const meeting = await meetingService.createMeeting(data);
+      activeMeetingId = meeting.id;
+      
+      // Set meeting context for contextual intelligence
+      contextualIntelligence.setCurrentMeeting(meeting.id);
+      gpt4oMiniService.reset();
+      
+      io.emit('meeting:started', meeting);
+      console.log(`[Meeting] Started new meeting: ${meeting.id}`);
+    } catch (error) {
+      console.error('Error starting meeting:', error);
+      socket.emit('meeting:error', { message: 'Failed to start meeting' });
+    }
+  });
+  
+  socket.on('meeting:end', async () => {
+    if (activeMeetingId) {
+      try {
+        const meeting = await meetingService.endMeeting(activeMeetingId);
+        io.emit('meeting:ended', meeting);
+        console.log(`[Meeting] Ended meeting: ${activeMeetingId}`);
+        activeMeetingId = null;
+        storageService.clearSequenceCache(meeting.id);
+      } catch (error) {
+        console.error('Error ending meeting:', error);
+        socket.emit('meeting:error', { message: 'Failed to end meeting' });
+      }
+    }
+  });
+  
+  socket.on('meeting:getActive', async () => {
+    socket.emit('meeting:active', activeMeetingId ? 
+      await meetingService.getMeeting(activeMeetingId) : null);
+  });
+  
+  // Handle switching meeting context (for viewing historical meetings)
+  socket.on('meeting:setContext', (meetingId) => {
+    if (meetingId) {
+      contextualIntelligence.setCurrentMeeting(meetingId);
+      console.log(`[Meeting] Set context to meeting: ${meetingId}`);
+    }
+  });
+  
   let audioChunkCount = 0;
   socket.on('audio:chunk', async (data) => {
     try {
+      // Require active meeting for audio processing
+      if (!activeMeetingId) {
+        socket.emit('audio:error', {
+          message: 'No active meeting. Please start a meeting before recording.',
+          code: 'NO_ACTIVE_MEETING',
+          timestamp: Date.now()
+        });
+        return;
+      }
+      
       const processor = audioProcessors.get(socket.id);
       if (!processor) {
         console.error('No audio processor for client:', socket.id);
@@ -176,7 +333,59 @@ io.on('connection', (socket) => {
     socket.emit('metrics:response', {
       deepgram: deepgramService.getMetrics(),
       gpt4oMini: gpt4oMiniService.getMetrics(),
+      contextual: contextualIntelligence.getMetrics(),
       tavily: tavilyService.getMetrics()
+    });
+  });
+  
+  // Interactive intelligence features
+  socket.on('intelligence:talking-points', async (topic) => {
+    try {
+      const talkingPoints = await contextualIntelligence.generateTalkingPoints(topic);
+      socket.emit('intelligence:talking-points-response', {
+        topic,
+        points: talkingPoints,
+        timestamp: Date.now()
+      });
+    } catch (error) {
+      console.error('Error generating talking points:', error);
+      socket.emit('intelligence:error', { 
+        message: 'Failed to generate talking points',
+        timestamp: Date.now()
+      });
+    }
+  });
+  
+  socket.on('intelligence:rolling-summary', async (duration) => {
+    try {
+      const summary = await contextualIntelligence.getRollingSummary(duration);
+      socket.emit('intelligence:summary-response', {
+        summary,
+        duration,
+        timestamp: Date.now()
+      });
+    } catch (error) {
+      console.error('Error generating summary:', error);
+      socket.emit('intelligence:error', {
+        message: 'Failed to generate summary',
+        timestamp: Date.now()
+      });
+    }
+  });
+  
+  socket.on('intelligence:get-glossary', () => {
+    const glossary = contextualIntelligence.getMeetingGlossary();
+    socket.emit('intelligence:glossary-response', {
+      glossary,
+      timestamp: Date.now()
+    });
+  });
+  
+  socket.on('intelligence:get-topic-flow', () => {
+    const topicFlow = contextualIntelligence.getTopicFlow();
+    socket.emit('intelligence:topic-flow-response', {
+      topics: topicFlow,
+      timestamp: Date.now()
     });
   });
   

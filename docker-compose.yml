@@ -9,8 +9,17 @@ services:
       - DEEPGRAM_API_KEY=${DEEPGRAM_API_KEY}
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - TAVILY_API_KEY=${TAVILY_API_KEY}
-    env_file:
-      - .env
+      - POSTGRES_HOST=postgres
+      - POSTGRES_DB=meeting_intelligence
+      - POSTGRES_USER=meeting_user
+      - POSTGRES_PASSWORD=meeting_pass_2024
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
     networks:
       - meeting-network
     restart: unless-stopped
@@ -38,6 +47,26 @@ services:
     networks:
       - meeting-network
     restart: unless-stopped
+  
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: meeting_intelligence
+      POSTGRES_USER: meeting_user
+      POSTGRES_PASSWORD: meeting_pass_2024
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./backend/db/init:/docker-entrypoint-initdb.d
+    networks:
+      - meeting-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U meeting_user -d meeting_intelligence"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
 
 networks:
   meeting-network:
@@ -45,3 +74,4 @@ networks:
 
 volumes:
   redis-data:
+  postgres-data:

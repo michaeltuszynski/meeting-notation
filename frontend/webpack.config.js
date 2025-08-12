@@ -28,12 +28,21 @@ module.exports = {
     ]
   },
   plugins: [
+    new webpack.ProvidePlugin({
+      process: 'process/browser'
+    }),
     new webpack.DefinePlugin({
-      'process.env.REACT_APP_WS_URL': JSON.stringify(process.env.REACT_APP_WS_URL || 'http://localhost:9000')
+      'process.env': JSON.stringify({
+        NODE_ENV: 'production',
+        REACT_APP_WS_URL: 'http://localhost:9000'
+      })
     })
   ],
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: ['.js', '.jsx'],
+    fallback: {
+      "process": require.resolve("process/browser")
+    }
   },
   devtool: 'source-map'
 };

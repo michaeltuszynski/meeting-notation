@@ -19,6 +19,13 @@ class GPT4oMiniService {
       averageLatency: 0
     };
     
+    this.usageTracking = {
+      totalInputTokens: 0,
+      totalOutputTokens: 0,
+      totalCost: 0,
+      callCount: 0
+    };
+    
     this.systemPrompt = `You are a meeting intelligence assistant that extracts key technical terms, acronyms, and important concepts from meeting transcripts.
 
 Extract ONLY:
@@ -85,6 +92,20 @@ Keep extractions concise - maximum 10 terms per response.`;
       const latency = Date.now() - startTime;
       this.updateMetrics(latency, false);
       
+      // Track token usage from response
+      if (response.usage) {
+        this.usageTracking.totalInputTokens += response.usage.prompt_tokens || 0;
+        this.usageTracking.totalOutputTokens += response.usage.completion_tokens || 0;
+        this.usageTracking.callCount += 1;
+        
+        // Calculate cost (we'll update with real pricing periodically)
+        const inputCost = (response.usage.prompt_tokens || 0) * (0.15 / 1000000); // $0.15/1M tokens
+        const outputCost = (response.usage.completion_tokens || 0) * (0.60 / 1000000); // $0.60/1M tokens
+        this.usageTracking.totalCost += inputCost + outputCost;
+        
+        console.log(`[GPT-4o Mini] Tokens: ${response.usage.prompt_tokens} in, ${response.usage.completion_tokens} out, Cost: $${(inputCost + outputCost).toFixed(6)}`);
+      }
+      
       try {
         const content = response.choices[0].message.content;
         const parsed = JSON.parse(content);
@@ -135,14 +156,33 @@ Keep extractions concise - maximum 10 terms per response.`;
   getMetrics() {
     return {
       ...this.performanceMetrics,
+      ...this.usageTracking,
       windowSize: this.extractionWindow.length,
       lastExtraction: new Date(this.lastExtraction).toISOString()
+    };
+  }
+  
+  getUsageForMeeting() {
+    return {
+      provider: 'openai',
+      model: 'gpt-4o-mini',
+      inputTokens: this.usageTracking.totalInputTokens,
+      outputTokens: this.usageTracking.totalOutputTokens,
+      totalCost: this.usageTracking.totalCost,
+      callCount: this.usageTracking.callCount
     };
   }
   
   reset() {
     this.extractionWindow = [];
     this.lastExtraction = Date.now();
+    // Reset usage tracking for new meeting
+    this.usageTracking = {
+      totalInputTokens: 0,
+      totalOutputTokens: 0,
+      totalCost: 0,
+      callCount: 0
+    };
   }
 }
 

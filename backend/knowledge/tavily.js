@@ -32,6 +32,11 @@ class TavilyService {
       errors: 0
     };
     
+    this.usageTracking = {
+      totalApiCalls: 0,
+      totalCost: 0
+    };
+    
     // Rate limiting
     this.searchQueue = [];
     this.isProcessing = false;
@@ -122,6 +127,12 @@ class TavilyService {
         }
       });
       
+      // Track API usage and cost
+      this.usageTracking.totalApiCalls += 1;
+      this.usageTracking.totalCost += 0.001; // $0.001 per search
+      
+      console.log(`[Tavily] API call made for "${term}" - Total calls: ${this.usageTracking.totalApiCalls}, Cost: $${this.usageTracking.totalCost.toFixed(4)}`);
+      
       if (response.data && response.data.answer) {
         const definition = {
           summary: this.extractDefinition(response.data.answer, term),
@@ -193,8 +204,24 @@ class TavilyService {
   getMetrics() {
     return {
       ...this.metrics,
+      ...this.usageTracking,
       cacheHitRate: this.metrics.cacheHits / 
         (this.metrics.cacheHits + this.metrics.cacheMisses) || 0
+    };
+  }
+  
+  getUsageForMeeting() {
+    return {
+      provider: 'tavily',
+      searchCount: this.usageTracking.totalApiCalls,
+      totalCost: this.usageTracking.totalCost
+    };
+  }
+  
+  resetUsageTracking() {
+    this.usageTracking = {
+      totalApiCalls: 0,
+      totalCost: 0
     };
   }
   

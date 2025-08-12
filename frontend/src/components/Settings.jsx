@@ -1,14 +1,36 @@
 import React, { useState, useEffect } from 'react';
+import GlobalCorrections from './GlobalCorrections';
 
 function Settings({ isOpen, onClose, socket }) {
     const [settings, setSettings] = useState({
+        // Transcription API Keys
         deepgramApiKey: '',
+        assemblyaiApiKey: '',
+        googleSpeechApiKey: '',
+        azureSpeechKey: '',
+        azureSpeechRegion: '',
+        revaiApiKey: '',
+        speechmaticsApiKey: '',
+        
+        // LLM API Keys
         openaiApiKey: '',
         anthropicApiKey: '',
         geminiApiKey: '',
+        
+        // Knowledge/Search API Keys
         tavilyApiKey: '',
+        exaApiKey: '',
+        perplexityApiKey: '',
+        serpapiKey: '',
+        braveApiKey: '',
+        
+        // Provider selections
+        transcriptionProvider: 'deepgram', // 'deepgram', 'assemblyai', 'whisper', 'google', 'azure', 'revai', 'speechmatics'
         llmProvider: 'openai', // 'openai', 'anthropic', 'gemini'
         llmModel: 'gpt-4o-mini', // Model name within the selected provider
+        knowledgeProvider: 'tavily', // 'tavily', 'exa', 'perplexity', 'serpapi', 'brave'
+        
+        // Other settings
         maxContextLength: 8000,
         enableNotifications: true,
         autoSaveInterval: 30,
@@ -20,12 +42,54 @@ function Settings({ isOpen, onClose, socket }) {
     
     const [isSaving, setIsSaving] = useState(false);
     const [message, setMessage] = useState({ type: '', text: '' });
-    const [showApiKeys, setShowApiKeys] = useState(false);
+    const [showApiKeys, setShowApiKeys] = useState({
+        // Transcription providers
+        deepgram: false,
+        assemblyai: false,
+        whisper: false,
+        google: false,
+        azure: false,
+        revai: false,
+        speechmatics: false,
+        // LLM providers
+        openai: false,
+        anthropic: false,
+        gemini: false,
+        // Knowledge providers
+        tavily: false,
+        exa: false,
+        perplexity: false,
+        serpapi: false,
+        brave: false,
+    });
+    
+    const [availableModels, setAvailableModels] = useState({
+        openai: [],
+        anthropic: [],
+        gemini: []
+    });
+    
+    const [loadingModels, setLoadingModels] = useState(false);
+    
+    // Track which providers have valid API keys
+    const [providerStatus, setProviderStatus] = useState({
+        llm: {},
+        transcription: {},
+        knowledge: {}
+    });
 
     useEffect(() => {
         if (isOpen && socket) {
             // Load current settings when modal opens
             socket.emit('settings:get');
+            
+            // Check which providers have valid API keys
+            socket.emit('providers:check');
+            
+            // Fetch available models for each provider
+            fetchModelsForProvider('openai');
+            fetchModelsForProvider('anthropic');
+            fetchModelsForProvider('gemini');
         }
     }, [isOpen, socket]);
 
@@ -47,13 +111,33 @@ function Settings({ isOpen, onClose, socket }) {
                 setMessage({ type: 'error', text: data.error || 'Failed to save settings' });
             }
         };
+        
+        const handleModelsResponse = (data) => {
+            if (data.success && data.models) {
+                setAvailableModels(prev => ({
+                    ...prev,
+                    [data.provider]: data.models
+                }));
+            }
+            setLoadingModels(false);
+        };
+        
+        const handleProvidersStatus = (data) => {
+            if (!data.error) {
+                setProviderStatus(data);
+            }
+        };
 
         socket.on('settings:response', handleSettingsResponse);
         socket.on('settings:saved', handleSettingsSaved);
+        socket.on('models:response', handleModelsResponse);
+        socket.on('providers:status', handleProvidersStatus);
 
         return () => {
             socket.off('settings:response', handleSettingsResponse);
             socket.off('settings:saved', handleSettingsSaved);
+            socket.off('models:response', handleModelsResponse);
+            socket.off('providers:status', handleProvidersStatus);
         };
     }, [socket]);
 
@@ -72,92 +156,168 @@ function Settings({ isOpen, onClose, socket }) {
         socket.emit('settings:save', settings);
     };
 
-    const maskApiKey = (key) => {
-        if (!key) return '';
-        if (key.length <= 8) return key;
-        return key.substring(0, 4) + '•'.repeat(key.length - 8) + key.substring(key.length - 4);
+    const toggleKeyVisibility = (keyName) => {
+        setShowApiKeys(prev => ({
+            ...prev,
+            [keyName]: !prev[keyName]
+        }));
+    };
+    
+    const fetchModelsForProvider = (provider) => {
+        if (!socket) return;
+        setLoadingModels(true);
+        socket.emit('models:fetch', { provider });
     };
 
     const llmProviders = {
         openai: {
             name: 'OpenAI',
-            models: [
-                { value: 'gpt-4o', label: 'GPT-4o (Latest)' },
-                { value: 'gpt-4o-mini', label: 'GPT-4o Mini (Cost-effective)' },
-                { value: 'gpt-4-turbo', label: 'GPT-4 Turbo' },
-                { value: 'gpt-3.5-turbo', label: 'GPT-3.5 Turbo' }
-            ],
             keyField: 'openaiApiKey'
         },
         anthropic: {
             name: 'Anthropic (Claude)',
-            models: [
-                { value: 'claude-3-5-sonnet-20241022', label: 'Claude 3.5 Sonnet (Latest)' },
-                { value: 'claude-3-5-haiku-20241022', label: 'Claude 3.5 Haiku (Fast)' },
-                { value: 'claude-3-opus-20240229', label: 'Claude 3 Opus (Most Capable)' },
-                { value: 'claude-3-sonnet-20240229', label: 'Claude 3 Sonnet' }
-            ],
             keyField: 'anthropicApiKey'
         },
         gemini: {
             name: 'Google Gemini',
-            models: [
-                { value: 'gemini-1.5-pro', label: 'Gemini 1.5 Pro' },
-                { value: 'gemini-1.5-flash', label: 'Gemini 1.5 Flash (Fast)' },
-                { value: 'gemini-pro', label: 'Gemini Pro' }
-            ],
             keyField: 'geminiApiKey'
         }
     };
 
     const getCurrentProvider = () => llmProviders[settings.llmProvider] || llmProviders.openai;
+    
+    const getKnowledgeProviderLabel = (provider) => {
+        const labels = {
+            tavily: 'Tavily',
+            exa: 'Exa.ai',
+            perplexity: 'Perplexity',
+            serpapi: 'SerpAPI',
+            brave: 'Brave',
+        };
+        return labels[provider] || 'Knowledge Provider';
+    };
+    
+    const getKnowledgeProviderKeyField = (provider) => {
+        const fields = {
+            tavily: 'tavilyApiKey',
+            exa: 'exaApiKey',
+            perplexity: 'perplexityApiKey',
+            serpapi: 'serpapiKey',
+            brave: 'braveApiKey',
+        };
+        return fields[provider] || 'tavilyApiKey';
+    };
+    
+    const getTranscriptionProviderLabel = (provider) => {
+        const labels = {
+            deepgram: 'Deepgram',
+            assemblyai: 'AssemblyAI',
+            whisper: 'OpenAI Whisper',
+            google: 'Google Speech',
+            azure: 'Azure Speech',
+            revai: 'Rev.ai',
+            speechmatics: 'Speechmatics'
+        };
+        return labels[provider] || 'Transcription Provider';
+    };
+    
+    const getTranscriptionProviderKeyField = (provider) => {
+        const fields = {
+            deepgram: 'deepgramApiKey',
+            assemblyai: 'assemblyaiApiKey',
+            whisper: 'openaiApiKey', // Uses same key as OpenAI LLM
+            google: 'googleSpeechApiKey',
+            azure: 'azureSpeechKey',
+            revai: 'revaiApiKey',
+            speechmatics: 'speechmaticsApiKey'
+        };
+        return fields[provider] || 'deepgramApiKey';
+    };
 
     if (!isOpen) return null;
 
     return (
-        <div style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: 'rgba(0, 0, 0, 0.5)',
-            display: 'flex',
+        <>
+            {/* Style for disabled options */}
+            <style>{`
+                select option:disabled {
+                    color: #9ca3af;
+                    background-color: #f3f4f6;
+                    font-style: italic;
+                }
+                select:has(option:disabled:checked) {
+                    color: #6b7280;
+                    background-color: #fef3c7;
+                    border-color: #f59e0b;
+                }
+            `}</style>
+            
+            <div style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                background: 'rgba(0, 0, 0, 0.5)',
+                display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             zIndex: 2000
         }}>
             <div style={{
                 background: 'white',
-                borderRadius: '8px',
-                width: '600px',
+                borderRadius: '12px',
+                width: '700px',
                 maxWidth: '90vw',
-                maxHeight: '80vh',
+                maxHeight: '85vh',
                 display: 'flex',
                 flexDirection: 'column',
-                boxShadow: '0 10px 25px rgba(0, 0, 0, 0.2)'
+                boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
             }}>
                 {/* Header */}
                 <div style={{
-                    padding: '20px',
-                    borderBottom: '1px solid #dee2e6',
+                    padding: '24px',
+                    borderBottom: '1px solid #e5e7eb',
                     display: 'flex',
                     justifyContent: 'space-between',
-                    alignItems: 'center'
+                    alignItems: 'flex-start'
                 }}>
-                    <h2 style={{ margin: 0, fontSize: '18px', fontWeight: '600' }}>
-                        ⚙️ TranscriptIQ Settings
-                    </h2>
+                    <div>
+                        <h2 style={{ 
+                            margin: 0, 
+                            fontSize: '20px', 
+                            fontWeight: '600',
+                            color: '#111827'
+                        }}>
+                            ⚙️ TranscriptIQ Settings
+                        </h2>
+                        <p style={{
+                            margin: '4px 0 0 0',
+                            fontSize: '14px',
+                            color: '#6b7280'
+                        }}>
+                            Configure your AI providers and application preferences
+                        </p>
+                    </div>
                     <button
                         onClick={onClose}
                         style={{
                             background: 'none',
                             border: 'none',
-                            fontSize: '18px',
+                            fontSize: '20px',
                             cursor: 'pointer',
                             padding: '4px',
-                            borderRadius: '4px',
-                            color: '#6c757d'
+                            color: '#9ca3af',
+                            borderRadius: '6px',
+                            transition: 'all 0.2s'
+                        }}
+                        onMouseEnter={(e) => {
+                            e.target.style.background = '#f3f4f6';
+                            e.target.style.color = '#6b7280';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.target.style.background = 'none';
+                            e.target.style.color = '#9ca3af';
                         }}
                     >
                         ✕
@@ -168,148 +328,284 @@ function Settings({ isOpen, onClose, socket }) {
                 <div style={{
                     flex: 1,
                     overflowY: 'auto',
-                    padding: '20px'
+                    padding: '24px'
                 }}>
                     {/* Status Message */}
                     {message.text && (
                         <div style={{
-                            padding: '10px',
-                            borderRadius: '4px',
+                            padding: '12px',
+                            borderRadius: '8px',
                             marginBottom: '20px',
-                            background: message.type === 'success' ? '#d4edda' : '#f8d7da',
-                            color: message.type === 'success' ? '#155724' : '#721c24',
-                            border: `1px solid ${message.type === 'success' ? '#c3e6cb' : '#f5c6cb'}`
+                            background: message.type === 'success' ? '#dcfce7' : '#fee2e2',
+                            color: message.type === 'success' ? '#166534' : '#991b1b',
+                            border: `1px solid ${message.type === 'success' ? '#bbf7d0' : '#fecaca'}`,
+                            fontSize: '14px'
                         }}>
                             {message.text}
                         </div>
                     )}
 
                     {/* API Keys Section */}
-                    <div style={{ marginBottom: '30px' }}>
-                        <div style={{ 
-                            display: 'flex', 
-                            justifyContent: 'space-between', 
-                            alignItems: 'center',
-                            marginBottom: '15px'
+                    <div style={{ marginBottom: '32px' }}>
+                        <h3 style={{ 
+                            margin: '0 0 16px 0', 
+                            fontSize: '16px', 
+                            fontWeight: '600',
+                            color: '#111827'
                         }}>
-                            <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '600' }}>
-                                🔑 API Keys & LLM Configuration
-                            </h3>
-                            <button
-                                onClick={() => setShowApiKeys(!showApiKeys)}
-                                style={{
-                                    padding: '4px 8px',
-                                    background: '#f8f9fa',
-                                    border: '1px solid #dee2e6',
-                                    borderRadius: '4px',
-                                    cursor: 'pointer',
-                                    fontSize: '12px'
-                                }}
-                            >
-                                {showApiKeys ? '👁️ Hide' : '🔒 Show'}
-                            </button>
-                        </div>
+                            🔑 API Keys & LLM Configuration
+                        </h3>
                         
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                            {/* Deepgram API Key */}
-                            <div>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                            {/* Transcription Provider Selection */}
+                            <div style={{ 
+                                padding: '16px',
+                                background: '#f9fafb',
+                                borderRadius: '8px',
+                                border: '1px solid #e5e7eb'
+                            }}>
                                 <label style={{ 
                                     display: 'block', 
-                                    marginBottom: '5px',
+                                    marginBottom: '12px',
                                     fontSize: '14px',
-                                    fontWeight: '500'
+                                    fontWeight: '600',
+                                    color: '#1e40af'
                                 }}>
-                                    Deepgram API Key (Transcription)
+                                    🎙️ Speech Transcription Provider
                                 </label>
-                                <input
-                                    type={showApiKeys ? 'text' : 'password'}
-                                    value={showApiKeys ? settings.deepgramApiKey : maskApiKey(settings.deepgramApiKey)}
-                                    onChange={(e) => handleInputChange('deepgramApiKey', e.target.value)}
-                                    placeholder="Enter your Deepgram API key"
-                                    style={{
-                                        width: '100%',
-                                        padding: '8px 12px',
-                                        border: '1px solid #dee2e6',
-                                        borderRadius: '4px',
-                                        fontSize: '14px',
-                                        fontFamily: showApiKeys ? 'monospace' : 'inherit'
-                                    }}
-                                />
+                                
+                                {/* Provider Selection */}
+                                <div style={{ marginBottom: '12px' }}>
+                                    <select
+                                        value={settings.transcriptionProvider || 'deepgram'}
+                                        onChange={(e) => handleInputChange('transcriptionProvider', e.target.value)}
+                                        style={{
+                                            width: '100%',
+                                            padding: '8px 12px',
+                                            border: '1px solid #d1d5db',
+                                            borderRadius: '6px',
+                                            fontSize: '14px',
+                                            background: 'white',
+                                            cursor: 'pointer',
+                                            outline: 'none'
+                                        }}
+                                        onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
+                                        onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
+                                    >
+                                        <option value="deepgram" disabled={!providerStatus.transcription?.deepgram}>
+                                            Deepgram (Real-time, Low Latency) {!providerStatus.transcription?.deepgram && '(No API Key)'}
+                                        </option>
+                                        <option value="assemblyai" disabled={!providerStatus.transcription?.assemblyai}>
+                                            AssemblyAI (High Accuracy + Insights) {!providerStatus.transcription?.assemblyai && '(No API Key)'}
+                                        </option>
+                                        <option value="whisper" disabled={!providerStatus.transcription?.whisper}>
+                                            OpenAI Whisper (Best Accuracy) {!providerStatus.transcription?.whisper && '(No API Key)'}
+                                        </option>
+                                        <option value="google" disabled={!providerStatus.transcription?.google}>
+                                            Google Speech-to-Text {!providerStatus.transcription?.google && '(No API Key)'}
+                                        </option>
+                                        <option value="azure" disabled={!providerStatus.transcription?.azure}>
+                                            Azure Speech Services {!providerStatus.transcription?.azure && '(No API Key)'}
+                                        </option>
+                                        <option value="revai" disabled={!providerStatus.transcription?.revai}>
+                                            Rev.ai (Professional Grade) {!providerStatus.transcription?.revai && '(No API Key)'}
+                                        </option>
+                                        <option value="speechmatics" disabled={!providerStatus.transcription?.speechmatics}>
+                                            Speechmatics (48 Languages) {!providerStatus.transcription?.speechmatics && '(No API Key)'}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                {/* API Key for selected transcription provider */}
+                                <div>
+                                    <label style={{ 
+                                        display: 'block', 
+                                        marginBottom: '6px',
+                                        fontSize: '13px',
+                                        fontWeight: '500',
+                                        color: '#4b5563'
+                                    }}>
+                                        {getTranscriptionProviderLabel(settings.transcriptionProvider || 'deepgram')} API Key
+                                    </label>
+                                    <div style={{ position: 'relative' }}>
+                                        <input
+                                            type={showApiKeys[settings.transcriptionProvider || 'deepgram'] ? 'text' : 'password'}
+                                            value={settings[getTranscriptionProviderKeyField(settings.transcriptionProvider || 'deepgram')]}
+                                            onChange={(e) => handleInputChange(getTranscriptionProviderKeyField(settings.transcriptionProvider || 'deepgram'), e.target.value)}
+                                            placeholder={`Enter your ${getTranscriptionProviderLabel(settings.transcriptionProvider || 'deepgram')} API key`}
+                                            style={{
+                                                width: '100%',
+                                                padding: '8px 40px 8px 12px',
+                                                border: '1px solid #d1d5db',
+                                                borderRadius: '6px',
+                                                fontSize: '14px',
+                                                fontFamily: showApiKeys[settings.transcriptionProvider || 'deepgram'] ? 'monospace' : 'inherit',
+                                                transition: 'border-color 0.2s',
+                                                outline: 'none'
+                                            }}
+                                            onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
+                                            onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => toggleKeyVisibility(settings.transcriptionProvider || 'deepgram')}
+                                            style={{
+                                                position: 'absolute',
+                                                right: '8px',
+                                                top: '50%',
+                                                transform: 'translateY(-50%)',
+                                                background: 'none',
+                                                border: 'none',
+                                                cursor: 'pointer',
+                                                padding: '4px',
+                                                color: '#6b7280',
+                                                fontSize: '18px'
+                                            }}
+                                            title={showApiKeys[settings.transcriptionProvider || 'deepgram'] ? 'Hide API key' : 'Show API key'}
+                                        >
+                                            {showApiKeys[settings.transcriptionProvider || 'deepgram'] ? '👁️' : '👁️‍🗨️'}
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                {/* Warning if selected transcription provider has no API key */}
+                                {settings.transcriptionProvider && !providerStatus.transcription?.[settings.transcriptionProvider] && (
+                                    <div style={{
+                                        marginTop: '12px',
+                                        padding: '12px',
+                                        background: '#fef3c7',
+                                        border: '1px solid #f59e0b',
+                                        borderRadius: '6px',
+                                        fontSize: '13px',
+                                        color: '#92400e'
+                                    }}>
+                                        ⚠️ The selected transcription provider is not configured. Please add a valid API key or select a different provider.
+                                    </div>
+                                )}
                             </div>
 
                             {/* LLM Provider Selection */}
                             <div style={{ 
-                                padding: '15px',
-                                background: '#f8f9fa',
-                                borderRadius: '6px',
-                                border: '1px solid #dee2e6'
+                                padding: '16px',
+                                background: '#f9fafb',
+                                borderRadius: '8px',
+                                border: '1px solid #e5e7eb'
                             }}>
                                 <label style={{ 
                                     display: 'block', 
-                                    marginBottom: '10px',
+                                    marginBottom: '12px',
                                     fontSize: '14px',
                                     fontWeight: '600',
-                                    color: '#495057'
+                                    color: '#1e40af'
                                 }}>
                                     🧠 Large Language Model Provider
                                 </label>
                                 
                                 {/* Provider Selection */}
-                                <div style={{ marginBottom: '15px' }}>
+                                <div style={{ marginBottom: '12px' }}>
                                     <select
                                         value={settings.llmProvider}
                                         onChange={(e) => {
-                                            handleInputChange('llmProvider', e.target.value);
+                                            const newProvider = e.target.value;
+                                            handleInputChange('llmProvider', newProvider);
+                                            
+                                            // Fetch models if not already loaded
+                                            if (availableModels[newProvider].length === 0) {
+                                                fetchModelsForProvider(newProvider);
+                                            }
+                                            
                                             // Reset model to first option when changing provider
-                                            const newProvider = llmProviders[e.target.value];
-                                            if (newProvider && newProvider.models.length > 0) {
-                                                handleInputChange('llmModel', newProvider.models[0].value);
+                                            const models = availableModels[newProvider];
+                                            if (models && models.length > 0) {
+                                                handleInputChange('llmModel', models[0].value);
                                             }
                                         }}
                                         style={{
                                             width: '100%',
                                             padding: '8px 12px',
-                                            border: '1px solid #dee2e6',
-                                            borderRadius: '4px',
+                                            border: '1px solid #d1d5db',
+                                            borderRadius: '6px',
                                             fontSize: '14px',
-                                            background: 'white'
+                                            background: 'white',
+                                            cursor: 'pointer',
+                                            outline: 'none'
                                         }}
+                                        onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
+                                        onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
                                     >
                                         {Object.entries(llmProviders).map(([key, provider]) => (
-                                            <option key={key} value={key}>
-                                                {provider.name}
+                                            <option 
+                                                key={key} 
+                                                value={key}
+                                                disabled={!providerStatus.llm[key]}
+                                            >
+                                                {provider.name} {!providerStatus.llm[key] && '(No API Key)'}
                                             </option>
                                         ))}
                                     </select>
                                 </div>
 
                                 {/* Model Selection */}
-                                <div style={{ marginBottom: '15px' }}>
-                                    <label style={{ 
-                                        display: 'block', 
-                                        marginBottom: '5px',
-                                        fontSize: '13px',
-                                        fontWeight: '500'
+                                <div style={{ marginBottom: '12px' }}>
+                                    <div style={{ 
+                                        display: 'flex', 
+                                        justifyContent: 'space-between', 
+                                        alignItems: 'center',
+                                        marginBottom: '6px'
                                     }}>
-                                        Model
-                                    </label>
+                                        <label style={{ 
+                                            fontSize: '13px',
+                                            fontWeight: '500',
+                                            color: '#4b5563'
+                                        }}>
+                                            Model
+                                        </label>
+                                        <button
+                                            type="button"
+                                            onClick={() => fetchModelsForProvider(settings.llmProvider)}
+                                            disabled={loadingModels}
+                                            style={{
+                                                padding: '2px 8px',
+                                                fontSize: '12px',
+                                                background: 'none',
+                                                border: '1px solid #d1d5db',
+                                                borderRadius: '4px',
+                                                cursor: loadingModels ? 'not-allowed' : 'pointer',
+                                                color: '#6b7280',
+                                                opacity: loadingModels ? 0.5 : 1
+                                            }}
+                                            title="Refresh available models"
+                                        >
+                                            {loadingModels ? '...' : '↻'}
+                                        </button>
+                                    </div>
                                     <select
                                         value={settings.llmModel}
                                         onChange={(e) => handleInputChange('llmModel', e.target.value)}
                                         style={{
                                             width: '100%',
                                             padding: '8px 12px',
-                                            border: '1px solid #dee2e6',
-                                            borderRadius: '4px',
+                                            border: '1px solid #d1d5db',
+                                            borderRadius: '6px',
                                             fontSize: '14px',
-                                            background: 'white'
+                                            background: 'white',
+                                            cursor: 'pointer',
+                                            outline: 'none'
                                         }}
+                                        onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
+                                        onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
                                     >
-                                        {getCurrentProvider().models.map((model) => (
-                                            <option key={model.value} value={model.value}>
-                                                {model.label}
-                                            </option>
-                                        ))}
+                                        {loadingModels && availableModels[settings.llmProvider].length === 0 ? (
+                                            <option disabled>Loading models...</option>
+                                        ) : availableModels[settings.llmProvider].length > 0 ? (
+                                            availableModels[settings.llmProvider].map((model) => (
+                                                <option key={model.value} value={model.value}>
+                                                    {model.label}
+                                                </option>
+                                            ))
+                                        ) : (
+                                            <option disabled>No models available</option>
+                                        )}
                                     </select>
                                 </div>
 
@@ -317,94 +613,262 @@ function Settings({ isOpen, onClose, socket }) {
                                 <div>
                                     <label style={{ 
                                         display: 'block', 
-                                        marginBottom: '5px',
+                                        marginBottom: '6px',
                                         fontSize: '13px',
-                                        fontWeight: '500'
+                                        fontWeight: '500',
+                                        color: '#4b5563'
                                     }}>
                                         {getCurrentProvider().name} API Key
                                     </label>
-                                    <input
-                                        type={showApiKeys ? 'text' : 'password'}
-                                        value={showApiKeys ? settings[getCurrentProvider().keyField] : maskApiKey(settings[getCurrentProvider().keyField])}
-                                        onChange={(e) => handleInputChange(getCurrentProvider().keyField, e.target.value)}
-                                        placeholder={`Enter your ${getCurrentProvider().name} API key`}
+                                    <div style={{ position: 'relative' }}>
+                                        <input
+                                            type={showApiKeys[settings.llmProvider] ? 'text' : 'password'}
+                                            value={settings[getCurrentProvider().keyField]}
+                                            onChange={(e) => handleInputChange(getCurrentProvider().keyField, e.target.value)}
+                                            placeholder={`Enter your ${getCurrentProvider().name} API key`}
+                                            style={{
+                                                width: '100%',
+                                                padding: '8px 40px 8px 12px',
+                                                border: '1px solid #d1d5db',
+                                                borderRadius: '6px',
+                                                fontSize: '14px',
+                                                fontFamily: showApiKeys[settings.llmProvider] ? 'monospace' : 'inherit',
+                                                transition: 'border-color 0.2s',
+                                                outline: 'none'
+                                            }}
+                                            onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
+                                            onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => toggleKeyVisibility(settings.llmProvider)}
+                                            style={{
+                                                position: 'absolute',
+                                                right: '8px',
+                                                top: '50%',
+                                                transform: 'translateY(-50%)',
+                                                background: 'none',
+                                                border: 'none',
+                                                cursor: 'pointer',
+                                                padding: '4px',
+                                                color: '#6b7280',
+                                                fontSize: '18px'
+                                            }}
+                                            title={showApiKeys[settings.llmProvider] ? 'Hide API key' : 'Show API key'}
+                                        >
+                                            {showApiKeys[settings.llmProvider] ? '👁️' : '👁️‍🗨️'}
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                {/* Warning if selected LLM provider has no API key */}
+                                {settings.llmProvider && !providerStatus.llm?.[settings.llmProvider] && (
+                                    <div style={{
+                                        marginTop: '12px',
+                                        padding: '12px',
+                                        background: '#fef3c7',
+                                        border: '1px solid #f59e0b',
+                                        borderRadius: '6px',
+                                        fontSize: '13px',
+                                        color: '#92400e'
+                                    }}>
+                                        ⚠️ The selected LLM provider is not configured. Please add a valid API key or select a different provider.
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Knowledge Provider Selection */}
+                            <div style={{ 
+                                padding: '16px',
+                                background: '#f9fafb',
+                                borderRadius: '8px',
+                                border: '1px solid #e5e7eb'
+                            }}>
+                                <label style={{ 
+                                    display: 'block', 
+                                    marginBottom: '12px',
+                                    fontSize: '14px',
+                                    fontWeight: '600',
+                                    color: '#1e40af'
+                                }}>
+                                    🔍 Knowledge & Search Provider
+                                </label>
+                                
+                                {/* Provider Selection */}
+                                <div style={{ marginBottom: '12px' }}>
+                                    <select
+                                        value={settings.knowledgeProvider}
+                                        onChange={(e) => handleInputChange('knowledgeProvider', e.target.value)}
                                         style={{
                                             width: '100%',
                                             padding: '8px 12px',
-                                            border: '1px solid #dee2e6',
-                                            borderRadius: '4px',
+                                            border: '1px solid #d1d5db',
+                                            borderRadius: '6px',
                                             fontSize: '14px',
-                                            fontFamily: showApiKeys ? 'monospace' : 'inherit'
+                                            background: 'white',
+                                            cursor: 'pointer',
+                                            outline: 'none'
                                         }}
-                                    />
+                                        onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
+                                        onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
+                                    >
+                                        <option value="tavily" disabled={!providerStatus.knowledge?.tavily}>
+                                            Tavily (AI-Optimized Search) {!providerStatus.knowledge?.tavily && '(No API Key)'}
+                                        </option>
+                                        <option value="exa" disabled={!providerStatus.knowledge?.exa}>
+                                            Exa.ai (Neural Search) {!providerStatus.knowledge?.exa && '(No API Key)'}
+                                        </option>
+                                        <option value="perplexity" disabled={!providerStatus.knowledge?.perplexity}>
+                                            Perplexity (AI Answer Engine) {!providerStatus.knowledge?.perplexity && '(No API Key)'}
+                                        </option>
+                                        <option value="serpapi" disabled={!providerStatus.knowledge?.serpapi}>
+                                            Google Search (via SerpAPI) {!providerStatus.knowledge?.serpapi && '(No API Key)'}
+                                        </option>
+                                        <option value="brave" disabled={!providerStatus.knowledge?.brave}>
+                                            Brave Search (Privacy-Focused) {!providerStatus.knowledge?.brave && '(No API Key)'}
+                                        </option>
+                                    </select>
                                 </div>
-                            </div>
 
-                            {/* Tavily API Key */}
-                            <div>
-                                <label style={{ 
-                                    display: 'block', 
-                                    marginBottom: '5px',
-                                    fontSize: '14px',
-                                    fontWeight: '500'
-                                }}>
-                                    Tavily API Key (Knowledge Retrieval)
-                                </label>
-                                <input
-                                    type={showApiKeys ? 'text' : 'password'}
-                                    value={showApiKeys ? settings.tavilyApiKey : maskApiKey(settings.tavilyApiKey)}
-                                    onChange={(e) => handleInputChange('tavilyApiKey', e.target.value)}
-                                    placeholder="Enter your Tavily API key"
-                                    style={{
-                                        width: '100%',
-                                        padding: '8px 12px',
-                                        border: '1px solid #dee2e6',
-                                        borderRadius: '4px',
-                                        fontSize: '14px',
-                                        fontFamily: showApiKeys ? 'monospace' : 'inherit'
-                                    }}
-                                />
+                                {/* API Key for selected knowledge provider */}
+                                <div>
+                                    <label style={{ 
+                                        display: 'block', 
+                                        marginBottom: '6px',
+                                        fontSize: '13px',
+                                        fontWeight: '500',
+                                        color: '#4b5563'
+                                    }}>
+                                        {getKnowledgeProviderLabel(settings.knowledgeProvider)} API Key
+                                    </label>
+                                    <div style={{ position: 'relative' }}>
+                                        <input
+                                            type={showApiKeys[settings.knowledgeProvider] ? 'text' : 'password'}
+                                            value={settings[getKnowledgeProviderKeyField(settings.knowledgeProvider)]}
+                                            onChange={(e) => handleInputChange(getKnowledgeProviderKeyField(settings.knowledgeProvider), e.target.value)}
+                                            placeholder={`Enter your ${getKnowledgeProviderLabel(settings.knowledgeProvider)} API key`}
+                                            style={{
+                                                width: '100%',
+                                                padding: '8px 40px 8px 12px',
+                                                border: '1px solid #d1d5db',
+                                                borderRadius: '6px',
+                                                fontSize: '14px',
+                                                fontFamily: showApiKeys[settings.knowledgeProvider] ? 'monospace' : 'inherit',
+                                                transition: 'border-color 0.2s',
+                                                outline: 'none'
+                                            }}
+                                            onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
+                                            onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => toggleKeyVisibility(settings.knowledgeProvider)}
+                                            style={{
+                                                position: 'absolute',
+                                                right: '8px',
+                                                top: '50%',
+                                                transform: 'translateY(-50%)',
+                                                background: 'none',
+                                                border: 'none',
+                                                cursor: 'pointer',
+                                                padding: '4px',
+                                                color: '#6b7280',
+                                                fontSize: '18px'
+                                            }}
+                                            title={showApiKeys[settings.knowledgeProvider] ? 'Hide API key' : 'Show API key'}
+                                        >
+                                            {showApiKeys[settings.knowledgeProvider] ? '👁️' : '👁️‍🗨️'}
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                {/* Warning if selected knowledge provider has no API key */}
+                                {settings.knowledgeProvider && !providerStatus.knowledge?.[settings.knowledgeProvider] && (
+                                    <div style={{
+                                        marginTop: '12px',
+                                        padding: '12px',
+                                        background: '#fef3c7',
+                                        border: '1px solid #f59e0b',
+                                        borderRadius: '6px',
+                                        fontSize: '13px',
+                                        color: '#92400e'
+                                    }}>
+                                        ⚠️ The selected knowledge provider is not configured. Please add a valid API key or select a different provider.
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
 
                     {/* Intelligence Settings */}
-                    <div style={{ marginBottom: '30px' }}>
-                        <h3 style={{ margin: '0 0 15px 0', fontSize: '16px', fontWeight: '600' }}>
+                    <div style={{ marginBottom: '32px' }}>
+                        <h3 style={{ 
+                            margin: '0 0 16px 0', 
+                            fontSize: '16px', 
+                            fontWeight: '600',
+                            color: '#111827'
+                        }}>
                             🧠 AI Intelligence
                         </h3>
                         
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                                <label style={{ fontSize: '14px', fontWeight: '500' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                            <div style={{ 
+                                display: 'flex', 
+                                alignItems: 'center', 
+                                justifyContent: 'space-between',
+                                padding: '12px',
+                                background: '#f9fafb',
+                                borderRadius: '6px'
+                            }}>
+                                <label style={{ fontSize: '14px', fontWeight: '500', color: '#374151' }}>
                                     Enable Contextual Intelligence
                                 </label>
                                 <input
                                     type="checkbox"
                                     checked={settings.enableContextualIntelligence}
                                     onChange={(e) => handleInputChange('enableContextualIntelligence', e.target.checked)}
-                                    style={{ transform: 'scale(1.2)' }}
+                                    style={{ 
+                                        width: '20px', 
+                                        height: '20px',
+                                        cursor: 'pointer'
+                                    }}
                                 />
                             </div>
 
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                                <label style={{ fontSize: '14px', fontWeight: '500' }}>
+                            <div style={{ 
+                                display: 'flex', 
+                                alignItems: 'center', 
+                                justifyContent: 'space-between',
+                                padding: '12px',
+                                background: '#f9fafb',
+                                borderRadius: '6px'
+                            }}>
+                                <label style={{ fontSize: '14px', fontWeight: '500', color: '#374151' }}>
                                     Enable Knowledge Retrieval
                                 </label>
                                 <input
                                     type="checkbox"
                                     checked={settings.enableKnowledgeRetrieval}
                                     onChange={(e) => handleInputChange('enableKnowledgeRetrieval', e.target.checked)}
-                                    style={{ transform: 'scale(1.2)' }}
+                                    style={{ 
+                                        width: '20px', 
+                                        height: '20px',
+                                        cursor: 'pointer'
+                                    }}
                                 />
                             </div>
 
-                            <div>
+                            <div style={{
+                                padding: '12px',
+                                background: '#f9fafb',
+                                borderRadius: '6px'
+                            }}>
                                 <label style={{ 
                                     display: 'block', 
-                                    marginBottom: '5px',
+                                    marginBottom: '6px',
                                     fontSize: '14px',
-                                    fontWeight: '500'
+                                    fontWeight: '500',
+                                    color: '#374151'
                                 }}>
                                     Max Context Length (tokens)
                                 </label>
@@ -417,28 +881,42 @@ function Settings({ isOpen, onClose, socket }) {
                                     style={{
                                         width: '100%',
                                         padding: '8px 12px',
-                                        border: '1px solid #dee2e6',
-                                        borderRadius: '4px',
-                                        fontSize: '14px'
+                                        border: '1px solid #d1d5db',
+                                        borderRadius: '6px',
+                                        fontSize: '14px',
+                                        background: 'white',
+                                        outline: 'none'
                                     }}
+                                    onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
+                                    onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
                                 />
                             </div>
                         </div>
                     </div>
 
                     {/* Performance Settings */}
-                    <div style={{ marginBottom: '30px' }}>
-                        <h3 style={{ margin: '0 0 15px 0', fontSize: '16px', fontWeight: '600' }}>
+                    <div style={{ marginBottom: '32px' }}>
+                        <h3 style={{ 
+                            margin: '0 0 16px 0', 
+                            fontSize: '16px', 
+                            fontWeight: '600',
+                            color: '#111827'
+                        }}>
                             ⚡ Performance
                         </h3>
                         
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                            <div>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                            <div style={{
+                                padding: '12px',
+                                background: '#f9fafb',
+                                borderRadius: '6px'
+                            }}>
                                 <label style={{ 
                                     display: 'block', 
-                                    marginBottom: '5px',
+                                    marginBottom: '6px',
                                     fontSize: '14px',
-                                    fontWeight: '500'
+                                    fontWeight: '500',
+                                    color: '#374151'
                                 }}>
                                     Transcription Confidence Threshold
                                 </label>
@@ -451,17 +929,22 @@ function Settings({ isOpen, onClose, socket }) {
                                     onChange={(e) => handleInputChange('transcriptionConfidenceThreshold', parseFloat(e.target.value))}
                                     style={{ width: '100%' }}
                                 />
-                                <div style={{ fontSize: '12px', color: '#6c757d', marginTop: '5px' }}>
+                                <div style={{ fontSize: '12px', color: '#6b7280', marginTop: '4px' }}>
                                     Current: {(settings.transcriptionConfidenceThreshold * 100).toFixed(0)}%
                                 </div>
                             </div>
 
-                            <div>
+                            <div style={{
+                                padding: '12px',
+                                background: '#f9fafb',
+                                borderRadius: '6px'
+                            }}>
                                 <label style={{ 
                                     display: 'block', 
-                                    marginBottom: '5px',
+                                    marginBottom: '6px',
                                     fontSize: '14px',
-                                    fontWeight: '500'
+                                    fontWeight: '500',
+                                    color: '#374151'
                                 }}>
                                     Auto-save Interval (seconds)
                                 </label>
@@ -474,19 +957,28 @@ function Settings({ isOpen, onClose, socket }) {
                                     style={{
                                         width: '100%',
                                         padding: '8px 12px',
-                                        border: '1px solid #dee2e6',
-                                        borderRadius: '4px',
-                                        fontSize: '14px'
+                                        border: '1px solid #d1d5db',
+                                        borderRadius: '6px',
+                                        fontSize: '14px',
+                                        background: 'white',
+                                        outline: 'none'
                                     }}
+                                    onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
+                                    onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
                                 />
                             </div>
 
-                            <div>
+                            <div style={{
+                                padding: '12px',
+                                background: '#f9fafb',
+                                borderRadius: '6px'
+                            }}>
                                 <label style={{ 
                                     display: 'block', 
-                                    marginBottom: '5px',
+                                    marginBottom: '6px',
                                     fontSize: '14px',
-                                    fontWeight: '500'
+                                    fontWeight: '500',
+                                    color: '#374151'
                                 }}>
                                     Cache Expiry (hours)
                                 </label>
@@ -499,30 +991,55 @@ function Settings({ isOpen, onClose, socket }) {
                                     style={{
                                         width: '100%',
                                         padding: '8px 12px',
-                                        border: '1px solid #dee2e6',
-                                        borderRadius: '4px',
-                                        fontSize: '14px'
+                                        border: '1px solid #d1d5db',
+                                        borderRadius: '6px',
+                                        fontSize: '14px',
+                                        background: 'white',
+                                        outline: 'none'
                                     }}
+                                    onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
+                                    onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
                                 />
                             </div>
                         </div>
                     </div>
 
+                    {/* Global Corrections */}
+                    <div style={{ marginBottom: '32px' }}>
+                        <GlobalCorrections socket={socket} />
+                    </div>
+
                     {/* Notifications */}
                     <div>
-                        <h3 style={{ margin: '0 0 15px 0', fontSize: '16px', fontWeight: '600' }}>
+                        <h3 style={{ 
+                            margin: '0 0 16px 0', 
+                            fontSize: '16px', 
+                            fontWeight: '600',
+                            color: '#111827'
+                        }}>
                             🔔 Notifications
                         </h3>
                         
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                            <label style={{ fontSize: '14px', fontWeight: '500' }}>
+                        <div style={{ 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            justifyContent: 'space-between',
+                            padding: '12px',
+                            background: '#f9fafb',
+                            borderRadius: '6px'
+                        }}>
+                            <label style={{ fontSize: '14px', fontWeight: '500', color: '#374151' }}>
                                 Enable System Notifications
                             </label>
                             <input
                                 type="checkbox"
                                 checked={settings.enableNotifications}
                                 onChange={(e) => handleInputChange('enableNotifications', e.target.checked)}
-                                style={{ transform: 'scale(1.2)' }}
+                                style={{ 
+                                    width: '20px', 
+                                    height: '20px',
+                                    cursor: 'pointer'
+                                }}
                             />
                         </div>
                     </div>
@@ -530,25 +1047,40 @@ function Settings({ isOpen, onClose, socket }) {
 
                 {/* Footer */}
                 <div style={{
-                    padding: '20px',
-                    borderTop: '1px solid #dee2e6',
+                    padding: '16px 24px',
+                    borderTop: '1px solid #e5e7eb',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center'
                 }}>
-                    <div style={{ fontSize: '12px', color: '#6c757d' }}>
+                    <p style={{ 
+                        margin: 0,
+                        fontSize: '12px', 
+                        color: '#6b7280' 
+                    }}>
                         Changes are saved to local storage and synchronized with backend
-                    </div>
-                    <div style={{ display: 'flex', gap: '10px' }}>
+                    </p>
+                    <div style={{ display: 'flex', gap: '12px' }}>
                         <button
                             onClick={onClose}
                             style={{
                                 padding: '8px 16px',
-                                background: '#6c757d',
-                                color: 'white',
-                                border: 'none',
-                                borderRadius: '4px',
-                                cursor: 'pointer'
+                                background: 'white',
+                                color: '#374151',
+                                border: '1px solid #d1d5db',
+                                borderRadius: '6px',
+                                fontSize: '14px',
+                                fontWeight: '500',
+                                cursor: 'pointer',
+                                transition: 'all 0.2s'
+                            }}
+                            onMouseEnter={(e) => {
+                                e.target.style.background = '#f9fafb';
+                                e.target.style.borderColor = '#9ca3af';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.target.style.background = 'white';
+                                e.target.style.borderColor = '#d1d5db';
                             }}
                         >
                             Cancel
@@ -558,11 +1090,25 @@ function Settings({ isOpen, onClose, socket }) {
                             disabled={isSaving}
                             style={{
                                 padding: '8px 16px',
-                                background: isSaving ? '#6c757d' : '#007bff',
+                                background: isSaving ? '#93c5fd' : '#3b82f6',
                                 color: 'white',
                                 border: 'none',
-                                borderRadius: '4px',
-                                cursor: isSaving ? 'not-allowed' : 'pointer'
+                                borderRadius: '6px',
+                                fontSize: '14px',
+                                fontWeight: '500',
+                                cursor: isSaving ? 'not-allowed' : 'pointer',
+                                opacity: isSaving ? 0.7 : 1,
+                                transition: 'all 0.2s'
+                            }}
+                            onMouseEnter={(e) => {
+                                if (!isSaving) {
+                                    e.target.style.background = '#2563eb';
+                                }
+                            }}
+                            onMouseLeave={(e) => {
+                                if (!isSaving) {
+                                    e.target.style.background = '#3b82f6';
+                                }
                             }}
                         >
                             {isSaving ? 'Saving...' : 'Save Settings'}
@@ -571,6 +1117,7 @@ function Settings({ isOpen, onClose, socket }) {
                 </div>
             </div>
         </div>
+        </>
     );
 }
 

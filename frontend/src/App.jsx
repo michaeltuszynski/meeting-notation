@@ -12,6 +12,7 @@ import MeetingSidebar from './components/MeetingSidebar';
 import ReportView from './components/ReportView';
 import DefinitionHistory from './components/DefinitionHistory';
 import ContextualInsights from './components/ContextualInsights';
+import CorrectableTranscript from './components/CorrectableTranscript';
 import SettingsModal from './components/Settings';
 import useElectronAudio from './hooks/useElectronAudio';
 
@@ -115,6 +116,25 @@ function App() {
         
         socket.on('meeting:ended', (meeting) => {
             setActiveMeeting(null);
+            // Clear intelligence data when meeting ends
+            setExtractedTerms([]);
+            setTermDefinitions({});
+        });
+        
+        socket.on('meeting:deleted', (data) => {
+            // If the deleted meeting is the active one, clear everything
+            if (activeMeeting && activeMeeting.id === data.meetingId) {
+                setActiveMeeting(null);
+                setTranscript([]);
+                setExtractedTerms([]);
+                setTermDefinitions({});
+            }
+        });
+        
+        socket.on('intelligence:reset', () => {
+            // Clear all intelligence data on backend request
+            setExtractedTerms([]);
+            setTermDefinitions({});
         });
         
         socket.on('transcript:update', (data) => {
@@ -207,6 +227,10 @@ function App() {
 
     const handleSelectMeeting = async (meeting) => {
         try {
+            // Clear current intelligence data before switching
+            setExtractedTerms([]);
+            setTermDefinitions({});
+            
             if (socketRef.current) {
                 socketRef.current.emit('meeting:setContext', meeting.id);
             }
@@ -626,7 +650,14 @@ function App() {
                             </Button>
 
                             <Button
-                                onClick={() => setTranscript([])}
+                                onClick={() => {
+                                    setTranscript([]);
+                                    setExtractedTerms([]);
+                                    setTermDefinitions({});
+                                    if (socketRef.current) {
+                                        socketRef.current.emit('transcript:clear');
+                                    }
+                                }}
                                 variant="outline"
                                 size="lg"
                             >
@@ -658,34 +689,21 @@ function App() {
                                 Real-time speech-to-text transcription with confidence scoring
                             </CardDescription>
                         </CardHeader>
-                        <CardContent className="max-h-96 overflow-y-auto space-y-3">
+                        <CardContent className="max-h-96 overflow-y-auto">
                             {transcript.length === 0 ? (
                                 <div className="text-center text-muted-foreground py-8">
                                     {isRecording ? 'Listening... Speak to see transcript' : 'Click "Start Recording" to begin'}
                                 </div>
                             ) : (
-                                transcript.map((item, index) => (
-                                    <div 
-                                        key={index}
-                                        className={`p-3 rounded-lg border-l-2 ${
-                                            item.isFinal 
-                                                ? 'bg-green-50 border-l-green-500 dark:bg-green-900/20' 
-                                                : 'bg-yellow-50 border-l-yellow-500 dark:bg-yellow-900/20'
-                                        }`}
-                                    >
-                                        <div className="flex justify-between items-start text-xs text-muted-foreground mb-2">
-                                            <span>{new Date(item.timestamp).toLocaleTimeString()}</span>
-                                            <span>
-                                                Confidence: {(item.confidence * 100).toFixed(1)}% | 
-                                                Latency: {formatLatency(item.latency)}
-                                            </span>
-                                        </div>
-                                        <div className={`${item.isFinal ? 'font-normal' : 'font-light text-muted-foreground'}`}>
-                                            {item.text}
-                                        </div>
-                                    </div>
-                                ))
+                                <CorrectableTranscript 
+                                    transcript={transcript} 
+                                    socket={socketRef.current}
+                                    className="space-y-3"
+                                />
                             )}
+                            <div className="mt-4 text-xs text-gray-500 text-center">
+                                💡 Click on any word to correct it globally across all meetings
+                            </div>
                         </CardContent>
                     </Card>
 

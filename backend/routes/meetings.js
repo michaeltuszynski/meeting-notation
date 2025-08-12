@@ -24,16 +24,26 @@ module.exports = (meetingService, storageService, reportService) => {
     }
   });
 
-  // List meetings
+  // List meetings (lightweight for sidebar)
   router.get('/', async (req, res) => {
     try {
-      const { limit = 20, offset = 0, status, search } = req.query;
-      const result = await meetingService.listMeetings({
-        limit: parseInt(limit),
-        offset: parseInt(offset),
-        status,
-        searchTerm: search
-      });
+      const { limit = 20, offset = 0, status, search, light = 'true' } = req.query;
+      
+      // Use lightweight method by default, full method only when explicitly requested
+      const result = light === 'false' 
+        ? await meetingService.listMeetings({
+            limit: parseInt(limit),
+            offset: parseInt(offset),
+            status,
+            searchTerm: search
+          })
+        : await meetingService.listMeetingsLight({
+            limit: parseInt(limit),
+            offset: parseInt(offset),
+            status,
+            searchTerm: search
+          });
+      
       res.json(result);
     } catch (error) {
       console.error('Error listing meetings:', error);
@@ -69,7 +79,26 @@ module.exports = (meetingService, storageService, reportService) => {
   // Delete meeting
   router.delete('/:id', async (req, res) => {
     try {
+      // First, get the meeting to check if it's active
+      const meeting = await meetingService.getMeeting(req.params.id);
+      
+      if (meeting && meeting.status === 'active') {
+        // If it's active, end it first to clean up properly
+        console.log(`[Routes] Ending active meeting ${req.params.id} before deletion`);
+        await meetingService.endMeeting(req.params.id);
+        
+        // Clear the active meeting ID in the main server context
+        // This is handled via the meeting:deleted event emitted below
+      }
+      
+      // Now delete the meeting and all associated data
       await meetingService.deleteMeeting(req.params.id);
+      
+      // Emit event to notify frontend that meeting was deleted
+      if (req.app.get('io')) {
+        req.app.get('io').emit('meeting:deleted', { meetingId: req.params.id });
+      }
+      
       res.status(204).send();
     } catch (error) {
       console.error('Error deleting meeting:', error);

@@ -1,12 +1,22 @@
-const OpenAI = require('openai');
+const LLMProviderFactory = require('../llm/provider-factory');
+const EnhancedSummaryService = require('./enhanced-summary');
 
 class ReportService {
-  constructor(db, storageService) {
+  constructor(db, storageService, contextualIntelligence = null) {
     this.db = db;
     this.storageService = storageService;
-    this.openai = new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY,
-    });
+    this.llmProvider = new LLMProviderFactory();
+    
+    // Enhanced summary service (optional)
+    this.enhancedSummaryService = null;
+    if (contextualIntelligence) {
+      try {
+        this.enhancedSummaryService = new EnhancedSummaryService(storageService, contextualIntelligence);
+        console.log('[Report Service] Enhanced summary service initialized');
+      } catch (error) {
+        console.warn('[Report Service] Could not initialize enhanced summary service:', error.message);
+      }
+    }
   }
 
   async generateMeetingReport(meetingId, forceRegenerate = false) {
@@ -51,11 +61,14 @@ class ReportService {
         .join(' ')
         .trim();
       
-      // Generate summary using GPT-4o Mini
-      const summary = await this.generateSummary(fullTranscript, terms);
+      // Generate summary using enhanced service if available, otherwise fallback to standard
+      const summary = await this.generateSummary(fullTranscript, terms, meetingId);
       
       // Save summary to database
       await this.saveSummary(meetingId, summary);
+      
+      // Get cost data
+      const costData = await this.getCostData(meetingId);
       
       // Build complete report
       const report = {
@@ -74,6 +87,7 @@ class ReportService {
           transcriptSegments: transcripts.length,
           totalDefinitions: terms.filter(t => t.definition).length
         },
+        costs: costData,
         summary: summary,
         keyTerms: this.formatKeyTerms(terms),
         fullTranscript: this.formatTranscript(transcripts),
@@ -103,6 +117,9 @@ class ReportService {
       // Combine transcripts into full text for word count (if not cached)
       const fullTranscript = transcripts.map(t => t.text).join(' ').trim();
       
+      // Get cost data
+      const costData = await this.getCostData(meetingId);
+      
       // Build report using cached summary
       const report = {
         meeting: {
@@ -119,6 +136,7 @@ class ReportService {
           transcriptSegments: transcripts.length,
           totalDefinitions: terms.filter(t => t.definition).length
         },
+        costs: costData,
         summary: meeting.summary, // Use cached summary
         keyTerms: this.formatKeyTerms(terms),
         fullTranscript: this.formatTranscript(transcripts),
@@ -134,11 +152,106 @@ class ReportService {
     }
   }
 
-  async generateSummary(transcript, terms) {
+  async getCostData(meetingId) {
+    try {
+      const query = `
+        SELECT 
+          llm_cost,
+          transcription_cost,
+          knowledge_cost,
+          total_cost,
+          usage_data,
+          created_at
+        FROM meeting_costs 
+        WHERE meeting_id = $1
+      `;
+      
+      const result = await this.db.query(query, [meetingId]);
+      
+      if (result.rows.length === 0) {
+        console.log(`[Report Service] No cost data found for meeting ${meetingId}`);
+        return {
+          llm: 0,
+          transcription: 0,
+          knowledge: 0,
+          total: 0,
+          breakdown: {},
+          lastUpdated: null
+        };
+      }
+      
+      const costRow = result.rows[0];
+      const usageData = typeof costRow.usage_data === 'string' 
+        ? JSON.parse(costRow.usage_data) 
+        : costRow.usage_data || {};
+      
+      return {
+        llm: parseFloat(costRow.llm_cost) || 0,
+        transcription: parseFloat(costRow.transcription_cost) || 0,
+        knowledge: parseFloat(costRow.knowledge_cost) || 0,
+        total: parseFloat(costRow.total_cost) || 0,
+        breakdown: {
+          llm: usageData.llm || [],
+          transcription: usageData.transcription || [],
+          knowledge: usageData.knowledge || []
+        },
+        lastUpdated: costRow.created_at
+      };
+      
+    } catch (error) {
+      console.error('[Report Service] Error retrieving cost data:', error);
+      return {
+        llm: 0,
+        transcription: 0,
+        knowledge: 0,
+        total: 0,
+        breakdown: {},
+        lastUpdated: null
+      };
+    }
+  }
+
+  async generateSummary(transcript, terms, meetingId = null) {
     if (!transcript || transcript.length < 50) {
       return 'Meeting too short to generate meaningful summary.';
     }
     
+    // Try enhanced summary first if available and meetingId provided
+    if (this.enhancedSummaryService && meetingId) {
+      try {
+        console.log(`[Report Service] Attempting enhanced summary for meeting ${meetingId}`);
+        const enhancedResult = await this.enhancedSummaryService.generateEnhancedSummary(meetingId);
+        
+        if (enhancedResult && enhancedResult.summary && enhancedResult.metadata.enhancementLevel !== 'failed') {
+          console.log(`[Report Service] Enhanced summary generated successfully in ${enhancedResult.metadata.processingTime}ms`);
+          
+          // Store enhanced summary costs in database
+          if (enhancedResult.metadata.usageTracking && meetingId) {
+            try {
+              const MeetingService = require('./meeting');
+              const meetingService = new MeetingService(this.db);
+              await meetingService.addEnhancedSummaryCosts(meetingId, enhancedResult.metadata.usageTracking);
+              console.log(`[Report Service] Added enhanced summary costs to meeting ${meetingId}`);
+            } catch (error) {
+              console.warn('[Report Service] Failed to add enhanced summary costs:', error.message);
+            }
+          }
+          
+          return enhancedResult.summary;
+        } else {
+          console.warn('[Report Service] Enhanced summary failed or returned invalid result, falling back to standard');
+        }
+      } catch (error) {
+        console.warn('[Report Service] Enhanced summary error, falling back to standard:', error.message);
+      }
+    }
+    
+    // Fallback to standard summary generation
+    console.log('[Report Service] Using standard summary generation');
+    return await this.generateStandardSummary(transcript, terms);
+  }
+  
+  async generateStandardSummary(transcript, terms) {
     try {
       const topTerms = terms
         .sort((a, b) => b.frequency - a.frequency)
@@ -164,20 +277,21 @@ Key Terms Identified: ${topTerms}
 
 Please provide a professional summary of this meeting.`;
 
-      const response = await this.openai.chat.completions.create({
-        model: 'gpt-4o-mini',
-        messages: [
+      const response = await this.llmProvider.createCompletion(
+        [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
         ],
-        temperature: 0.3,
-        max_tokens: 500
-      });
+        {
+          temperature: 0.3,
+          maxTokens: 500
+        }
+      );
       
-      return response.choices[0].message.content;
+      return response.content;
       
     } catch (error) {
-      console.error('[Report Service] Error generating summary:', error);
+      console.error('[Report Service] Error generating standard summary:', error);
       return 'Unable to generate summary at this time.';
     }
   }
@@ -333,6 +447,24 @@ Please provide a professional summary of this meeting.`;
       font-size: 12px;
       margin-right: 10px;
     }
+    .costs {
+      background: #fff3cd;
+      border: 1px solid #ffeaa7;
+      border-radius: 5px;
+      padding: 15px;
+      margin: 15px 0;
+    }
+    .cost-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+    .cost-total {
+      font-weight: bold;
+      border-top: 1px solid #ddd;
+      padding-top: 5px;
+      margin-top: 10px;
+    }
     .footer {
       text-align: center;
       color: #666;
@@ -367,6 +499,28 @@ Please provide a professional summary of this meeting.`;
     <div class="stat">
       <div class="stat-value">${report.statistics.totalDefinitions}</div>
       <div class="stat-label">Definitions</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>💰 API Usage Costs</h2>
+    <div class="costs">
+      <div class="cost-item">
+        <span>LLM Processing:</span>
+        <span>$${report.costs.llm.toFixed(6)}</span>
+      </div>
+      <div class="cost-item">
+        <span>Transcription:</span>
+        <span>$${report.costs.transcription.toFixed(6)}</span>
+      </div>
+      <div class="cost-item">
+        <span>Knowledge Retrieval:</span>
+        <span>$${report.costs.knowledge.toFixed(6)}</span>
+      </div>
+      <div class="cost-item cost-total">
+        <span>Total Cost:</span>
+        <span>$${report.costs.total.toFixed(6)}</span>
+      </div>
     </div>
   </div>
 

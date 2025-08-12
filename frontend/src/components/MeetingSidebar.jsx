@@ -50,7 +50,14 @@ function MeetingSidebar({ onSelectMeeting, activeMeetingId, onNewMeeting, onGene
 
     const deleteMeeting = async (meetingId, e) => {
         e.stopPropagation();
-        if (!window.confirm('Are you sure you want to delete this meeting?')) return;
+        
+        // Get meeting details for better confirmation message
+        const meeting = meetings.find(m => m.id === meetingId);
+        const confirmMessage = meeting?.status === 'active' 
+            ? 'This meeting is currently active. Are you sure you want to delete it and stop recording?'
+            : 'Are you sure you want to delete this meeting and all associated data (transcripts, terms, reports)?';
+            
+        if (!window.confirm(confirmMessage)) return;
 
         try {
             await fetch(`http://localhost:9000/api/meetings/${meetingId}`, {
@@ -320,24 +327,22 @@ function MeetingSidebar({ onSelectMeeting, activeMeetingId, onNewMeeting, onGene
                                 >
                                     📊 Report
                                 </button>
-                                {meeting.status !== 'active' && (
-                                    <button
-                                        onClick={(e) => deleteMeeting(meeting.id, e)}
-                                        style={{
-                                            padding: '3px 8px',
-                                            fontSize: '11px',
-                                            background: '#dc3545',
-                                            color: 'white',
-                                            border: 'none',
-                                            borderRadius: '3px',
-                                            cursor: 'pointer',
-                                            marginLeft: 'auto'
-                                        }}
-                                        title="Delete meeting"
-                                    >
-                                        Delete
-                                    </button>
-                                )}
+                                <button
+                                    onClick={(e) => deleteMeeting(meeting.id, e)}
+                                    style={{
+                                        padding: '3px 8px',
+                                        fontSize: '11px',
+                                        background: '#dc3545',
+                                        color: 'white',
+                                        border: 'none',
+                                        borderRadius: '3px',
+                                        cursor: 'pointer',
+                                        marginLeft: 'auto'
+                                    }}
+                                    title="Delete meeting"
+                                >
+                                    Delete
+                                </button>
                             </div>
                         </div>
                     ))

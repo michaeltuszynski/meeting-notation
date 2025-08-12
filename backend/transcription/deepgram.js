@@ -17,6 +17,12 @@ class DeepgramService extends EventEmitter {
             transcriptionCount: 0,
             avgLatency: 0
         };
+        this.usageTracking = {
+            totalAudioSeconds: 0,
+            totalCost: 0,
+            sessionStartTime: null,
+            lastAudioTime: null
+        };
     }
 
     async connect() {
@@ -164,6 +170,22 @@ class DeepgramService extends EventEmitter {
         try {
             this.startTime = Date.now();
             this.connection.send(audioData);
+            
+            // Track usage for cost calculation
+            if (!this.usageTracking.sessionStartTime) {
+                this.usageTracking.sessionStartTime = Date.now();
+            }
+            this.usageTracking.lastAudioTime = Date.now();
+            
+            // Estimate audio duration from buffer size (16kHz, 16-bit, mono)
+            // 8192 bytes = 4096 samples = ~256ms at 16kHz
+            const estimatedSeconds = audioData.length / (16000 * 2); // 2 bytes per sample
+            this.usageTracking.totalAudioSeconds += estimatedSeconds;
+            
+            // Calculate cost (Nova-2 pricing: $0.0043 per minute)
+            const costPerSecond = 0.0043 / 60;
+            this.usageTracking.totalCost += estimatedSeconds * costPerSecond;
+            
             return true;
         } catch (error) {
             console.error('Error sending audio to Deepgram:', error);
@@ -189,8 +211,20 @@ class DeepgramService extends EventEmitter {
     getMetrics() {
         return {
             ...this.metrics,
+            ...this.usageTracking,
             isConnected: this.isConnected,
             reconnectAttempts: this.reconnectAttempts
+        };
+    }
+
+    getUsageForMeeting() {
+        return {
+            provider: 'deepgram',
+            model: 'nova-2',
+            durationSeconds: this.usageTracking.totalAudioSeconds,
+            totalCost: this.usageTracking.totalCost,
+            sessionStartTime: this.usageTracking.sessionStartTime,
+            lastAudioTime: this.usageTracking.lastAudioTime
         };
     }
 
@@ -199,6 +233,12 @@ class DeepgramService extends EventEmitter {
             totalLatency: 0,
             transcriptionCount: 0,
             avgLatency: 0
+        };
+        this.usageTracking = {
+            totalAudioSeconds: 0,
+            totalCost: 0,
+            sessionStartTime: null,
+            lastAudioTime: null
         };
     }
 }

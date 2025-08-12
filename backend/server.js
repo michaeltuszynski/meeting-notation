@@ -5,16 +5,19 @@ const cors = require('cors');
 const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
 
-const DeepgramService = require('./transcription/deepgram');
+const TranscriptionProviderFactory = require('./transcription/provider-factory');
 const { AudioProcessor } = require('./utils/audio');
 const GPT4oMiniService = require('./llm/gpt4omini');
 const ContextualIntelligenceService = require('./llm/contextual-intelligence');
-const TavilyService = require('./knowledge/tavily');
+const KnowledgeProviderFactory = require('./knowledge/provider-factory');
 const PostgresService = require('./db/postgres');
 const MeetingService = require('./services/meeting');
 const StorageService = require('./services/storage');
 const ReportService = require('./services/report');
+const GlobalCorrectionService = require('./services/global-corrections');
 const meetingRoutes = require('./routes/meetings');
+const correctionsRoutes = require('./routes/corrections');
+const ModelRegistry = require('./llm/model-registry');
 
 const app = express();
 app.use(cors());
@@ -30,62 +33,112 @@ const io = new Server(server, {
   maxHttpBufferSize: 1e6 // 1MB for audio chunks
 });
 
+// Make io accessible in routes
+app.set('io', io);
+
 // Initialize database
 const db = new PostgresService();
 db.testConnection();
 
 // Initialize services
-const deepgramService = new DeepgramService(process.env.DEEPGRAM_API_KEY);
+const transcriptionService = new TranscriptionProviderFactory();
 const gpt4oMiniService = new GPT4oMiniService();
 const contextualIntelligence = new ContextualIntelligenceService();
-const tavilyService = new TavilyService();
+const knowledgeService = new KnowledgeProviderFactory();
 const meetingService = new MeetingService(db);
 const storageService = new StorageService(db);
-const reportService = new ReportService(db, storageService);
+const reportService = new ReportService(db, storageService, contextualIntelligence);
+const correctionService = new GlobalCorrectionService(db);
+const modelRegistry = new ModelRegistry();
 const audioProcessors = new Map(); // One processor per client
 
 // Current active meeting
 let activeMeetingId = null;
 
-// API Routes - must be after service initialization
-app.use('/api/meetings', meetingRoutes(meetingService, storageService, reportService));
-
-// Connect to Deepgram on server start
-deepgramService.connect().catch(err => {
-  console.error('Failed to initialize Deepgram:', err);
+// Listen for meeting deletion events from routes
+io.on('meeting:deleted', (data) => {
+  // Always clear intelligence data for the deleted meeting, regardless of whether it's active
+  contextualIntelligence.clearMeeting(data.meetingId);
+  
+  if (data.meetingId === activeMeetingId) {
+    console.log(`[Server] Active meeting ${activeMeetingId} was deleted, clearing active state`);
+    activeMeetingId = null;
+    // Clear intelligence data for active meeting
+    gpt4oMiniService.reset();
+    console.log(`[Server] Cleared intelligence data for deleted active meeting`);
+  }
 });
 
-// Deepgram event handlers
-deepgramService.on('transcript', async (transcript) => {
+// Middleware to make services available in routes
+app.use((req, res, next) => {
+  req.db = db;
+  req.io = io;
+  req.correctionService = correctionService;
+  next();
+});
+
+// API Routes - must be after service initialization
+app.use('/api/meetings', meetingRoutes(meetingService, storageService, reportService));
+app.use('/api/corrections', correctionsRoutes);
+
+// Connect to transcription service on server start
+transcriptionService.connect().catch(err => {
+  console.error('Failed to initialize transcription service:', err);
+});
+
+// Transcription event handlers
+transcriptionService.on('transcript', async (transcript) => {
   // Only process transcripts if there's an active meeting
   if (!activeMeetingId) {
     console.warn('Received transcript but no active meeting - ignoring');
     return;
   }
   
-  // Broadcast transcript to all connected clients
-  io.emit('transcript:update', transcript);
-  
-  // Save transcript to database
+  // Apply global corrections to the transcript
+  let correctedTranscript = { ...transcript };
   if (transcript.text && transcript.text.trim()) {
+    const correctionResult = correctionService.applyCorrections(transcript.text, activeMeetingId);
+    
+    if (correctionResult.hasChanges) {
+      correctedTranscript.text = correctionResult.text;
+      correctedTranscript.corrections = correctionResult.corrections;
+      console.log(`[Corrections] Applied ${correctionResult.corrections.length} corrections to transcript`);
+      
+      // Emit correction event to clients
+      io.emit('corrections:applied', {
+        original: transcript.text,
+        corrected: correctionResult.text,
+        corrections: correctionResult.corrections,
+        timestamp: Date.now()
+      });
+    }
+  }
+  
+  // Broadcast corrected transcript to all connected clients
+  io.emit('transcript:update', correctedTranscript);
+  
+  // Save corrected transcript to database
+  if (correctedTranscript.text && correctedTranscript.text.trim()) {
     try {
       await storageService.saveTranscript(activeMeetingId, {
-        text: transcript.text,
-        isFinal: transcript.isFinal,
-        confidence: transcript.confidence,
-        timestamp: new Date()
+        text: correctedTranscript.text,
+        isFinal: correctedTranscript.isFinal,
+        confidence: correctedTranscript.confidence,
+        timestamp: new Date(),
+        originalText: transcript.text !== correctedTranscript.text ? transcript.text : null,
+        corrections: correctedTranscript.corrections || null
       });
     } catch (error) {
       console.error('Error saving transcript:', error);
     }
   }
   
-  // Add transcript to both intelligence services
-  if (transcript.text && transcript.text.trim()) {
-    console.log(`[Intelligence] Processing transcript: "${transcript.text.substring(0, 50)}..."`);
+  // Add corrected transcript to both intelligence services
+  if (correctedTranscript.text && correctedTranscript.text.trim()) {
+    console.log(`[Intelligence] Processing corrected transcript: "${correctedTranscript.text.substring(0, 50)}..."`);
     
-    // Add to contextual intelligence for richer insights
-    contextualIntelligence.addTranscript(transcript.text);
+    // Add to contextual intelligence for richer insights (use corrected text)
+    contextualIntelligence.addTranscript(correctedTranscript.text);
     
     // Extract contextual insights
     const insights = await contextualIntelligence.extractContextualInsights();
@@ -165,7 +218,7 @@ deepgramService.on('transcript', async (transcript) => {
       
       if (termsNeedingDefinitions.length > 0) {
         console.log(`[Knowledge] Fetching definitions for ${termsNeedingDefinitions.length} high-frequency terms: ${termsNeedingDefinitions.join(', ')}`);
-        const definitions = await tavilyService.searchTerms(termsNeedingDefinitions);
+        const definitions = await knowledgeService.searchTermDefinitions(termsNeedingDefinitions);
         if (definitions.length > 0) {
           io.emit('definitions:updated', definitions);
           console.log(`[Knowledge] Found ${definitions.length} web definitions`);
@@ -188,7 +241,7 @@ deepgramService.on('transcript', async (transcript) => {
   }
 });
 
-deepgramService.on('error', (error) => {
+transcriptionService.on('error', (error) => {
   console.error('Deepgram service error:', error);
   io.emit('transcription:error', { 
     message: 'Transcription service error', 
@@ -196,11 +249,11 @@ deepgramService.on('error', (error) => {
   });
 });
 
-deepgramService.on('speechStarted', () => {
+transcriptionService.on('speechStarted', () => {
   io.emit('speech:started', { timestamp: Date.now() });
 });
 
-deepgramService.on('utteranceEnd', (data) => {
+transcriptionService.on('utteranceEnd', (data) => {
   io.emit('utterance:end', { timestamp: Date.now(), data });
 });
 
@@ -212,12 +265,12 @@ io.on('connection', (socket) => {
   
   // Send connection status and metrics
   socket.emit('service:status', {
-    deepgram: deepgramService.isConnected,
+    deepgram: transcriptionService.isConnected,
     activeMeetingId,
     metrics: {
-      deepgram: deepgramService.getMetrics(),
+      deepgram: transcriptionService.getMetrics(),
       gpt4oMini: gpt4oMiniService.getMetrics(),
-      tavily: tavilyService.getMetrics()
+      knowledge: knowledgeService.getCurrentProvider()
     }
   });
   
@@ -242,11 +295,33 @@ io.on('connection', (socket) => {
   socket.on('meeting:end', async () => {
     if (activeMeetingId) {
       try {
+        // Collect usage data before resetting services
+        const usageData = {
+          llm: [gpt4oMiniService.getUsageForMeeting()],
+          transcription: [transcriptionService.getActiveProvider().getUsageForMeeting()],
+          knowledge: [knowledgeService.getActiveProvider().getUsageForMeeting()]
+        };
+        
+        // Store usage data in database
+        try {
+          await meetingService.storeMeetingCosts(activeMeetingId, usageData);
+          console.log(`[Meeting] Stored cost data for meeting ${activeMeetingId}`);
+        } catch (error) {
+          console.error('[Meeting] Error storing cost data:', error);
+        }
+        
         const meeting = await meetingService.endMeeting(activeMeetingId);
         io.emit('meeting:ended', meeting);
         console.log(`[Meeting] Ended meeting: ${activeMeetingId}`);
         activeMeetingId = null;
         storageService.clearSequenceCache(meeting.id);
+        // Reset intelligence services when meeting ends
+        contextualIntelligence.reset();
+        gpt4oMiniService.reset();
+        // Reset usage tracking on services
+        transcriptionService.getActiveProvider().resetMetrics();
+        knowledgeService.getActiveProvider().resetUsageTracking();
+        console.log(`[Meeting] Reset intelligence services after ending meeting`);
       } catch (error) {
         console.error('Error ending meeting:', error);
         socket.emit('meeting:error', { message: 'Failed to end meeting' });
@@ -262,9 +337,26 @@ io.on('connection', (socket) => {
   // Handle switching meeting context (for viewing historical meetings)
   socket.on('meeting:setContext', (meetingId) => {
     if (meetingId) {
+      // Reset services before switching context
+      gpt4oMiniService.reset();
       contextualIntelligence.setCurrentMeeting(meetingId);
-      console.log(`[Meeting] Set context to meeting: ${meetingId}`);
+      console.log(`[Meeting] Switched context to meeting: ${meetingId}`);
+      // Emit event to clear current intelligence data on frontend
+      socket.emit('intelligence:reset');
     }
+  });
+  
+  // Handle clearing transcript and intelligence data
+  socket.on('transcript:clear', () => {
+    console.log('[Meeting] Clearing transcript and intelligence data');
+    // Reset intelligence services but keep meeting context
+    gpt4oMiniService.reset();
+    if (activeMeetingId) {
+      // Clear the meeting data but keep the meeting ID active
+      contextualIntelligence.reset(activeMeetingId);
+    }
+    // Notify frontend to clear intelligence displays
+    socket.emit('intelligence:reset');
   });
   
   let audioChunkCount = 0;
@@ -328,7 +420,7 @@ io.on('connection', (socket) => {
         const audioLevel = processor.calculateAudioLevel(bufferedData);
         console.log(`Sending to Deepgram - Audio level: ${(audioLevel * 100).toFixed(3)}% | Size: ${bufferedData.length} bytes`);
         
-        const sent = deepgramService.sendAudio(bufferedData);
+        const sent = transcriptionService.sendAudio(bufferedData);
         if (!sent) {
           socket.emit('transcription:warning', {
             message: 'Audio buffered, waiting for connection',
@@ -351,7 +443,7 @@ io.on('connection', (socket) => {
       // Flush any remaining buffered audio
       const remaining = processor.flush();
       if (remaining && remaining.length > 0) {
-        deepgramService.sendAudio(remaining);
+        transcriptionService.sendAudio(remaining);
       }
     }
     console.log('Audio streaming stopped for client:', socket.id);
@@ -359,10 +451,10 @@ io.on('connection', (socket) => {
   
   socket.on('metrics:request', () => {
     socket.emit('metrics:response', {
-      deepgram: deepgramService.getMetrics(),
+      deepgram: transcriptionService.getMetrics(),
       gpt4oMini: gpt4oMiniService.getMetrics(),
       contextual: contextualIntelligence.getMetrics(),
-      tavily: tavilyService.getMetrics()
+      knowledge: knowledgeService.getCurrentProvider()
     });
   });
   
@@ -417,6 +509,50 @@ io.on('connection', (socket) => {
     });
   });
 
+  // Get provider availability based on API keys
+  socket.on('providers:check', () => {
+    try {
+      // Check which providers have valid API keys (not empty and not placeholder)
+      const isValidKey = (key) => {
+        return key && 
+               key !== '' && 
+               key !== 'PLACEHOLDER_UPDATE_ME' &&
+               key !== 'your_api_key_here' &&
+               !key.includes('your_') &&
+               !key.includes('PLACEHOLDER');
+      };
+      
+      const providerStatus = {
+        llm: {
+          openai: isValidKey(process.env.OPENAI_API_KEY),
+          anthropic: isValidKey(process.env.ANTHROPIC_API_KEY),
+          gemini: isValidKey(process.env.GEMINI_API_KEY)
+        },
+        transcription: {
+          deepgram: isValidKey(process.env.DEEPGRAM_API_KEY),
+          assemblyai: isValidKey(process.env.ASSEMBLYAI_API_KEY),
+          whisper: isValidKey(process.env.OPENAI_API_KEY), // Uses OpenAI key
+          google: isValidKey(process.env.GOOGLE_SPEECH_API_KEY),
+          azure: isValidKey(process.env.AZURE_SPEECH_KEY) && isValidKey(process.env.AZURE_SPEECH_REGION),
+          revai: isValidKey(process.env.REVAI_API_KEY),
+          speechmatics: isValidKey(process.env.SPEECHMATICS_API_KEY)
+        },
+        knowledge: {
+          tavily: isValidKey(process.env.TAVILY_API_KEY),
+          exa: isValidKey(process.env.EXA_API_KEY),
+          perplexity: isValidKey(process.env.PERPLEXITY_API_KEY),
+          serpapi: isValidKey(process.env.SERPAPI_KEY),
+          brave: isValidKey(process.env.BRAVE_API_KEY)
+        }
+      };
+      
+      socket.emit('providers:status', providerStatus);
+    } catch (error) {
+      console.error('Error checking provider status:', error);
+      socket.emit('providers:status', { error: 'Failed to check provider status' });
+    }
+  });
+  
   // Settings management
   socket.on('settings:get', () => {
     try {
@@ -447,6 +583,41 @@ io.on('connection', (socket) => {
       socket.emit('settings:response', {
         success: false,
         error: 'Failed to load settings'
+      });
+    }
+  });
+
+  socket.on('models:fetch', async (data) => {
+    try {
+      const { provider } = data;
+      let apiKey;
+      
+      // Get the appropriate API key for the provider
+      switch (provider) {
+        case 'openai':
+          apiKey = process.env.OPENAI_API_KEY;
+          break;
+        case 'anthropic':
+          apiKey = process.env.ANTHROPIC_API_KEY;
+          break;
+        case 'gemini':
+          apiKey = process.env.GEMINI_API_KEY;
+          break;
+      }
+      
+      const models = await modelRegistry.getAvailableModels(provider, apiKey);
+      
+      socket.emit('models:response', {
+        success: true,
+        provider,
+        models
+      });
+    } catch (error) {
+      console.error('Error fetching models:', error);
+      socket.emit('models:response', {
+        success: false,
+        error: 'Failed to fetch models',
+        provider: data.provider
       });
     }
   });
@@ -496,19 +667,50 @@ io.on('connection', (socket) => {
 
       // Check if LLM provider or model has changed
       if (newSettings.llmProvider && newSettings.llmProvider !== (process.env.LLM_PROVIDER || 'openai')) {
-        warnings.push('LLM provider change requires service restart');
-        requiresRestart = true;
+        warnings.push('LLM provider changed - will take effect immediately');
+        process.env.LLM_PROVIDER = newSettings.llmProvider;
       }
       
       if (newSettings.llmModel && newSettings.llmModel !== (process.env.LLM_MODEL || 'gpt-4o-mini')) {
-        warnings.push('LLM model change requires service restart');
-        requiresRestart = true;
+        warnings.push('LLM model changed - will take effect immediately');
+        process.env.LLM_MODEL = newSettings.llmModel;
       }
 
       // Apply runtime settings that don't require restart
-      if (newSettings.maxContextLength) {
+      if (newSettings.maxContextLength && contextualIntelligence.setMaxContextLength) {
         contextualIntelligence.setMaxContextLength(newSettings.maxContextLength);
       }
+      
+      // Update LLM settings in contextual intelligence service
+      contextualIntelligence.updateLLMSettings(newSettings);
+      
+      // Update transcription provider
+      if (newSettings.transcriptionProvider) {
+        const switched = transcriptionService.setProvider(newSettings.transcriptionProvider);
+        if (switched) {
+          warnings.push(`Transcription provider switched to ${newSettings.transcriptionProvider}`);
+          // Reconnect with new provider
+          transcriptionService.disconnect();
+          transcriptionService.connect().catch(err => {
+            console.error('Failed to connect to new transcription provider:', err);
+          });
+        }
+      }
+      
+      // Update knowledge provider
+      if (newSettings.knowledgeProvider) {
+        const switched = knowledgeService.setProvider(newSettings.knowledgeProvider);
+        if (switched) {
+          warnings.push(`Knowledge provider switched to ${newSettings.knowledgeProvider}`);
+        }
+      }
+      
+      // Update provider API keys if needed
+      knowledgeService.updateSettings(newSettings);
+      
+      // Get current provider info for confirmation
+      const providerInfo = contextualIntelligence.getLLMProvider();
+      console.log(`[Settings] LLM Provider updated to: ${providerInfo.provider} with model: ${providerInfo.model}`);
 
       socket.emit('settings:saved', {
         success: true,
@@ -528,6 +730,77 @@ io.on('connection', (socket) => {
     }
   });
   
+  // Global correction events
+  socket.on('corrections:add', async (data) => {
+    try {
+      const { original, corrected, options = {} } = data;
+      const correction = await correctionService.addCorrection(original, corrected, options);
+      
+      // Broadcast new correction to all clients
+      io.emit('corrections:added', correction);
+      
+      socket.emit('corrections:add-response', {
+        success: true,
+        correction
+      });
+    } catch (error) {
+      console.error('Error adding correction via WebSocket:', error);
+      socket.emit('corrections:add-response', {
+        success: false,
+        error: error.message
+      });
+    }
+  });
+
+  socket.on('corrections:remove', async (correctionId) => {
+    try {
+      const correction = await correctionService.removeCorrection(correctionId);
+      
+      // Broadcast correction removal to all clients
+      io.emit('corrections:removed', correction);
+      
+      socket.emit('corrections:remove-response', {
+        success: true,
+        correction
+      });
+    } catch (error) {
+      console.error('Error removing correction via WebSocket:', error);
+      socket.emit('corrections:remove-response', {
+        success: false,
+        error: error.message
+      });
+    }
+  });
+
+  socket.on('corrections:get-suggestions', (term) => {
+    try {
+      const suggestions = correctionService.findSuggestions(term);
+      socket.emit('corrections:suggestions-response', {
+        term,
+        suggestions,
+        timestamp: Date.now()
+      });
+    } catch (error) {
+      console.error('Error getting correction suggestions:', error);
+      socket.emit('corrections:suggestions-response', {
+        term,
+        suggestions: [],
+        error: error.message,
+        timestamp: Date.now()
+      });
+    }
+  });
+
+  socket.on('corrections:get-all', async () => {
+    try {
+      const corrections = await correctionService.getAllCorrections();
+      socket.emit('corrections:all-response', corrections);
+    } catch (error) {
+      console.error('Error getting all corrections:', error);
+      socket.emit('corrections:all-response', []);
+    }
+  });
+
   socket.on('disconnect', () => {
     console.log('Client disconnected:', socket.id);
     audioProcessors.delete(socket.id);

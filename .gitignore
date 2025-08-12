@@ -7,6 +7,8 @@ venv/
 # Environment
 .env
 .env.local
+.env.cache
+.env.cache.json
 
 # Build
 dist/

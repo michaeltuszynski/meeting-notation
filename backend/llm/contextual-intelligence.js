@@ -1,10 +1,8 @@
-const OpenAI = require('openai');
+const LLMProviderFactory = require('./provider-factory');
 
 class ContextualIntelligenceService {
   constructor() {
-    this.openai = new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY,
-    });
+    this.llmProvider = new LLMProviderFactory();
     
     // Per-meeting context management
     this.meetings = new Map(); // Store data per meetingId
@@ -173,18 +171,19 @@ Output as JSON with this structure:
   ]
 }`;
 
-    const response = await this.openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      messages: [
+    const response = await this.llmProvider.createCompletion(
+      [
         { role: 'system', content: 'You are a meeting intelligence assistant providing real-time contextual insights.' },
         { role: 'user', content: prompt }
       ],
-      temperature: 0.3,
-      max_tokens: 500,
-      response_format: { type: "json_object" }
-    });
+      {
+        temperature: 0.3,
+        maxTokens: 500,
+        responseFormat: { type: "json_object" }
+      }
+    );
     
-    const insights = JSON.parse(response.choices[0].message.content);
+    const insights = JSON.parse(response.content);
     
     // Update internal knowledge base
     this.updateKnowledgeBase(insights);
@@ -292,16 +291,17 @@ ${glossary}
 
 Generate talking points that show understanding and move the conversation forward.`;
 
-    const response = await this.openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      messages: [
+    const response = await this.llmProvider.createCompletion(
+      [
         { role: 'user', content: prompt }
       ],
-      temperature: 0.5,
-      max_tokens: 200
-    });
+      {
+        temperature: 0.5,
+        maxTokens: 200
+      }
+    );
     
-    return response.choices[0].message.content
+    return response.content
       .split('\n')
       .filter(line => line.trim())
       .map(line => line.replace(/^\d+\.\s*/, ''));
@@ -353,16 +353,17 @@ ${context}
 
 Focus on key points and decisions.`;
 
-    const response = await this.openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      messages: [
+    const response = await this.llmProvider.createCompletion(
+      [
         { role: 'user', content: prompt }
       ],
-      temperature: 0.3,
-      max_tokens: 100
-    });
+      {
+        temperature: 0.3,
+        maxTokens: 100
+      }
+    );
     
-    return response.choices[0].message.content;
+    return response.content;
   }
   
   /**
@@ -445,6 +446,44 @@ Focus on key points and decisions.`;
       this.meetings.delete(this.currentMeetingId);
       this.currentMeetingId = null;
     }
+  }
+  
+  /**
+   * Clear data for a specific meeting
+   */
+  clearMeeting(meetingId) {
+    if (this.meetings.has(meetingId)) {
+      this.meetings.delete(meetingId);
+      if (this.currentMeetingId === meetingId) {
+        this.currentMeetingId = null;
+      }
+      console.log(`[Contextual Intelligence] Cleared data for meeting ${meetingId}`);
+    }
+  }
+
+  
+  /**
+   * Update LLM provider settings
+   */
+  updateLLMSettings(settings) {
+    this.llmProvider.updateSettings(settings);
+    console.log('[Contextual Intelligence] LLM settings updated');
+  }
+  
+  /**
+   * Get current LLM provider info
+   */
+  getLLMProvider() {
+    return this.llmProvider.getActiveProvider();
+  }
+  
+  /**
+   * Set max context length
+   */
+  setMaxContextLength(length) {
+    // This is already handled in the sliding windows
+    // But we can adjust if needed
+    console.log(`[Contextual Intelligence] Max context length set to ${length}`);
   }
 }
 

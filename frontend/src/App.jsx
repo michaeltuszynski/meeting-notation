@@ -12,6 +12,7 @@ import MeetingSidebar from './components/MeetingSidebar';
 import ReportView from './components/ReportView';
 import DefinitionHistory from './components/DefinitionHistory';
 import ContextualInsights from './components/ContextualInsights';
+import SettingsModal from './components/Settings';
 import useElectronAudio from './hooks/useElectronAudio';
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
     const [useElectronBridge, setUseElectronBridge] = useState(false);
     const [electronBridgeConnected, setElectronBridgeConnected] = useState(false);
     const [showElectronInstructions, setShowElectronInstructions] = useState(false);
+    const [showSettings, setShowSettings] = useState(false);
     
     const socketRef = useRef(null);
     const audioContextRef = useRef(null);
@@ -445,6 +447,17 @@ function App() {
                                 </Badge>
                             )}
                         </div>
+                        
+                        {/* Settings Button */}
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setShowSettings(true)}
+                            className="flex items-center gap-2"
+                        >
+                            <Settings className="h-4 w-4" />
+                            <span className="hidden sm:inline">Settings</span>
+                        </Button>
                     </div>
                 </header>
 
@@ -797,6 +810,13 @@ function App() {
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
+
+            {/* Settings Modal */}
+            <SettingsModal 
+                isOpen={showSettings}
+                onClose={() => setShowSettings(false)}
+                socket={socketRef.current}
+            />
         </div>
     );
 }

@@ -1,14 +1,17 @@
 const { app, BrowserWindow, ipcMain, desktopCapturer, Menu, Tray, nativeImage } = require('electron');
 const path = require('path');
 const io = require('socket.io-client');
+const http = require('http');
 
 let mainWindow;
 let tray;
 let socket;
 let isStreaming = false;
+let healthServer;
 
 // Configuration
 const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:9000';
+const HEALTH_PORT = 3380;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -20,7 +23,7 @@ function createWindow() {
       nodeIntegration: false
     },
     icon: path.join(__dirname, 'icon.png'),
-    title: 'Meeting Audio Bridge'
+    title: 'TranscriptIQ Audio Bridge'
   });
 
   mainWindow.loadFile('index.html');
@@ -72,7 +75,7 @@ function createTray() {
   
   const contextMenu = Menu.buildFromTemplate([
     {
-      label: 'Show Audio Bridge',
+      label: 'Show TranscriptIQ Bridge',
       click: () => {
         mainWindow.show();
       }
@@ -96,7 +99,7 @@ function createTray() {
     }
   ]);
   
-  tray.setToolTip('Meeting Audio Bridge');
+  tray.setToolTip('TranscriptIQ Audio Bridge');
   tray.setContextMenu(contextMenu);
   
   tray.on('click', () => {
@@ -107,7 +110,7 @@ function createTray() {
 function updateTrayMenu() {
   const contextMenu = Menu.buildFromTemplate([
     {
-      label: 'Show Audio Bridge',
+      label: 'Show TranscriptIQ Bridge',
       click: () => {
         mainWindow.show();
       }
@@ -198,10 +201,44 @@ ipcMain.handle('get-backend-status', async () => {
   };
 });
 
+// Create health check server
+function createHealthServer() {
+  healthServer = http.createServer((req, res) => {
+    // Enable CORS
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    
+    if (req.method === 'OPTIONS') {
+      res.writeHead(200);
+      res.end();
+      return;
+    }
+    
+    if (req.url === '/health' && req.method === 'GET') {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({
+        status: 'healthy',
+        isStreaming: isStreaming,
+        backendConnected: socket && socket.connected,
+        version: '1.0.0'
+      }));
+    } else {
+      res.writeHead(404);
+      res.end('Not Found');
+    }
+  });
+  
+  healthServer.listen(HEALTH_PORT, () => {
+    console.log(`Health check server running on port ${HEALTH_PORT}`);
+  });
+}
+
 // App event handlers
 app.whenReady().then(() => {
   createWindow();
   createTray();
+  createHealthServer();
   
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
@@ -218,4 +255,7 @@ app.on('window-all-closed', () => {
 
 app.on('before-quit', () => {
   app.isQuitting = true;
+  if (healthServer) {
+    healthServer.close();
+  }
 });

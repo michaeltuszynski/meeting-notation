@@ -122,6 +122,6 @@ GROUP BY m.id, m.title, m.description, m.start_time, m.end_time,
          m.status, mm.duration_seconds, mm.word_count, mm.term_count, mm.summary;
 
 -- Grant permissions to the application user
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO meeting_user;
-GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO meeting_user;
-GRANT ALL PRIVILEGES ON ALL FUNCTIONS IN SCHEMA public TO meeting_user;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO transcriptiq_user;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO transcriptiq_user;
+GRANT ALL PRIVILEGES ON ALL FUNCTIONS IN SCHEMA public TO transcriptiq_user;

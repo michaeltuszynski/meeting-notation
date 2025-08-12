@@ -44,7 +44,7 @@ function MeetingSidebar({ onSelectMeeting, activeMeetingId, onNewMeeting, onGene
         onNewMeeting({ title });
         setShowNewMeetingModal(false);
         setNewMeetingTitle('');
-        // Refresh meetings list
+        // Refresh sessions list
         setTimeout(fetchMeetings, 500);
     };
 
@@ -118,13 +118,13 @@ function MeetingSidebar({ onSelectMeeting, activeMeetingId, onNewMeeting, onGene
                 borderBottom: '1px solid #dee2e6',
                 background: '#ffffff'
             }}>
-                <h3 style={{ margin: '0 0 10px 0', fontSize: '18px' }}>📁 Meetings</h3>
+                <h3 style={{ margin: '0 0 10px 0', fontSize: '18px' }}>📁 TranscriptIQ Sessions</h3>
                 
                 {/* Search */}
                 <div style={{ display: 'flex', gap: '5px', marginBottom: '10px' }}>
                     <input
                         type="text"
-                        placeholder="Search meetings..."
+                        placeholder="Search sessions..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
@@ -157,14 +157,14 @@ function MeetingSidebar({ onSelectMeeting, activeMeetingId, onNewMeeting, onGene
                     style={{
                         width: '100%',
                         padding: activeMeetingId ? '8px' : '12px',
-                        background: activeMeetingId ? '#28a745' : 'linear-gradient(135deg, #28a745, #20c997)',
+                        background: activeMeetingId ? '#007bff' : 'linear-gradient(135deg, #007bff, #0056b3)',
                         color: 'white',
                         border: 'none',
-                        borderRadius: '4px',
+                        borderRadius: '6px',
                         cursor: 'pointer',
                         fontWeight: 'bold',
                         fontSize: activeMeetingId ? '14px' : '16px',
-                        boxShadow: activeMeetingId ? 'none' : '0 2px 8px rgba(40, 167, 69, 0.3)',
+                        boxShadow: activeMeetingId ? 'none' : '0 2px 8px rgba(0, 123, 255, 0.3)',
                         animation: activeMeetingId ? 'none' : 'pulse 2s infinite',
                         transition: 'all 0.3s'
                     }}
@@ -190,11 +190,11 @@ function MeetingSidebar({ onSelectMeeting, activeMeetingId, onNewMeeting, onGene
             }}>
                 {loading ? (
                     <div style={{ textAlign: 'center', padding: '20px', color: '#6c757d' }}>
-                        Loading meetings...
+                        Loading sessions...
                     </div>
                 ) : meetings.length === 0 ? (
                     <div style={{ textAlign: 'center', padding: '20px', color: '#6c757d' }}>
-                        No meetings yet
+                        No sessions yet
                     </div>
                 ) : (
                     meetings.map(meeting => (
@@ -364,10 +364,10 @@ function MeetingSidebar({ onSelectMeeting, activeMeetingId, onNewMeeting, onGene
                         borderRadius: '8px',
                         width: '400px'
                     }}>
-                        <h3 style={{ marginTop: 0 }}>New Meeting</h3>
+                        <h3 style={{ marginTop: 0 }}>New TranscriptIQ Session</h3>
                         <input
                             type="text"
-                            placeholder="Meeting title (optional)"
+                            placeholder="Session title (optional)"
                             value={newMeetingTitle}
                             onChange={(e) => setNewMeetingTitle(e.target.value)}
                             onKeyPress={(e) => e.key === 'Enter' && handleNewMeeting()}
@@ -398,7 +398,7 @@ function MeetingSidebar({ onSelectMeeting, activeMeetingId, onNewMeeting, onGene
                                 onClick={handleNewMeeting}
                                 style={{
                                     padding: '8px 16px',
-                                    background: '#28a745',
+                                    background: '#007bff',
                                     color: 'white',
                                     border: 'none',
                                     borderRadius: '4px',

@@ -1,13 +1,13 @@
 {
-  "name": "meeting-audio-bridge",
+  "name": "transcriptiq-audio-bridge",
   "version": "1.0.0",
-  "description": "Audio capture bridge for Meeting Intelligence Assistant",
+  "description": "TranscriptIQ Audio Bridge - Electron app for clean system audio capture",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "dev": "electron . --dev"
   },
-  "keywords": ["electron", "audio", "capture"],
+  "keywords": ["transcriptiq", "electron", "audio", "capture", "meeting-intelligence"],
   "author": "",
   "license": "MIT",
   "devDependencies": {

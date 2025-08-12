@@ -1,6 +1,6 @@
-# Meeting Intelligence Assistant
+# TranscriptIQ
 
-Real-time meeting intelligence with <2s latency requirement.
+AI-Powered Meeting Intelligence with real-time transcription and contextual insights.
 
 ## Critical Performance Requirements
 

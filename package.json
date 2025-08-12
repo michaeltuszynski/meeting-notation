@@ -1,7 +1,7 @@
 {
-  "name": "meeting-intelligence-assistant",
+  "name": "transcriptiq",
   "version": "1.0.0",
-  "description": "Real-time meeting intelligence assistant with <2s latency",
+  "description": "TranscriptIQ - AI-Powered Meeting Intelligence with real-time transcription and contextual insights",
   "main": "electron/main.js",
   "private": true,
   "engines": {
@@ -37,11 +37,15 @@
     "activate": "source activate.sh"
   },
   "keywords": [
+    "transcriptiq",
     "electron",
     "transcription",
     "real-time",
     "meeting",
-    "ai"
+    "ai",
+    "meeting-intelligence",
+    "speech-to-text",
+    "contextual-insights"
   ],
   "author": "",
   "license": "MIT",

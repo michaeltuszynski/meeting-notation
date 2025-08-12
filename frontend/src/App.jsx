@@ -1,5 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { io } from 'socket.io-client';
+import { Mic, MicOff, Settings, Activity, Clock, Users, Wifi } from 'lucide-react';
+
+import { Button } from './components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './components/ui/card';
+import { Badge } from './components/ui/badge';
+import { Switch } from './components/ui/switch';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from './components/ui/dialog';
+
 import MeetingSidebar from './components/MeetingSidebar';
 import ReportView from './components/ReportView';
 import DefinitionHistory from './components/DefinitionHistory';
@@ -19,17 +27,17 @@ function App() {
     const [showSidebar, setShowSidebar] = useState(true);
     const [showReport, setShowReport] = useState(false);
     const [reportMeetingId, setReportMeetingId] = useState(null);
-    const [rightPanelView, setRightPanelView] = useState('contextual'); // 'contextual' or 'definitions'
-    const [useElectronBridge, setUseElectronBridge] = useState(false); // Toggle for Electron audio bridge
+    const [rightPanelView, setRightPanelView] = useState('contextual');
+    const [useElectronBridge, setUseElectronBridge] = useState(false);
+    const [electronBridgeConnected, setElectronBridgeConnected] = useState(false);
+    const [showElectronInstructions, setShowElectronInstructions] = useState(false);
     
     const socketRef = useRef(null);
     const audioContextRef = useRef(null);
     const processorRef = useRef(null);
     const sourceRef = useRef(null);
     const streamRef = useRef(null);
-    const animationRef = useRef(null);
     
-    // Electron audio capture hook
     const {
         isElectron,
         audioSources,
@@ -40,19 +48,38 @@ function App() {
         stopCapture: stopElectronCapture,
         getAudioSources
     } = useElectronAudio();
-    
-    // Debug: Log Electron detection
-    useEffect(() => {
-        console.log('[App] Electron detected:', isElectron);
-        console.log('[App] window.electronAPI:', window.electronAPI);
-        console.log('[App] window.meetingAPI (old):', window.meetingAPI);
-        if (isElectron) {
-            console.log('[App] Audio sources:', audioSources);
+
+    // Check Electron bridge connection
+    const checkElectronBridge = async () => {
+        try {
+            const response = await fetch('http://localhost:3380/health', {
+                method: 'GET',
+                mode: 'cors'
+            }).catch(() => null);
+            
+            if (response && response.ok) {
+                setElectronBridgeConnected(true);
+                return true;
+            }
+        } catch (error) {
+            console.log('Electron bridge not available');
         }
-    }, [isElectron, audioSources]);
-    
+        setElectronBridgeConnected(false);
+        return false;
+    };
+
+    // Check Electron bridge status periodically when enabled
     useEffect(() => {
-        // Use the webpack-defined environment variable or fallback
+        if (useElectronBridge) {
+            checkElectronBridge();
+            const interval = setInterval(checkElectronBridge, 3000);
+            return () => clearInterval(interval);
+        } else {
+            setElectronBridgeConnected(false);
+        }
+    }, [useElectronBridge]);
+
+    useEffect(() => {
         const wsUrl = 'http://localhost:9000';
         const socket = io(wsUrl);
         socketRef.current = socket;
@@ -68,10 +95,8 @@ function App() {
         });
         
         socket.on('service:status', (status) => {
-            console.log('Service status:', status);
             setMetrics(status.metrics);
             if (status.activeMeetingId) {
-                // Load active meeting if one exists
                 fetch(`http://localhost:9000/api/meetings/${status.activeMeetingId}`)
                     .then(res => res.json())
                     .then(meeting => setActiveMeeting(meeting))
@@ -80,21 +105,17 @@ function App() {
         });
         
         socket.on('meeting:started', (meeting) => {
-            console.log('Meeting started:', meeting);
             setActiveMeeting(meeting);
-            // Clear previous transcript and terms
             setTranscript([]);
             setExtractedTerms([]);
             setTermDefinitions({});
         });
         
         socket.on('meeting:ended', (meeting) => {
-            console.log('Meeting ended:', meeting);
             setActiveMeeting(null);
         });
         
         socket.on('transcript:update', (data) => {
-            console.log('Transcript update:', data);
             if (data.text && data.text.trim()) {
                 setTranscript(prev => [...prev, {
                     text: data.text,
@@ -104,7 +125,6 @@ function App() {
                     latency: data.latency
                 }]);
                 
-                // Update metrics
                 if (data.latency) {
                     setMetrics(prev => ({
                         ...prev,
@@ -121,7 +141,6 @@ function App() {
         
         socket.on('audio:error', (data) => {
             setError(data.message);
-            // Stop recording if no active meeting
             if (data.code === 'NO_ACTIVE_MEETING') {
                 setIsRecording(false);
                 setAudioLevel(0);
@@ -130,16 +149,13 @@ function App() {
         });
         
         socket.on('terms:extracted', (data) => {
-            console.log('Terms extracted:', data);
             setExtractedTerms(prev => {
-                // Add new terms and keep only last 20 unique terms
                 const newTerms = [...new Set([...data.terms, ...prev])].slice(0, 20);
                 return newTerms;
             });
         });
         
         socket.on('definitions:updated', (data) => {
-            console.log('Definitions received:', data);
             setTermDefinitions(prev => {
                 const newDefs = { ...prev };
                 data.forEach(item => {
@@ -150,11 +166,9 @@ function App() {
         });
         
         socket.on('metrics:response', (data) => {
-            console.log('Metrics received:', data);
             setMetrics(data);
         });
         
-        // Request metrics periodically
         const metricsInterval = setInterval(() => {
             socket.emit('metrics:request');
         }, 5000);
@@ -164,19 +178,18 @@ function App() {
             socket.disconnect();
         };
     }, []);
-    
+
     const handleNewMeeting = (meetingData) => {
         if (socketRef.current) {
             socketRef.current.emit('meeting:start', meetingData);
         }
     };
-    
+
     const handleEndMeeting = () => {
         if (socketRef.current) {
             socketRef.current.emit('meeting:end');
         }
         setIsRecording(false);
-        // Automatically show report after ending meeting
         if (activeMeeting) {
             setTimeout(() => {
                 setReportMeetingId(activeMeeting.id);
@@ -184,20 +197,18 @@ function App() {
             }, 1000);
         }
     };
-    
+
     const handleGenerateReport = (meetingId) => {
         setReportMeetingId(meetingId);
         setShowReport(true);
     };
-    
+
     const handleSelectMeeting = async (meeting) => {
         try {
-            // Set meeting context in backend
             if (socketRef.current) {
                 socketRef.current.emit('meeting:setContext', meeting.id);
             }
             
-            // Load meeting transcripts and terms
             const [transcriptsRes, termsRes] = await Promise.all([
                 fetch(`http://localhost:9000/api/meetings/${meeting.id}/transcripts`),
                 fetch(`http://localhost:9000/api/meetings/${meeting.id}/terms`)
@@ -206,7 +217,6 @@ function App() {
             const transcripts = await transcriptsRes.json();
             const terms = await termsRes.json();
             
-            // Update UI with historical data
             setTranscript(transcripts.map(t => ({
                 text: t.text,
                 isFinal: t.is_final,
@@ -226,36 +236,28 @@ function App() {
                 }
             });
             setTermDefinitions(defs);
-            
             setActiveMeeting(meeting);
         } catch (error) {
             console.error('Error loading meeting:', error);
         }
     };
-    
+
     const startRecording = async () => {
         try {
-            // Require active meeting before recording
             if (!activeMeeting) {
                 setError('Please start a meeting before recording. Click "New Meeting" in the sidebar.');
                 return;
             }
             
-            // Check if meeting is already completed
             if (activeMeeting.status === 'completed') {
                 setError('This meeting has already ended. Please start a new meeting to record.');
                 return;
             }
             
-            // Set recording state first
             setIsRecording(true);
             setError(null);
             
-            // Use Electron audio capture if enabled and available
             if (isElectron && useElectronBridge) {
-                console.log('[App] Using Electron audio bridge for system audio capture');
-                
-                // If no source selected, get sources first
                 if (!selectedSource && audioSources.length === 0) {
                     await getAudioSources();
                 }
@@ -268,9 +270,6 @@ function App() {
                 return;
             }
             
-            console.log('[App] Using browser microphone capture');
-            
-            // Request microphone permission
             const stream = await navigator.mediaDevices.getUserMedia({
                 audio: {
                     channelCount: 1,
@@ -283,27 +282,23 @@ function App() {
             
             streamRef.current = stream;
             
-            // Create Web Audio API context
             const audioContext = new (window.AudioContext || window.webkitAudioContext)({
                 sampleRate: 16000
             });
             audioContextRef.current = audioContext;
             
-            // Create audio source from microphone
             const source = audioContext.createMediaStreamSource(stream);
             sourceRef.current = source;
             
-            // Create script processor for capturing audio chunks
             const processor = audioContext.createScriptProcessor(4096, 1, 1);
             processorRef.current = processor;
             
             let chunkCount = 0;
-            const AMPLIFICATION_FACTOR = 3; // Boost audio signal
+            const AMPLIFICATION_FACTOR = 3;
             
             processor.onaudioprocess = (e) => {
                 const inputData = e.inputBuffer.getChannelData(0);
                 
-                // Calculate audio level for visualization
                 let sum = 0;
                 let maxLevel = 0;
                 for (let i = 0; i < inputData.length; i++) {
@@ -312,18 +307,15 @@ function App() {
                     maxLevel = Math.max(maxLevel, absValue);
                 }
                 const avgLevel = sum / inputData.length;
-                setAudioLevel(avgLevel * 500); // Increased sensitivity for visualization
+                setAudioLevel(avgLevel * 500);
                 
-                // Convert Float32Array to Int16Array with amplification
                 const int16Data = new Int16Array(inputData.length);
                 for (let i = 0; i < inputData.length; i++) {
-                    // Amplify the signal
                     const amplifiedSample = inputData[i] * AMPLIFICATION_FACTOR;
                     const sample = Math.max(-1, Math.min(1, amplifiedSample));
                     int16Data[i] = sample < 0 ? sample * 0x8000 : sample * 0x7FFF;
                 }
                 
-                // Send audio chunk to backend
                 if (socketRef.current && socketRef.current.connected) {
                     socketRef.current.emit('audio:chunk', {
                         audio: Array.from(int16Data),
@@ -331,18 +323,14 @@ function App() {
                         channels: 1
                     });
                     
-                    // Log every 10th chunk to avoid spamming console
                     if (++chunkCount % 10 === 0) {
                         console.log(`Sent ${chunkCount} chunks | Avg Level: ${(avgLevel * 100).toFixed(3)} | Max: ${(maxLevel * 100).toFixed(3)}`);
                     }
                 }
             };
             
-            // Connect audio nodes
             source.connect(processor);
             processor.connect(audioContext.destination);
-            
-            console.log('Recording started successfully');
             
         } catch (err) {
             console.error('Error starting recording:', err);
@@ -350,42 +338,34 @@ function App() {
             setIsRecording(false);
         }
     };
-    
+
     const stopRecording = () => {
-        console.log('Stopping recording...');
-        
-        // Stop Electron capture if using it
         if (isElectron && useElectronBridge && isElectronCapturing) {
             stopElectronCapture();
             setIsRecording(false);
             setAudioLevel(0);
             
-            // End meeting if it's active
             if (activeMeeting && activeMeeting.status === 'active') {
                 handleEndMeeting();
             }
             return;
         }
         
-        // Stop audio processing
         if (processorRef.current && sourceRef.current) {
             sourceRef.current.disconnect();
             processorRef.current.disconnect();
         }
         
-        // Close audio context
         if (audioContextRef.current) {
             audioContextRef.current.close();
             audioContextRef.current = null;
         }
         
-        // Stop media stream
         if (streamRef.current) {
             streamRef.current.getTracks().forEach(track => track.stop());
             streamRef.current = null;
         }
         
-        // Notify backend
         if (socketRef.current) {
             socketRef.current.emit('audio:stop');
         }
@@ -393,460 +373,349 @@ function App() {
         setIsRecording(false);
         setAudioLevel(0);
         
-        // End meeting if it's active
         if (activeMeeting && activeMeeting.status === 'active') {
             handleEndMeeting();
         }
     };
-    
-    const clearTranscript = () => {
-        setTranscript([]);
-    };
-    
+
     const formatLatency = (latency) => {
         if (!latency) return 'N/A';
-        const color = latency < 300 ? '#28a745' : latency < 500 ? '#ffc107' : '#dc3545';
-        return <span style={{ color }}>{latency}ms</span>;
+        return `${latency}ms`;
     };
-    
+
     return (
-        <div style={{ display: 'flex', fontFamily: 'system-ui', height: '100vh' }}>
+        <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
             {/* Meeting Sidebar */}
             {showSidebar && (
-                <MeetingSidebar
-                    onSelectMeeting={handleSelectMeeting}
-                    activeMeetingId={activeMeeting?.id}
-                    onNewMeeting={handleNewMeeting}
-                    onGenerateReport={handleGenerateReport}
-                />
+                <div className="w-80 border-r bg-white dark:bg-gray-800 shadow-sm">
+                    <MeetingSidebar
+                        onSelectMeeting={handleSelectMeeting}
+                        activeMeetingId={activeMeeting?.id}
+                        onNewMeeting={handleNewMeeting}
+                        onGenerateReport={handleGenerateReport}
+                    />
+                </div>
             )}
-            
+
             {/* Main Content */}
-            <div style={{ 
-                flex: 1,
-                marginLeft: showSidebar ? '300px' : '0',
-                padding: '20px',
-                transition: 'margin-left 0.3s'
-            }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '20px' }}>
-                    <button
-                        onClick={() => setShowSidebar(!showSidebar)}
-                        style={{
-                            padding: '8px 12px',
-                            background: '#6c757d',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '4px',
-                            cursor: 'pointer'
-                        }}
-                    >
-                        {showSidebar ? '◀' : '▶'} Meetings
-                    </button>
-                    <h1 style={{ margin: 0 }}>🎙️ Meeting Intelligence Assistant</h1>
-                    {/* Debug: Show Electron status */}
-                    {isElectron && (
-                        <span style={{ 
-                            padding: '4px 8px', 
-                            background: '#17a2b8', 
-                            color: 'white', 
-                            borderRadius: '4px',
-                            fontSize: '12px'
-                        }}>
-                            Electron Mode
-                        </span>
-                    )}
-                    {activeMeeting && (
-                        <div style={{
-                            padding: '5px 10px',
-                            background: activeMeeting.status === 'active' ? '#d4edda' : '#f8f9fa',
-                            color: activeMeeting.status === 'active' ? '#155724' : '#6c757d',
-                            borderRadius: '4px',
-                            fontSize: '14px',
-                            fontWeight: '500'
-                        }}>
-                            {activeMeeting.title} {activeMeeting.status === 'active' && '(LIVE)'}
-                        </div>
-                    )}
-                </div>
-            
-            {/* Status Bar */}
-            <div style={{ 
-                display: 'flex', 
-                gap: '20px', 
-                marginBottom: '20px',
-                padding: '15px',
-                background: '#f8f9fa',
-                borderRadius: '8px'
-            }}>
-                <div>
-                    <strong>Connection:</strong>{' '}
-                    <span style={{ 
-                        color: isConnected ? '#28a745' : '#dc3545',
-                        fontWeight: 'bold'
-                    }}>
-                        {isConnected ? '● Connected' : '○ Disconnected'}
-                    </span>
-                </div>
-                <div>
-                    <strong>Recording:</strong>{' '}
-                    <span style={{ 
-                        color: isRecording ? '#dc3545' : '#6c757d',
-                        fontWeight: 'bold'
-                    }}>
-                        {isRecording ? '● Recording' : '○ Stopped'}
-                    </span>
-                    {isRecording && isElectron && (
-                        <span style={{ 
-                            marginLeft: '10px',
-                            fontSize: '12px',
-                            padding: '2px 6px',
-                            background: useElectronBridge ? '#007bff' : '#28a745',
-                            color: 'white',
-                            borderRadius: '3px'
-                        }}>
-                            {useElectronBridge ? 'System Audio' : 'Microphone'}
-                        </span>
-                    )}
-                </div>
-                {metrics && (
-                    <>
-                        <div>
-                            <strong>Avg Latency:</strong> {formatLatency(Math.round(metrics.avgLatency))}
-                        </div>
-                        <div>
-                            <strong>Last Latency:</strong> {formatLatency(metrics.deepgram?.lastLatency || metrics.lastLatency)}
-                        </div>
-                    </>
-                )}
-            </div>
-            
-            {/* Error Display */}
-            {error && (
-                <div style={{
-                    padding: '10px',
-                    background: '#f8d7da',
-                    color: '#721c24',
-                    borderRadius: '5px',
-                    marginBottom: '20px'
-                }}>
-                    ⚠️ {error}
-                </div>
-            )}
-            
-            {/* Meeting Required Notice */}
-            {!activeMeeting && (
-                <div style={{
-                    padding: '15px',
-                    background: '#fff3cd',
-                    color: '#856404',
-                    borderRadius: '5px',
-                    marginBottom: '20px',
-                    border: '1px solid #ffeaa7',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '10px'
-                }}>
-                    <span style={{ fontSize: '20px' }}>ℹ️</span>
-                    <div>
-                        <strong>No Active Meeting</strong>
-                        <div>Please start a new meeting from the sidebar before recording. All transcripts must be associated with a meeting.</div>
-                    </div>
-                </div>
-            )}
-            
-            {/* Controls */}
-            <div style={{ 
-                display: 'flex', 
-                gap: '10px', 
-                marginBottom: '20px',
-                alignItems: 'center',
-                flexWrap: 'wrap'
-            }}>
-                {/* Electron Bridge Toggle - Only show in Electron environment */}
-                {isElectron && (
-                    <div style={{ 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        gap: '10px',
-                        padding: '8px 12px',
-                        background: useElectronBridge ? '#e7f3ff' : '#f8f9fa',
-                        borderRadius: '4px',
-                        border: `1px solid ${useElectronBridge ? '#007bff' : '#dee2e6'}`
-                    }}>
-                        <label style={{ 
-                            fontSize: '14px', 
-                            fontWeight: '500',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '8px',
-                            cursor: 'pointer'
-                        }}>
-                            <input
-                                type="checkbox"
-                                checked={useElectronBridge}
-                                onChange={(e) => {
-                                    setUseElectronBridge(e.target.checked);
-                                    if (e.target.checked) {
-                                        getAudioSources();
-                                    }
-                                }}
-                                disabled={isRecording}
-                                style={{ cursor: isRecording ? 'not-allowed' : 'pointer' }}
-                            />
-                            <span>
-                                {useElectronBridge ? '🖥️ System Audio' : '🎤 Microphone'} Mode
-                            </span>
-                        </label>
-                        {useElectronBridge && (
-                            <span style={{ 
-                                fontSize: '12px', 
-                                color: '#007bff',
-                                padding: '2px 6px',
-                                background: 'white',
-                                borderRadius: '3px'
-                            }}>
-                                Capture all system sounds
-                            </span>
-                        )}
-                    </div>
-                )}
-                
-                {/* Audio Source Selection for Electron Bridge */}
-                {isElectron && useElectronBridge && (
-                    <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                        <label style={{ fontSize: '14px', fontWeight: '500' }}>
-                            Audio Source:
-                        </label>
-                        <select
-                            value={selectedSource?.id || ''}
-                            onChange={(e) => {
-                                const source = audioSources.find(s => s.id === e.target.value);
-                                setSelectedSource(source);
-                            }}
-                            disabled={isRecording}
-                            style={{
-                                padding: '8px 12px',
-                                fontSize: '14px',
-                                borderRadius: '4px',
-                                border: '1px solid #ced4da',
-                                background: isRecording ? '#e9ecef' : 'white',
-                                cursor: isRecording ? 'not-allowed' : 'pointer',
-                                minWidth: '200px'
-                            }}
-                        >
-                            {audioSources.length === 0 && (
-                                <option value="">Loading sources...</option>
+            <div className="flex-1 flex flex-col">
+                {/* Header */}
+                <header className="border-b bg-white dark:bg-gray-800 px-6 py-4 shadow-sm">
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                            {!showSidebar && (
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => setShowSidebar(true)}
+                                    className="md:hidden"
+                                >
+                                    <Users className="h-4 w-4" />
+                                </Button>
                             )}
-                            {audioSources.map(source => (
-                                <option key={source.id} value={source.id}>
-                                    {source.name}
-                                    {(source.name.includes('Screen') || source.name.includes('BlackHole')) && ' (Recommended)'}
-                                </option>
-                            ))}
-                        </select>
-                        <button
-                            onClick={getAudioSources}
-                            disabled={isRecording}
-                            style={{
-                                padding: '8px 12px',
-                                fontSize: '14px',
-                                background: '#6c757d',
-                                color: 'white',
-                                border: 'none',
-                                borderRadius: '4px',
-                                cursor: isRecording ? 'not-allowed' : 'pointer',
-                                opacity: isRecording ? 0.5 : 1
-                            }}
-                            title="Refresh audio sources"
-                        >
-                            🔄
-                        </button>
-                    </div>
-                )}
-                
-                <button
-                    onClick={isRecording ? stopRecording : startRecording}
-                    disabled={!isConnected || !activeMeeting || activeMeeting?.status === 'completed' || (isElectron && useElectronBridge && !selectedSource)}
-                    style={{
-                        padding: '12px 24px',
-                        fontSize: '16px',
-                        fontWeight: 'bold',
-                        color: 'white',
-                        background: isRecording ? '#dc3545' : (!activeMeeting ? '#6c757d' : '#28a745'),
-                        border: 'none',
-                        borderRadius: '5px',
-                        cursor: (isConnected && activeMeeting && activeMeeting.status !== 'completed' && (!isElectron || !useElectronBridge || selectedSource)) ? 'pointer' : 'not-allowed',
-                        opacity: (isConnected && activeMeeting && activeMeeting.status !== 'completed' && (!isElectron || !useElectronBridge || selectedSource)) ? 1 : 0.5
-                    }}
-                    title={!activeMeeting ? 'Start a meeting first' : (activeMeeting.status === 'completed' ? 'Meeting has ended' : (isElectron && useElectronBridge && !selectedSource ? 'Select an audio source' : ''))}
-                >
-                    {isRecording ? '⏹ Stop Recording' : (isElectron && useElectronBridge ? '🖥️ Start System Capture' : '🎤 Start Recording')}
-                </button>
-                
-                <button
-                    onClick={clearTranscript}
-                    style={{
-                        padding: '12px 24px',
-                        fontSize: '16px',
-                        background: '#6c757d',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '5px',
-                        cursor: 'pointer'
-                    }}
-                >
-                    🗑️ Clear Transcript
-                </button>
-                
-                {/* Audio Level Indicator */}
-                {isRecording && (
-                    <div style={{
-                        flex: 1,
-                        height: '20px',
-                        background: '#e9ecef',
-                        borderRadius: '10px',
-                        overflow: 'hidden',
-                        position: 'relative'
-                    }}>
-                        <div style={{
-                            position: 'absolute',
-                            left: 0,
-                            top: 0,
-                            height: '100%',
-                            width: `${Math.min(100, audioLevel * 200)}%`,
-                            background: 'linear-gradient(to right, #28a745, #ffc107, #dc3545)',
-                            transition: 'width 0.1s ease'
-                        }} />
-                    </div>
-                )}
-            </div>
-            
-            {/* Two Column Layout */}
-            <div style={{ 
-                display: 'flex', 
-                gap: '20px'
-            }}>
-                {/* Transcript Display */}
-                <div style={{ 
-                    flex: '2',
-                    minWidth: '0',
-                    padding: '20px', 
-                    background: '#ffffff',
-                    border: '1px solid #dee2e6',
-                    borderRadius: '8px',
-                    minHeight: '400px',
-                    maxHeight: '600px',
-                    overflowY: 'auto'
-                }}>
-                    <h2 style={{ marginTop: 0 }}>📝 Live Transcript</h2>
-                {transcript.length === 0 ? (
-                    <p style={{ color: '#6c757d', fontStyle: 'italic' }}>
-                        {isRecording ? 'Listening... Speak to see transcript' : 'Click "Start Recording" to begin'}
-                    </p>
-                ) : (
-                    <div>
-                        {transcript.map((item, index) => (
-                            <div 
-                                key={index}
-                                style={{
-                                    marginBottom: '10px',
-                                    padding: '8px',
-                                    background: item.isFinal ? '#f8f9fa' : '#fff3cd',
-                                    borderLeft: `3px solid ${item.isFinal ? '#28a745' : '#ffc107'}`,
-                                    borderRadius: '3px'
-                                }}
-                            >
-                                <div style={{ 
-                                    display: 'flex', 
-                                    justifyContent: 'space-between',
-                                    marginBottom: '5px',
-                                    fontSize: '12px',
-                                    color: '#6c757d'
-                                }}>
-                                    <span>
-                                        {new Date(item.timestamp).toLocaleTimeString()}
-                                    </span>
-                                    <span>
-                                        Confidence: {(item.confidence * 100).toFixed(1)}% | 
-                                        Latency: {formatLatency(item.latency)}
-                                    </span>
-                                </div>
-                                <div style={{ 
-                                    fontWeight: item.isFinal ? 'normal' : '300',
-                                    color: item.isFinal ? '#212529' : '#6c757d'
-                                }}>
-                                    {item.text}
+                            <div className="flex items-center gap-2">
+                                <Activity className="h-6 w-6 text-blue-600" />
+                                <h1 className="text-xl font-semibold text-gray-900 dark:text-white">
+                                    TranscriptIQ
+                                </h1>
+                                <div className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full font-medium">
+                                    AI-Powered Meeting Intelligence
                                 </div>
                             </div>
-                        ))}
+                            {isElectron && (
+                                <Badge variant="secondary" className="hidden sm:inline-flex">
+                                    Electron Mode
+                                </Badge>
+                            )}
+                        </div>
+
+                        <div className="flex items-center gap-4">
+                            {/* Connection Status */}
+                            <div className="flex items-center gap-2">
+                                <Wifi className={`h-4 w-4 ${isConnected ? 'text-green-600' : 'text-red-600'}`} />
+                                <span className={`text-sm font-medium ${isConnected ? 'text-green-600' : 'text-red-600'}`}>
+                                    {isConnected ? 'Connected' : 'Disconnected'}
+                                </span>
+                            </div>
+                            
+                            {/* Active Meeting */}
+                            {activeMeeting && (
+                                <Badge variant={activeMeeting.status === 'active' ? 'success' : 'secondary'}>
+                                    {activeMeeting.title} {activeMeeting.status === 'active' && '(LIVE)'}
+                                </Badge>
+                            )}
+                        </div>
+                    </div>
+                </header>
+
+                {/* Status Cards */}
+                <div className="p-6 border-b bg-gray-50 dark:bg-gray-900">
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <Card className="bg-white dark:bg-gray-800">
+                            <CardContent className="p-4">
+                                <div className="flex items-center gap-2">
+                                    <div className={`w-2 h-2 rounded-full ${isRecording ? 'bg-red-500' : 'bg-gray-400'}`} />
+                                    <span className="text-sm font-medium">
+                                        {isRecording ? 'Recording' : 'Stopped'}
+                                    </span>
+                                    {isRecording && isElectron && (
+                                        <Badge variant="outline" className="text-xs">
+                                            {useElectronBridge ? 'System Audio' : 'Microphone'}
+                                        </Badge>
+                                    )}
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        {metrics && (
+                            <>
+                                <Card className="bg-white dark:bg-gray-800">
+                                    <CardContent className="p-4">
+                                        <div className="flex items-center gap-2">
+                                            <Clock className="h-4 w-4 text-blue-600" />
+                                            <div>
+                                                <div className="text-sm font-medium">Avg Latency</div>
+                                                <div className="text-xs text-muted-foreground">
+                                                    {formatLatency(Math.round(metrics.avgLatency))}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+
+                                <Card className="bg-white dark:bg-gray-800">
+                                    <CardContent className="p-4">
+                                        <div className="flex items-center gap-2">
+                                            <Activity className="h-4 w-4 text-green-600" />
+                                            <div>
+                                                <div className="text-sm font-medium">Last Latency</div>
+                                                <div className="text-xs text-muted-foreground">
+                                                    {formatLatency(metrics.deepgram?.lastLatency || metrics.lastLatency)}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            </>
+                        )}
+
+                        <Card className="bg-white dark:bg-gray-800">
+                            <CardContent className="p-4">
+                                <div className="flex items-center gap-2">
+                                    <Settings className="h-4 w-4 text-gray-600" />
+                                    <div>
+                                        <div className="text-sm font-medium">Audio Source</div>
+                                        <div className="text-xs text-muted-foreground">
+                                            {useElectronBridge ? 'System Audio' : 'Microphone'}
+                                        </div>
+                                    </div>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </div>
+                </div>
+
+                {/* Error Display */}
+                {error && (
+                    <div className="mx-6 mt-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-800 text-sm">
+                        ⚠️ {error}
                     </div>
                 )}
-                </div>
-                
-                {/* Right Panel - Contextual Insights or Definition History */}
-                <div style={{
-                    flex: '1',
-                    minWidth: '0',
-                    maxHeight: '600px',
-                    display: 'flex',
-                    flexDirection: 'column'
-                }}>
-                    {/* Toggle Buttons */}
-                    <div style={{
-                        display: 'flex',
-                        gap: '5px',
-                        marginBottom: '10px'
-                    }}>
-                        <button
-                            onClick={() => setRightPanelView('contextual')}
-                            style={{
-                                flex: 1,
-                                padding: '8px',
-                                background: rightPanelView === 'contextual' ? '#007bff' : '#6c757d',
-                                color: 'white',
-                                border: 'none',
-                                borderRadius: '4px 0 0 4px',
-                                cursor: 'pointer',
-                                fontSize: '13px'
-                            }}
-                        >
-                            Intelligence
-                        </button>
-                        <button
-                            onClick={() => setRightPanelView('definitions')}
-                            style={{
-                                flex: 1,
-                                padding: '8px',
-                                background: rightPanelView === 'definitions' ? '#007bff' : '#6c757d',
-                                color: 'white',
-                                border: 'none',
-                                borderRadius: '0 4px 4px 0',
-                                cursor: 'pointer',
-                                fontSize: '13px'
-                            }}
-                        >
-                            Definitions
-                        </button>
+
+                {/* Meeting Required Notice */}
+                {!activeMeeting && (
+                    <div className="mx-6 mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                        <div className="flex items-start gap-3">
+                            <div className="text-yellow-500 text-xl">ℹ️</div>
+                            <div>
+                                <div className="font-medium text-yellow-800">No Active Meeting</div>
+                                <div className="text-yellow-700 text-sm mt-1">
+                                    Please start a new meeting from the sidebar before recording. All transcripts must be associated with a meeting.
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    
-                    {/* Content */}
-                    <div style={{ flex: 1, minHeight: 0 }}>
-                        {rightPanelView === 'contextual' ? (
-                            <ContextualInsights 
-                                socket={socketRef.current}
-                                currentTopic={activeMeeting?.title}
-                            />
-                        ) : (
-                            <DefinitionHistory 
-                                definitions={termDefinitions}
-                                terms={extractedTerms}
-                            />
-                        )}
+                )}
+
+                {/* Controls */}
+                <div className="p-6 border-b bg-white dark:bg-gray-800">
+                    <div className="flex items-center justify-between gap-4">
+                        {/* Audio Source Selector */}
+                        <div className="flex flex-col gap-2">
+                            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                                Audio Source
+                            </span>
+                            <div className="flex items-center gap-3">
+                                <div className="relative inline-flex items-center bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
+                                    <button
+                                        onClick={() => {
+                                            if (!isRecording) {
+                                                setUseElectronBridge(false);
+                                            }
+                                        }}
+                                        disabled={isRecording}
+                                        className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200 ${
+                                            !useElectronBridge 
+                                                ? 'bg-white dark:bg-gray-800 text-blue-600 dark:text-blue-400 shadow-sm' 
+                                                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
+                                        } ${isRecording ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                                    >
+                                        Microphone
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            if (!isRecording) {
+                                                setUseElectronBridge(true);
+                                                if (!electronBridgeConnected) {
+                                                    setShowElectronInstructions(true);
+                                                    checkElectronBridge();
+                                                }
+                                            }
+                                        }}
+                                        disabled={isRecording}
+                                        className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200 ${
+                                            useElectronBridge 
+                                                ? 'bg-white dark:bg-gray-800 text-blue-600 dark:text-blue-400 shadow-sm' 
+                                                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
+                                        } ${isRecording ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                                    >
+                                        Electron Bridge
+                                    </button>
+                                </div>
+                                
+                                {useElectronBridge && (
+                                    <Badge variant={electronBridgeConnected ? 'success' : 'warning'} className="text-xs">
+                                        {electronBridgeConnected ? '✅ Connected' : '⚠️ Not Connected'}
+                                    </Badge>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Recording Controls */}
+                        <div className="flex items-center gap-3">
+                            <Button
+                                onClick={isRecording ? stopRecording : startRecording}
+                                disabled={!isConnected || !activeMeeting || activeMeeting?.status === 'completed' || (useElectronBridge && !electronBridgeConnected)}
+                                variant={isRecording ? "destructive" : "default"}
+                                size="lg"
+                            >
+                                {isRecording ? (
+                                    <>
+                                        <MicOff className="h-4 w-4 mr-2" />
+                                        Stop Recording
+                                    </>
+                                ) : (
+                                    <>
+                                        <Mic className="h-4 w-4 mr-2" />
+                                        Start Recording
+                                    </>
+                                )}
+                            </Button>
+
+                            <Button
+                                onClick={() => setTranscript([])}
+                                variant="outline"
+                                size="lg"
+                            >
+                                Clear Transcript
+                            </Button>
+
+                            {/* Audio Level Indicator */}
+                            {isRecording && (
+                                <div className="w-32 h-3 bg-gray-200 rounded-full overflow-hidden">
+                                    <div 
+                                        className="h-full bg-gradient-to-r from-green-500 via-yellow-500 to-red-500 transition-all duration-100"
+                                        style={{ width: `${Math.min(100, audioLevel * 200)}%` }}
+                                    />
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Content Area */}
+                <div className="flex-1 flex gap-6 p-6 min-h-0">
+                    {/* Transcript Panel */}
+                    <Card className="flex-2 min-w-0">
+                        <CardHeader>
+                            <CardTitle className="flex items-center gap-2">
+                                📝 Live Transcript
+                            </CardTitle>
+                            <CardDescription>
+                                Real-time speech-to-text transcription with confidence scoring
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent className="max-h-96 overflow-y-auto space-y-3">
+                            {transcript.length === 0 ? (
+                                <div className="text-center text-muted-foreground py-8">
+                                    {isRecording ? 'Listening... Speak to see transcript' : 'Click "Start Recording" to begin'}
+                                </div>
+                            ) : (
+                                transcript.map((item, index) => (
+                                    <div 
+                                        key={index}
+                                        className={`p-3 rounded-lg border-l-2 ${
+                                            item.isFinal 
+                                                ? 'bg-green-50 border-l-green-500 dark:bg-green-900/20' 
+                                                : 'bg-yellow-50 border-l-yellow-500 dark:bg-yellow-900/20'
+                                        }`}
+                                    >
+                                        <div className="flex justify-between items-start text-xs text-muted-foreground mb-2">
+                                            <span>{new Date(item.timestamp).toLocaleTimeString()}</span>
+                                            <span>
+                                                Confidence: {(item.confidence * 100).toFixed(1)}% | 
+                                                Latency: {formatLatency(item.latency)}
+                                            </span>
+                                        </div>
+                                        <div className={`${item.isFinal ? 'font-normal' : 'font-light text-muted-foreground'}`}>
+                                            {item.text}
+                                        </div>
+                                    </div>
+                                ))
+                            )}
+                        </CardContent>
+                    </Card>
+
+                    {/* Right Panel */}
+                    <div className="flex-1 flex flex-col min-w-0">
+                        {/* Toggle Buttons */}
+                        <div className="flex mb-4">
+                            <Button
+                                onClick={() => setRightPanelView('contextual')}
+                                variant={rightPanelView === 'contextual' ? 'default' : 'outline'}
+                                className="flex-1 rounded-r-none"
+                                size="sm"
+                            >
+                                Intelligence
+                            </Button>
+                            <Button
+                                onClick={() => setRightPanelView('definitions')}
+                                variant={rightPanelView === 'definitions' ? 'default' : 'outline'}
+                                className="flex-1 rounded-l-none"
+                                size="sm"
+                            >
+                                Definitions
+                            </Button>
+                        </div>
+
+                        {/* Content */}
+                        <div className="flex-1 min-h-0">
+                            {rightPanelView === 'contextual' ? (
+                                <ContextualInsights 
+                                    socket={socketRef.current}
+                                    currentTopic={activeMeeting?.title}
+                                />
+                            ) : (
+                                <DefinitionHistory 
+                                    definitions={termDefinitions}
+                                    terms={extractedTerms}
+                                />
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
-            </div>
-            
+
             {/* Report View Modal */}
             {showReport && reportMeetingId && (
                 <ReportView
@@ -857,6 +726,77 @@ function App() {
                     }}
                 />
             )}
+
+            {/* Electron Bridge Instructions Modal */}
+            <Dialog open={showElectronInstructions} onOpenChange={setShowElectronInstructions}>
+                <DialogContent className="max-w-2xl">
+                    <DialogHeader>
+                        <DialogTitle className="flex items-center gap-2">
+                            🖥️ Launch TranscriptIQ Audio Bridge
+                        </DialogTitle>
+                        <DialogDescription>
+                            To capture system audio without ambient noise, you need to launch the TranscriptIQ Audio Bridge application.
+                        </DialogDescription>
+                    </DialogHeader>
+                    
+                    <div className="space-y-4">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle className="text-base">Quick Start</CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-3">
+                                <div className="space-y-2">
+                                    <p className="text-sm">1. Open a new terminal</p>
+                                    <p className="text-sm">2. Navigate to the project directory:</p>
+                                    <code className="block p-3 bg-gray-900 text-green-400 rounded text-sm">
+                                        cd /Users/mpt/code/meeting-notation/electron-audio-bridge
+                                    </code>
+                                    <p className="text-sm">3. Install dependencies (first time only):</p>
+                                    <code className="block p-3 bg-gray-900 text-green-400 rounded text-sm">
+                                        npm install
+                                    </code>
+                                    <p className="text-sm">4. Start the Electron bridge:</p>
+                                    <code className="block p-3 bg-gray-900 text-green-400 rounded text-sm">
+                                        npm start
+                                    </code>
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        <Card>
+                            <CardContent className="p-4">
+                                <div className="flex items-center gap-3">
+                                    <div className="text-2xl">
+                                        {electronBridgeConnected ? '✅' : '⏳'}
+                                    </div>
+                                    <div>
+                                        <div className="font-medium">
+                                            Status: {electronBridgeConnected ? 'Connected!' : 'Waiting for connection...'}
+                                        </div>
+                                        {!electronBridgeConnected && (
+                                            <div className="text-sm text-muted-foreground">
+                                                Checking every 3 seconds...
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </div>
+
+                    <DialogFooter>
+                        <Button
+                            onClick={() => checkElectronBridge()}
+                            variant="outline"
+                        >
+                            🔄 Check Again
+                        </Button>
+                        <Button onClick={() => setShowElectronInstructions(false)}>
+                            {electronBridgeConnected ? '✓ Done' : 'Close'}
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }

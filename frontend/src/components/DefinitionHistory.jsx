@@ -1,4 +1,5 @@
 import React from 'react';
+import { BookOpen } from 'lucide-react';
 
 function DefinitionHistory({ definitions, terms }) {
     // Create an array of ALL terms, with or without definitions
@@ -30,7 +31,10 @@ function DefinitionHistory({ definitions, terms }) {
                 height: '100%',
                 overflowY: 'auto'
             }}>
-                <h2 style={{ marginTop: 0, marginBottom: '20px' }}>📚 Glossary Terms</h2>
+                <h2 style={{ marginTop: 0, marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <BookOpen className="h-5 w-5" />
+                    Glossary Terms
+                </h2>
                 <p style={{ color: '#6c757d', fontStyle: 'italic' }}>
                     Terms will appear here as they are identified during the conversation.
                 </p>
@@ -48,7 +52,10 @@ function DefinitionHistory({ definitions, terms }) {
             display: 'flex',
             flexDirection: 'column'
         }}>
-            <h2 style={{ marginTop: 0, marginBottom: '20px' }}>📚 Glossary Terms</h2>
+            <h2 style={{ marginTop: 0, marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <BookOpen className="h-5 w-5" />
+                Glossary Terms
+            </h2>
             
             {/* Summary Stats */}
             <div style={{

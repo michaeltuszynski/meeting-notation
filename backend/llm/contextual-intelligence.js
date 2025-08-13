@@ -270,7 +270,7 @@ Output as JSON with this structure:
   /**
    * Generate talking points based on current context
    */
-  async generateTalkingPoints(topic) {
+  async generateTalkingPoints(topic, customPrompt = null) {
     const meetingData = this.getMeetingData();
     if (!meetingData) {
       return ['No meeting context available'];
@@ -281,15 +281,23 @@ Output as JSON with this structure:
       .map(([term, data]) => `${term}: ${data.definition}`)
       .join('\n');
     
-    const prompt = `Based on this meeting context, generate 3-5 intelligent talking points or questions about "${topic}".
+    // Use custom prompt if provided, otherwise use default
+    const defaultPrompt = `Based on this meeting context, generate 3-5 intelligent talking points or questions about "{topic}".
 
 CONTEXT:
-${context}
+{context}
 
 MEETING GLOSSARY:
-${glossary}
+{glossary}
 
 Generate talking points that show understanding and move the conversation forward.`;
+    
+    // Use custom prompt or default, replacing variables
+    const promptTemplate = customPrompt || defaultPrompt;
+    const prompt = promptTemplate
+      .replace('{topic}', topic)
+      .replace('{context}', context)
+      .replace('{glossary}', glossary);
 
     const response = await this.llmProvider.createCompletion(
       [

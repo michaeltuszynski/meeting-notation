@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { RefreshCw, Download, FileText, X, AlertTriangle, BarChart3, DollarSign, Bot, Sparkles, ClipboardList, KeyRound, FileSignature } from 'lucide-react';
 
 // Simple markdown renderer
 const renderMarkdown = (text) => {
@@ -113,6 +114,8 @@ function ReportView({ meetingId, onClose }) {
     const [regenerating, setRegenerating] = useState(false);
     const [error, setError] = useState(null);
     const [costsExpanded, setCostsExpanded] = useState(false);
+    const [abortController, setAbortController] = useState(null);
+    const [exportMenuOpen, setExportMenuOpen] = useState(false);
     
     useEffect(() => {
         if (meetingId) {
@@ -120,7 +123,28 @@ function ReportView({ meetingId, onClose }) {
         }
     }, [meetingId]);
     
+    // Add click outside handler to close export menu
+    useEffect(() => {
+        const handleClickOutside = () => {
+            if (exportMenuOpen) {
+                setExportMenuOpen(false);
+            }
+        };
+        
+        document.addEventListener('click', handleClickOutside);
+        return () => document.removeEventListener('click', handleClickOutside);
+    }, [exportMenuOpen]);
+    
     const loadReport = async (forceRegenerate = false) => {
+        // Cancel any existing request
+        if (abortController) {
+            abortController.abort();
+        }
+        
+        // Create new AbortController for this request
+        const controller = new AbortController();
+        setAbortController(controller);
+        
         if (forceRegenerate) {
             setRegenerating(true);
         } else {
@@ -130,22 +154,40 @@ function ReportView({ meetingId, onClose }) {
         
         try {
             const url = `http://localhost:9000/api/meetings/${meetingId}/report${forceRegenerate ? '?regenerate=true' : ''}`;
-            const response = await fetch(url);
+            const response = await fetch(url, {
+                signal: controller.signal
+            });
             if (!response.ok) {
                 throw new Error('Failed to generate report');
             }
             const data = await response.json();
             setReport(data);
         } catch (err) {
-            setError(err.message);
+            if (err.name === 'AbortError') {
+                // Request was cancelled
+                console.log('Report generation cancelled');
+            } else {
+                setError(err.message);
+            }
         } finally {
             setLoading(false);
             setRegenerating(false);
+            setAbortController(null);
         }
     };
     
     const handleRegenerate = () => {
         loadReport(true);
+    };
+    
+    const handleCancel = () => {
+        if (abortController) {
+            abortController.abort();
+            setAbortController(null);
+        }
+        setLoading(false);
+        setRegenerating(false);
+        onClose();
     };
 
     const exportReport = (format) => {
@@ -154,7 +196,53 @@ function ReportView({ meetingId, onClose }) {
         const date = new Date().toISOString().split('T')[0];
         const filename = `${report.meeting.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_${date}`;
         
-        if (format === 'json') {
+        if (format === 'markdown') {
+            // Generate Markdown content
+            let mdContent = `# ${report.meeting.title}\n\n`;
+            mdContent += `**Date:** ${new Date(report.meeting.startTime).toLocaleDateString()}\n`;
+            mdContent += `**Duration:** ${report.meeting.duration}\n`;
+            mdContent += `**Words:** ${report.statistics.wordCount.toLocaleString()} | **Terms:** ${report.statistics.uniqueTerms}\n\n`;
+            
+            if (report.costs && report.costs.total > 0) {
+                mdContent += `## API Usage Costs\n\n`;
+                mdContent += `- **LLM Processing:** $${report.costs.llm.toFixed(6)}\n`;
+                mdContent += `- **Transcription:** $${report.costs.transcription.toFixed(6)}\n`;
+                mdContent += `- **Knowledge Retrieval:** $${report.costs.knowledge.toFixed(6)}\n`;
+                mdContent += `- **Total:** $${report.costs.total.toFixed(6)}\n\n`;
+            }
+            
+            mdContent += `## Executive Summary\n\n${report.summary}\n\n`;
+            
+            if (report.keyTerms && report.keyTerms.length > 0) {
+                mdContent += `## Key Terms & Definitions\n\n`;
+                report.keyTerms.forEach(term => {
+                    mdContent += `### ${term.term} (${term.frequency}x)\n\n`;
+                    mdContent += `${term.definition}\n\n`;
+                    if (term.sources && term.sources.length > 0) {
+                        mdContent += `**Sources:** ${term.sources.map(s => 
+                            s.url !== 'meeting-context' ? `[${s.title}](${s.url})` : s.title
+                        ).join(', ')}\n\n`;
+                    }
+                });
+            }
+            
+            mdContent += `## Full Transcript\n\n`;
+            report.fullTranscript.forEach(segment => {
+                const time = new Date(segment.timestamp).toLocaleTimeString();
+                const confidence = segment.confidence ? ` (${Math.round(segment.confidence * 100)}%)` : '';
+                mdContent += `**[${time}]${confidence}** ${segment.text}\n\n`;
+            });
+            
+            mdContent += `---\n\n*Generated on ${new Date().toLocaleString()}*\n`;
+            
+            const blob = new Blob([mdContent], { type: 'text/markdown;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${filename}.md`;
+            a.click();
+            URL.revokeObjectURL(url);
+        } else if (format === 'json') {
             const dataStr = JSON.stringify(report, null, 2);
             const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
             
@@ -203,14 +291,14 @@ function ReportView({ meetingId, onClose }) {
 </head>
 <body>
     <div class="header">
-        <h1>📊 ${report.meeting.title}</h1>
+        <h1>${report.meeting.title}</h1>
         <p><strong>Duration:</strong> ${report.meeting.duration} | <strong>Date:</strong> ${new Date(report.meeting.startTime).toLocaleDateString()}</p>
         <p><strong>Words:</strong> ${report.statistics.wordCount.toLocaleString()} | <strong>Terms:</strong> ${report.statistics.uniqueTerms} | <strong>Segments:</strong> ${report.statistics.transcriptSegments}</p>
     </div>
     
     ${report.costs && report.costs.total > 0 ? `
     <div class="costs">
-        <h2>💰 API Usage Costs</h2>
+        <h2>API Usage Costs</h2>
         <p style="color: #856404; font-size: 14px;">Estimated costs based on API provider pricing</p>
         <div class="cost-grid">
             <div class="cost-item">
@@ -319,7 +407,17 @@ function ReportView({ meetingId, onClose }) {
                     alignItems: 'center',
                     gap: '5px'
                 }}>
-                    {regenerating ? '🤖 Regenerating report with fresh AI analysis' : '📊 Generating meeting report'}
+                    {regenerating ? (
+                        <div className="flex items-center gap-2">
+                            <Bot className="h-5 w-5" />
+                            Regenerating report with fresh AI analysis
+                        </div>
+                    ) : (
+                        <div className="flex items-center gap-2">
+                            <BarChart3 className="h-5 w-5" />
+                            Generating meeting report
+                        </div>
+                    )}
                     <span style={{
                         animation: 'dots 1.5s infinite',
                         width: '20px',
@@ -335,6 +433,27 @@ function ReportView({ meetingId, onClose }) {
                 }}>
                     {regenerating ? 'This may take a moment as we re-analyze the entire meeting' : 'Analyzing transcript and generating insights...'}
                 </div>
+                
+                {/* Cancel Button */}
+                <button
+                    onClick={handleCancel}
+                    style={{
+                        marginTop: '20px',
+                        padding: '10px 24px',
+                        background: '#dc3545',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '6px',
+                        fontSize: '14px',
+                        fontWeight: '500',
+                        cursor: 'pointer',
+                        transition: 'background 0.2s'
+                    }}
+                    onMouseOver={(e) => e.target.style.background = '#c82333'}
+                    onMouseOut={(e) => e.target.style.background = '#dc3545'}
+                >
+                    Cancel
+                </button>
             </div>
         );
     }
@@ -354,27 +473,45 @@ function ReportView({ meetingId, onClose }) {
                 flexDirection: 'column'
             }}>
                 <div style={{
-                    padding: '20px',
+                    padding: '15px 20px',
                     borderBottom: '1px solid #dee2e6',
-                    background: '#f8f9fa'
+                    background: 'white'
                 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <h2 style={{ margin: 0 }}>📊 Meeting Report</h2>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <FileText className="h-5 w-5 text-red-500" />
+                            <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '600' }}>Meeting Report</h3>
+                        </div>
                         <button onClick={onClose} style={{
-                            padding: '8px 12px',
-                            background: '#6c757d',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '4px',
-                            cursor: 'pointer'
+                            width: '32px',
+                            height: '32px',
+                            background: 'white',
+                            color: '#6c757d',
+                            border: '1px solid #dee2e6',
+                            borderRadius: '50%',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: '18px',
+                            fontWeight: 'normal',
+                            transition: 'all 0.2s'
+                        }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.background = '#f8f9fa';
+                            e.currentTarget.style.borderColor = '#adb5bd';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.background = 'white';
+                            e.currentTarget.style.borderColor = '#dee2e6';
                         }}>
-                            ✕ Close
+                            ×
                         </button>
                     </div>
                 </div>
                 <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <div style={{ textAlign: 'center', color: '#dc3545' }}>
-                        <div style={{ fontSize: '48px', marginBottom: '20px' }}>⚠️</div>
+                        <AlertTriangle className="h-12 w-12 text-red-500" style={{ marginBottom: '20px' }} />
                         <h3>Error Loading Report</h3>
                         <p>{error}</p>
                         <button onClick={() => loadReport(false)} style={{
@@ -445,7 +582,10 @@ function ReportView({ meetingId, onClose }) {
                         alignItems: 'center',
                         gap: '5px'
                     }}>
-                        🤖 Regenerating report with fresh AI analysis
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <Bot className="h-5 w-5" />
+                            Regenerating report with fresh AI analysis
+                        </div>
                         <span style={{
                             animation: 'dots 1.5s infinite',
                             width: '20px',
@@ -460,10 +600,34 @@ function ReportView({ meetingId, onClose }) {
                         lineHeight: '1.5'
                     }}>
                         <div style={{ marginBottom: '8px' }}>
-                            ✨ Enhanced multi-stage processing
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <Sparkles className="h-4 w-4" />
+                                Enhanced multi-stage processing
+                            </div>
                         </div>
                         <small style={{ opacity: 0.8 }}>This may take 10-30 seconds</small>
                     </div>
+                    
+                    {/* Cancel Button */}
+                    <button
+                        onClick={handleCancel}
+                        style={{
+                            marginTop: '20px',
+                            padding: '10px 24px',
+                            background: '#dc3545',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '6px',
+                            fontSize: '14px',
+                            fontWeight: '500',
+                            cursor: 'pointer',
+                            transition: 'background 0.2s'
+                        }}
+                        onMouseOver={(e) => e.target.style.background = '#c82333'}
+                        onMouseOut={(e) => e.target.style.background = '#dc3545'}
+                    >
+                        Cancel Regeneration
+                    </button>
 
                     {/* CSS Animations */}
                     <style>{`
@@ -484,59 +648,79 @@ function ReportView({ meetingId, onClose }) {
 
             {/* Header */}
             <div style={{
-                padding: '20px',
+                padding: '15px 20px',
                 borderBottom: '1px solid #dee2e6',
-                background: '#f8f9fa'
+                background: 'white'
             }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <h2 style={{ margin: 0 }}>📊 Meeting Report</h2>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <FileText className="h-5 w-5 text-blue-600" />
+                        <div>
+                            <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '600' }}>
+                                {report.meeting.title}
+                            </h3>
+                            <div style={{ fontSize: '12px', color: '#6c757d', marginTop: '2px' }}>
+                                {new Date(report.meeting.startTime).toLocaleDateString()} • {report.meeting.duration} • 
+                                {report.statistics.wordCount.toLocaleString()} words
+                            </div>
+                        </div>
+                    </div>
                     <button onClick={onClose} style={{
-                        padding: '8px 12px',
-                        background: '#6c757d',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '4px',
-                        cursor: 'pointer'
+                        width: '32px',
+                        height: '32px',
+                        background: 'white',
+                        color: '#6c757d',
+                        border: '1px solid #dee2e6',
+                        borderRadius: '50%',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '18px',
+                        fontWeight: 'normal',
+                        transition: 'all 0.2s'
+                    }}
+                    onMouseEnter={(e) => {
+                        e.currentTarget.style.background = '#f8f9fa';
+                        e.currentTarget.style.borderColor = '#adb5bd';
+                    }}
+                    onMouseLeave={(e) => {
+                        e.currentTarget.style.background = 'white';
+                        e.currentTarget.style.borderColor = '#dee2e6';
                     }}>
-                        ✕ Close
+                        ×
                     </button>
-                </div>
-                <div style={{ marginTop: '10px', fontSize: '14px', color: '#6c757d' }}>
-                    {report.meeting.title}
-                </div>
-                <div style={{ fontSize: '12px', color: '#6c757d', marginTop: '5px' }}>
-                    {new Date(report.meeting.startTime).toLocaleDateString()} • {report.meeting.duration} • 
-                    {report.statistics.wordCount.toLocaleString()} words • {report.statistics.uniqueTerms} terms
                 </div>
             </div>
 
             {/* Action Buttons */}
             <div style={{
-                padding: '15px 20px',
+                padding: '10px 15px',
                 borderBottom: '1px solid #dee2e6',
                 display: 'flex',
-                gap: '10px',
-                flexWrap: 'wrap',
-                alignItems: 'center'
+                gap: '8px',
+                alignItems: 'center',
+                background: 'white'
             }}>
                 {/* Regenerate Button */}
                 <button 
                     onClick={handleRegenerate} 
                     disabled={regenerating}
                     style={{
-                        padding: '8px 16px',
+                        padding: '6px 10px',
                         background: regenerating ? '#6c757d' : '#ffc107',
                         color: regenerating ? 'white' : '#212529',
                         border: 'none',
                         borderRadius: '4px',
                         cursor: regenerating ? 'not-allowed' : 'pointer',
-                        fontWeight: 'bold',
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '5px'
+                        justifyContent: 'center',
+                        transition: 'all 0.2s'
                     }}
+                    title={regenerating ? 'Regenerating...' : 'Regenerate Report'}
                 >
-                    {regenerating ? '⏳ Regenerating...' : '🔄 Regenerate Report'}
+                    <RefreshCw className="h-4 w-4" />
                 </button>
                 
                 {/* Cache indicator */}
@@ -546,48 +730,140 @@ function ReportView({ meetingId, onClose }) {
                         background: '#d4edda',
                         color: '#155724',
                         borderRadius: '3px',
-                        fontSize: '12px',
+                        fontSize: '11px',
                         fontWeight: '500'
                     }}>
-                        📄 Cached
+                        Cached
                     </span>
                 )}
                 
-                {/* Export Buttons */}
-                <div style={{ marginLeft: 'auto', display: 'flex', gap: '10px' }}>
-                    <button onClick={() => exportReport('html')} style={{
-                        padding: '8px 16px',
-                        background: '#17a2b8',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '4px',
-                        cursor: 'pointer',
-                        fontSize: '13px'
-                    }}>
-                        📄 HTML
+                {/* Export Dropdown */}
+                <div style={{ marginLeft: 'auto', position: 'relative' }}>
+                    <button
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setExportMenuOpen(!exportMenuOpen);
+                        }}
+                        style={{
+                            padding: '6px 10px',
+                            background: '#17a2b8',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '3px',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center'
+                        }}
+                        title="Export report"
+                    >
+                        <Download className="h-3.5 w-3.5" />
                     </button>
-                    <button onClick={() => exportReport('csv')} style={{
-                        padding: '8px 16px',
-                        background: '#28a745',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '4px',
-                        cursor: 'pointer',
-                        fontSize: '13px'
-                    }}>
-                        📊 CSV
-                    </button>
-                    <button onClick={() => exportReport('json')} style={{
-                        padding: '8px 16px',
-                        background: '#6f42c1',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '4px',
-                        cursor: 'pointer',
-                        fontSize: '13px'
-                    }}>
-                        💾 JSON
-                    </button>
+                    {exportMenuOpen && (
+                        <div style={{
+                            position: 'absolute',
+                            top: '100%',
+                            right: 0,
+                            marginTop: '2px',
+                            background: 'white',
+                            border: '1px solid #dee2e6',
+                            borderRadius: '3px',
+                            boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                            zIndex: 1000,
+                            minWidth: '100px'
+                        }}>
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    exportReport('markdown');
+                                    setExportMenuOpen(false);
+                                }}
+                                style={{
+                                    display: 'block',
+                                    width: '100%',
+                                    padding: '8px 12px',
+                                    fontSize: '12px',
+                                    background: 'transparent',
+                                    border: 'none',
+                                    textAlign: 'left',
+                                    cursor: 'pointer',
+                                    color: '#212529'
+                                }}
+                                onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9fa'}
+                                onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                            >
+                                Markdown
+                            </button>
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    exportReport('html');
+                                    setExportMenuOpen(false);
+                                }}
+                                style={{
+                                    display: 'block',
+                                    width: '100%',
+                                    padding: '8px 12px',
+                                    fontSize: '12px',
+                                    background: 'transparent',
+                                    border: 'none',
+                                    borderTop: '1px solid #dee2e6',
+                                    textAlign: 'left',
+                                    cursor: 'pointer',
+                                    color: '#212529'
+                                }}
+                                onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9fa'}
+                                onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                            >
+                                HTML Report
+                            </button>
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    exportReport('json');
+                                    setExportMenuOpen(false);
+                                }}
+                                style={{
+                                    display: 'block',
+                                    width: '100%',
+                                    padding: '8px 12px',
+                                    fontSize: '12px',
+                                    background: 'transparent',
+                                    border: 'none',
+                                    borderTop: '1px solid #dee2e6',
+                                    textAlign: 'left',
+                                    cursor: 'pointer',
+                                    color: '#212529'
+                                }}
+                                onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9fa'}
+                                onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                            >
+                                JSON Data
+                            </button>
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    exportReport('csv');
+                                    setExportMenuOpen(false);
+                                }}
+                                style={{
+                                    display: 'block',
+                                    width: '100%',
+                                    padding: '8px 12px',
+                                    fontSize: '12px',
+                                    background: 'transparent',
+                                    border: 'none',
+                                    borderTop: '1px solid #dee2e6',
+                                    textAlign: 'left',
+                                    cursor: 'pointer',
+                                    color: '#212529'
+                                }}
+                                onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9fa'}
+                                onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                            >
+                                CSV Terms
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
 
@@ -611,7 +887,7 @@ function ReportView({ meetingId, onClose }) {
                             }}
                         >
                             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                <span style={{ fontSize: '16px' }}>💰</span>
+                                <DollarSign className="h-4 w-4" />
                                 <div>
                                     <div style={{ fontWeight: 'bold', fontSize: '14px', color: '#856404' }}>
                                         API Usage Costs
@@ -740,7 +1016,10 @@ function ReportView({ meetingId, onClose }) {
                     background: '#f8f9fa'
                 }}>
                     <h3 style={{ marginTop: 0, marginBottom: '15px', fontSize: '16px' }}>
-                        📋 Executive Summary
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <ClipboardList className="h-4 w-4" />
+                            Executive Summary
+                        </div>
                     </h3>
                     <div style={{ 
                         fontSize: '14px', 
@@ -758,7 +1037,10 @@ function ReportView({ meetingId, onClose }) {
                 {report.keyTerms && report.keyTerms.length > 0 && (
                     <div style={{ padding: '20px', borderBottom: '1px solid #dee2e6' }}>
                         <h3 style={{ marginTop: 0, marginBottom: '15px', fontSize: '16px' }}>
-                            🔑 Key Terms & Definitions ({report.keyTerms.length})
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <KeyRound className="h-4 w-4" />
+                                Key Terms & Definitions ({report.keyTerms.length})
+                            </div>
                         </h3>
                         <div style={{ fontSize: '13px', color: '#6c757d', marginBottom: '15px' }}>
                             Only terms with 3+ mentions are included to focus on key concepts
@@ -826,7 +1108,10 @@ function ReportView({ meetingId, onClose }) {
                 {/* Full Transcript Section */}
                 <div style={{ padding: '20px' }}>
                     <h3 style={{ marginTop: 0, marginBottom: '15px', fontSize: '16px' }}>
-                        📝 Full Transcript ({report.statistics.transcriptSegments} segments)
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <FileSignature className="h-4 w-4" />
+                            Full Transcript ({report.statistics.transcriptSegments} segments)
+                        </div>
                     </h3>
                     <div style={{ fontSize: '13px', color: '#6c757d', marginBottom: '15px' }}>
                         Complete real-time transcription with timestamps and confidence scores

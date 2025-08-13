@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { io } from 'socket.io-client';
-import { Mic, MicOff, Settings, Activity, Clock, Users, Wifi } from 'lucide-react';
-import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
+import { Mic, MicOff, Settings, Activity, Clock, Users, Wifi, AlertTriangle, Monitor, CheckCircle, Loader, RefreshCw } from 'lucide-react';
+// Removed react-resizable-panels - no longer needed
 
 import { Button } from './components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './components/ui/card';
@@ -15,6 +15,7 @@ import DefinitionHistory from './components/DefinitionHistory';
 import ContextualInsights from './components/ContextualInsights';
 import CorrectableTranscript from './components/CorrectableTranscript';
 import SettingsModal from './components/Settings';
+import MeetingIntelligence from './components/MeetingIntelligence';
 import useElectronAudio from './hooks/useElectronAudio';
 import './styles/panels.css';
 
@@ -31,7 +32,9 @@ function App() {
     const [showSidebar, setShowSidebar] = useState(true);
     const [showReport, setShowReport] = useState(false);
     const [reportMeetingId, setReportMeetingId] = useState(null);
-    const [rightPanelView, setRightPanelView] = useState('contextual');
+    const [intelligenceView, setIntelligenceView] = useState('insights');
+    const [recordingDuration, setRecordingDuration] = useState(0);
+    const [recordingStartTime, setRecordingStartTime] = useState(null);
     const [useElectronBridge, setUseElectronBridge] = useState(false);
     const [electronBridgeConnected, setElectronBridgeConnected] = useState(false);
     const [showElectronInstructions, setShowElectronInstructions] = useState(false);
@@ -86,11 +89,22 @@ function App() {
     }, [useElectronBridge]);
 
     // Auto-scroll transcript to bottom when new entries arrive
+    // Only if viewing transcript tab and user is near the bottom
     useEffect(() => {
-        if (transcriptEndRef.current) {
-            transcriptEndRef.current.scrollIntoView({ behavior: 'smooth' });
+        if (transcriptEndRef.current && intelligenceView === 'transcript') {
+            // Check if user is near the bottom of the scrollable area
+            const scrollContainer = transcriptEndRef.current.parentElement;
+            if (scrollContainer) {
+                const isNearBottom = 
+                    scrollContainer.scrollHeight - scrollContainer.scrollTop - scrollContainer.clientHeight < 100;
+                
+                // Only auto-scroll if user is already following the transcript
+                if (isNearBottom) {
+                    transcriptEndRef.current.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
         }
-    }, [transcript]);
+    }, [transcript, intelligenceView]);
 
     useEffect(() => {
         const wsUrl = 'http://localhost:9000';
@@ -292,6 +306,8 @@ function App() {
             
             setIsRecording(true);
             setError(null);
+            setRecordingStartTime(Date.now());
+            setRecordingDuration(0);
             
             if (isElectron && useElectronBridge) {
                 if (!selectedSource && audioSources.length === 0) {
@@ -380,6 +396,8 @@ function App() {
             stopElectronCapture();
             setIsRecording(false);
             setAudioLevel(0);
+            setRecordingStartTime(null);
+            setRecordingDuration(0);
             // Don't automatically end meeting - user should explicitly click End Meeting
             return;
         }
@@ -405,6 +423,8 @@ function App() {
         
         setIsRecording(false);
         setAudioLevel(0);
+        setRecordingStartTime(null);
+        setRecordingDuration(0);
         // Don't automatically end meeting - user should explicitly click End Meeting
     };
 
@@ -412,268 +432,250 @@ function App() {
         if (!latency) return 'N/A';
         return `${latency}ms`;
     };
+    
+    const formatDuration = (seconds) => {
+        if (!seconds) return '00:00';
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    };
 
     return (
-        <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
+        <div className="flex h-screen bg-gray-50 dark:bg-gray-900 relative">
             {/* Meeting Sidebar */}
-            {showSidebar && (
-                <div className="w-80 border-r bg-white dark:bg-gray-800 shadow-sm">
-                    <MeetingSidebar
-                        onSelectMeeting={handleSelectMeeting}
-                        activeMeetingId={activeMeeting?.id}
-                        onNewMeeting={handleNewMeeting}
-                        onGenerateReport={handleGenerateReport}
-                        socket={socketRef.current}
-                    />
-                </div>
-            )}
+            <div className={`${showSidebar ? 'w-80' : 'w-0'} transition-all duration-300 overflow-hidden`}>
+                {showSidebar && (
+                    <div className="w-80 border-r bg-white dark:bg-gray-800 shadow-sm h-full">
+                        <MeetingSidebar
+                            onSelectMeeting={handleSelectMeeting}
+                            activeMeetingId={activeMeeting?.id}
+                            onNewMeeting={handleNewMeeting}
+                            onGenerateReport={handleGenerateReport}
+                            socket={socketRef.current}
+                        />
+                    </div>
+                )}
+            </div>
+            
+            {/* Sidebar Toggle Button - Floating on top */}
+            <button
+                onClick={() => setShowSidebar(!showSidebar)}
+                className={`fixed ${showSidebar ? 'left-[308px]' : 'left-4'} top-1/2 -translate-y-1/2 z-[100] bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-full p-2 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 shadow-lg`}
+                title={showSidebar ? "Hide sidebar" : "Show sidebar"}
+            >
+                {showSidebar ? (
+                    <svg className="h-3 w-3 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
+                    </svg>
+                ) : (
+                    <svg className="h-3 w-3 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+                    </svg>
+                )}
+            </button>
 
             {/* Main Content */}
-            <div className="flex-1 flex flex-col">
+            <div className="flex-1 flex flex-col relative">
                 {/* Header */}
-                <header className="border-b bg-white dark:bg-gray-800 px-6 py-4 shadow-sm">
+                <header className="border-b bg-white dark:bg-gray-800 px-6 py-3 shadow-sm">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
-                            {!showSidebar && (
-                                <Button
-                                    variant="outline"
-                                    size="sm"
-                                    onClick={() => setShowSidebar(true)}
-                                    className="md:hidden"
-                                >
-                                    <Users className="h-4 w-4" />
-                                </Button>
-                            )}
-                            <div className="flex items-center gap-2">
-                                <Activity className="h-6 w-6 text-blue-600" />
-                                <h1 className="text-xl font-semibold text-gray-900 dark:text-white">
-                                    TranscriptIQ
-                                </h1>
-                                <div className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full font-medium">
-                                    AI-Powered Meeting Intelligence
-                                </div>
-                            </div>
-                            {isElectron && (
-                                <Badge variant="secondary" className="hidden sm:inline-flex">
-                                    Electron Mode
-                                </Badge>
-                            )}
-                        </div>
-
-                        <div className="flex items-center gap-4">
-                            {/* Connection Status */}
-                            <div className="flex items-center gap-2">
-                                <Wifi className={`h-4 w-4 ${isConnected ? 'text-green-600' : 'text-red-600'}`} />
-                                <span className={`text-sm font-medium ${isConnected ? 'text-green-600' : 'text-red-600'}`}>
-                                    {isConnected ? 'Connected' : 'Disconnected'}
-                                </span>
-                            </div>
-                            
-                            {/* Active Meeting */}
-                            {activeMeeting && (
-                                <Badge variant={activeMeeting.status === 'active' ? 'success' : 'secondary'}>
-                                    {activeMeeting.title} {activeMeeting.status === 'active' && '(LIVE)'}
-                                </Badge>
-                            )}
-                        </div>
-                        
-                        {/* Settings Button */}
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => setShowSettings(true)}
-                            className="flex items-center gap-2"
-                        >
-                            <Settings className="h-4 w-4" />
-                            <span className="hidden sm:inline">Settings</span>
-                        </Button>
-                    </div>
-                </header>
-
-                {/* Status Cards */}
-                <div className="p-6 border-b bg-gray-50 dark:bg-gray-900">
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                        <Card className="bg-white dark:bg-gray-800">
-                            <CardContent className="p-4">
-                                <div className="flex items-center gap-2">
-                                    <div className={`w-2 h-2 rounded-full ${isRecording ? 'bg-red-500' : 'bg-gray-400'}`} />
-                                    <span className="text-sm font-medium">
-                                        {isRecording ? 'Recording' : 'Stopped'}
-                                    </span>
-                                    {isRecording && isElectron && (
-                                        <Badge variant="outline" className="text-xs">
-                                            {useElectronBridge ? 'System Audio' : 'Microphone'}
-                                        </Badge>
-                                    )}
-                                </div>
-                            </CardContent>
-                        </Card>
-
-                        {metrics && (
-                            <>
-                                <Card className="bg-white dark:bg-gray-800">
-                                    <CardContent className="p-4">
-                                        <div className="flex items-center gap-2">
-                                            <Clock className="h-4 w-4 text-blue-600" />
-                                            <div>
-                                                <div className="text-sm font-medium">Avg Latency</div>
-                                                <div className="text-xs text-muted-foreground">
-                                                    {formatLatency(Math.round(metrics.avgLatency))}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </CardContent>
-                                </Card>
-
-                                <Card className="bg-white dark:bg-gray-800">
-                                    <CardContent className="p-4">
-                                        <div className="flex items-center gap-2">
-                                            <Activity className="h-4 w-4 text-green-600" />
-                                            <div>
-                                                <div className="text-sm font-medium">Last Latency</div>
-                                                <div className="text-xs text-muted-foreground">
-                                                    {formatLatency(metrics.deepgram?.lastLatency || metrics.lastLatency)}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                            </>
-                        )}
-
-                        <Card className="bg-white dark:bg-gray-800">
-                            <CardContent className="p-4">
-                                <div className="flex items-center gap-2">
-                                    <Settings className="h-4 w-4 text-gray-600" />
-                                    <div>
-                                        <div className="text-sm font-medium">Audio Source</div>
-                                        <div className="text-xs text-muted-foreground">
-                                            {useElectronBridge ? 'System Audio' : 'Microphone'}
-                                        </div>
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </div>
-                </div>
-
-                {/* Error Display */}
-                {error && (
-                    <div className="mx-6 mt-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-800 text-sm">
-                        ⚠️ {error}
-                    </div>
-                )}
-
-                {/* Meeting Required Notice */}
-                {!activeMeeting && (
-                    <div className="mx-6 mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                        <div className="flex items-start gap-3">
-                            <div className="text-yellow-500 text-xl">ℹ️</div>
-                            <div>
-                                <div className="font-medium text-yellow-800">No Active Meeting</div>
-                                <div className="text-yellow-700 text-sm mt-1">
-                                    Please start a new meeting from the sidebar before recording. All transcripts must be associated with a meeting.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )}
-
-                {/* Controls */}
-                <div className="p-6 border-b bg-white dark:bg-gray-800">
-                    <div className="flex items-center justify-between gap-4">
-                        {/* Audio Source Selector */}
-                        <div className="flex flex-col gap-2">
-                            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                                Audio Source
-                            </span>
                             <div className="flex items-center gap-3">
-                                <div className="relative inline-flex items-center bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
-                                    <button
-                                        onClick={() => {
-                                            if (!isRecording) {
-                                                setUseElectronBridge(false);
-                                            }
-                                        }}
-                                        disabled={isRecording}
-                                        className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200 ${
-                                            !useElectronBridge 
-                                                ? 'bg-white dark:bg-gray-800 text-blue-600 dark:text-blue-400 shadow-sm' 
-                                                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
-                                        } ${isRecording ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
-                                    >
-                                        Microphone
-                                    </button>
-                                    <button
-                                        onClick={() => {
-                                            if (!isRecording) {
-                                                setUseElectronBridge(true);
-                                                if (!electronBridgeConnected) {
-                                                    setShowElectronInstructions(true);
-                                                    checkElectronBridge();
-                                                }
-                                            }
-                                        }}
-                                        disabled={isRecording}
-                                        className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200 ${
-                                            useElectronBridge 
-                                                ? 'bg-white dark:bg-gray-800 text-blue-600 dark:text-blue-400 shadow-sm' 
-                                                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
-                                        } ${isRecording ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
-                                    >
-                                        Electron Bridge
-                                    </button>
+                                <div className="flex items-center gap-2">
+                                    <Activity className="h-5 w-5 text-blue-600" />
+                                    <h1 className="text-lg font-semibold text-gray-900 dark:text-white">
+                                        TranscriptIQ
+                                    </h1>
                                 </div>
-                                
-                                {useElectronBridge && (
-                                    <Badge variant={electronBridgeConnected ? 'success' : 'warning'} className="text-xs">
-                                        {electronBridgeConnected ? '✅ Connected' : '⚠️ Not Connected'}
+                                {isElectron && (
+                                    <Badge variant="secondary" className="text-xs">
+                                        Electron Mode
                                     </Badge>
                                 )}
                             </div>
                         </div>
 
-                        {/* Recording Controls */}
-                        <div className="flex items-center gap-3">
-                            <Button
+                        <div className="flex items-center gap-4">
+                            {/* Active Meeting Badge */}
+                            {activeMeeting && (
+                                <div className="flex items-center gap-2">
+                                    {activeMeeting.status === 'active' && (
+                                        <div className="relative">
+                                            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                                            <div className="absolute inset-0 w-2 h-2 bg-green-500 rounded-full animate-ping" />
+                                        </div>
+                                    )}
+                                    <span className="text-sm font-medium text-gray-700">
+                                        {activeMeeting.title}
+                                    </span>
+                                </div>
+                            )}
+                            
+                            {/* Connection Status Icon */}
+                            <div className="p-2" title={isConnected ? 'Connected' : 'Disconnected'}>
+                                <Wifi className={`h-4 w-4 ${isConnected ? 'text-green-500' : 'text-red-500'}`} />
+                            </div>
+                            
+                            {/* Settings Button */}
+                            <button
+                                onClick={() => setShowSettings(true)}
+                                className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
+                                title="Settings"
+                            >
+                                <Settings className="h-4 w-4" />
+                            </button>
+                        </div>
+                    </div>
+                </header>
+
+                {/* Compact Status Bar */}
+                <div className="px-6 py-2 border-b bg-gray-50 dark:bg-gray-900">
+                    <div className="flex items-center justify-between text-sm">
+                        <div className="flex items-center gap-6">
+                            {/* Recording Status */}
+                            <div className="flex items-center gap-2">
+                                <div className={`w-2 h-2 rounded-full ${isRecording ? 'bg-red-500 animate-pulse' : 'bg-gray-400'}`} />
+                                <span className="font-medium">
+                                    {isRecording ? 'Recording' : 'Stopped'}
+                                </span>
+                            </div>
+
+                            {/* Latency Metrics */}
+                            {metrics && (
+                                <>
+                                    <div className="flex items-center gap-2">
+                                        <Clock className="h-3 w-3 text-blue-600" />
+                                        <span className="text-gray-600">Avg Latency:</span>
+                                        <span className="font-medium">{formatLatency(Math.round(metrics.avgLatency))}</span>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <Activity className="h-3 w-3 text-green-600" />
+                                        <span className="text-gray-600">Last Latency:</span>
+                                        <span className="font-medium">{formatLatency(metrics.deepgram?.lastLatency || metrics.lastLatency)}</span>
+                                    </div>
+                                </>
+                            )}
+
+                            {/* Audio Source */}
+                            <div className="flex items-center gap-2">
+                                <Settings className="h-3 w-3 text-gray-600" />
+                                <span className="text-gray-600">Audio Source:</span>
+                                <span className="font-medium">{useElectronBridge ? 'System Audio' : 'Microphone'}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Streamlined Controls Bar */}
+                <div className="px-4 py-2 border-b bg-white dark:bg-gray-800">
+                    <div className="flex items-center justify-between">
+                        {/* Left side: Audio Source & Status */}
+                        <div className="flex items-center gap-4">
+                            {/* Audio Source Toggle */}
+                            <div className="flex items-center gap-2">
+                                <button
+                                    onClick={() => {
+                                        if (!isRecording) {
+                                            setUseElectronBridge(!useElectronBridge);
+                                            if (!useElectronBridge && !electronBridgeConnected) {
+                                                setShowElectronInstructions(true);
+                                                checkElectronBridge();
+                                            }
+                                        }
+                                    }}
+                                    disabled={isRecording}
+                                    className={`flex items-center gap-2 px-2.5 py-1 text-xs font-medium rounded-md transition-all border ${
+                                        isRecording 
+                                            ? 'opacity-50 cursor-not-allowed bg-gray-50 border-gray-200' 
+                                            : 'bg-white hover:bg-gray-50 border-gray-300'
+                                    }`}
+                                    title="Click to toggle audio source"
+                                >
+                                    {useElectronBridge ? (
+                                        <>
+                                            <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0C.488 3.45.029 5.804 0 12c.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0C23.512 20.55 23.971 18.196 24 12c-.029-6.185-.484-8.549-4.385-8.816zM9 16.5v-9l9 4.5-9 4.5z"/>
+                                            </svg>
+                                            <span>System Audio</span>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Mic className="h-3 w-3" />
+                                            <span>Microphone</span>
+                                        </>
+                                    )}
+                                    <svg className="h-3 w-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
+                                    </svg>
+                                </button>
+                                {useElectronBridge && !electronBridgeConnected && (
+                                    <span className="text-xs text-yellow-600 flex items-center gap-1">
+                                        <AlertTriangle className="h-3 w-3" />
+                                        Not Connected
+                                    </span>
+                                )}
+                            </div>
+
+                            {/* Meeting Status Indicator */}
+                            {!activeMeeting && (
+                                <div className="flex items-center gap-1.5 text-xs text-amber-600">
+                                    <div className="w-2 h-2 bg-amber-500 rounded-full animate-pulse" />
+                                    <span>No active meeting - start one from sidebar</span>
+                                </div>
+                            )}
+
+                            {/* Audio Level Indicator */}
+                            {isRecording && (
+                                <div className="w-20 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                                    <div 
+                                        className="h-full bg-gradient-to-r from-green-500 via-yellow-500 to-red-500 transition-all duration-100"
+                                        style={{ width: `${Math.min(100, audioLevel * 200)}%` }}
+                                    />
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Right side: Compact Action Buttons */}
+                        <div className="flex items-center gap-1">
+                            {/* Record Button */}
+                            <button
                                 onClick={isRecording ? stopRecording : startRecording}
                                 disabled={!isConnected || !activeMeeting || activeMeeting?.status === 'completed' || (useElectronBridge && !electronBridgeConnected)}
-                                variant={isRecording ? "destructive" : "default"}
-                                size="lg"
+                                className={`p-2 rounded-md transition-all ${
+                                    isRecording 
+                                        ? 'bg-red-500 hover:bg-red-600 text-white' 
+                                        : 'bg-blue-500 hover:bg-blue-600 text-white disabled:bg-gray-300'
+                                }`}
+                                title={isRecording ? "Stop Recording" : "Start Recording"}
                             >
                                 {isRecording ? (
-                                    <>
-                                        <MicOff className="h-4 w-4 mr-2" />
-                                        Stop Recording
-                                    </>
+                                    <MicOff className="h-4 w-4" />
                                 ) : (
-                                    <>
-                                        <Mic className="h-4 w-4 mr-2" />
-                                        Start Recording
-                                    </>
+                                    <Mic className="h-4 w-4" />
                                 )}
-                            </Button>
+                            </button>
 
-                            {/* End Meeting Button - Only show when meeting is active */}
+                            {/* End Meeting Button */}
                             {activeMeeting && activeMeeting.status === 'active' && (
-                                <Button
+                                <button
                                     onClick={() => {
                                         if (isRecording) {
                                             stopRecording();
-                                        } else {
-                                            handleEndMeeting();
                                         }
+                                        handleEndMeeting();
                                     }}
-                                    variant="warning"
-                                    size="lg"
-                                    className="bg-orange-500 hover:bg-orange-600 text-white"
+                                    className="p-2 bg-red-500 hover:bg-red-600 text-white rounded-md transition-all"
+                                    title="End Meeting"
                                 >
-                                    <Clock className="h-4 w-4 mr-2" />
-                                    End Meeting
-                                </Button>
+                                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z" />
+                                    </svg>
+                                </button>
                             )}
 
-                            <Button
+                            {/* Clear Transcript Button */}
+                            <button
                                 onClick={() => {
                                     setTranscript([]);
                                     setExtractedTerms([]);
@@ -682,109 +684,50 @@ function App() {
                                         socketRef.current.emit('transcript:clear');
                                     }
                                 }}
-                                variant="outline"
-                                size="lg"
+                                className="p-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-all"
+                                title="Clear Transcript"
                             >
-                                Clear Transcript
-                            </Button>
-
-                            {/* Audio Level Indicator */}
-                            {isRecording && (
-                                <div className="w-32 h-3 bg-gray-200 rounded-full overflow-hidden">
-                                    <div 
-                                        className="h-full bg-gradient-to-r from-green-500 via-yellow-500 to-red-500 transition-all duration-100"
-                                        style={{ width: `${Math.min(100, audioLevel * 200)}%` }}
-                                    />
-                                </div>
-                            )}
+                                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                {/* Content Area with Resizable Panels */}
-                <div className="flex-1 min-h-0">
-                    <PanelGroup direction="horizontal" className="h-full">
-                        {/* Transcript Panel */}
-                        <Panel defaultSize={50} minSize={30}>
-                            <Card className="h-full m-4 mr-2 flex flex-col">
-                                <CardHeader>
-                                    <CardTitle className="flex items-center gap-2">
-                                        📝 Live Transcript
-                                    </CardTitle>
-                                    <CardDescription>
-                                        Real-time speech-to-text transcription with confidence scoring
-                                    </CardDescription>
-                                </CardHeader>
-                                <CardContent className="flex-1 overflow-y-auto">
-                                    {transcript.length === 0 ? (
-                                        <div className="text-center text-muted-foreground py-8">
-                                            {isRecording ? 'Listening... Speak to see transcript' : 'Click "Start Recording" to begin'}
-                                        </div>
-                                    ) : (
-                                        <>
-                                            <CorrectableTranscript 
-                                                transcript={transcript} 
-                                                socket={socketRef.current}
-                                                className="space-y-3"
-                                            />
-                                            <div ref={transcriptEndRef} />
-                                        </>
-                                    )}
-                                    <div className="mt-4 text-xs text-gray-500 text-center">
-                                        💡 Click on any word to correct it globally across all meetings
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        </Panel>
+                {/* Floating Error Toast - appears at top right when there's an error */}
+                {error && (
+                    <div className="fixed top-20 right-4 z-50 max-w-sm p-3 bg-red-50 border border-red-200 rounded-lg shadow-lg animate-slide-in">
+                        <div className="flex items-start gap-2">
+                            <AlertTriangle className="h-5 w-5 text-red-500" />
+                            <span className="text-sm text-red-800">{error}</span>
+                            <button 
+                                onClick={() => setError(null)}
+                                className="ml-auto text-red-500 hover:text-red-700"
+                            >
+                                ×
+                            </button>
+                        </div>
+                    </div>
+                )}
 
-                        {/* Resize Handle */}
-                        <PanelResizeHandle className="w-2 hover:bg-blue-500/20 transition-colors duration-200">
-                            <div className="w-full h-full flex items-center justify-center">
-                                <div className="w-0.5 h-8 bg-gray-300 rounded-full" />
-                            </div>
-                        </PanelResizeHandle>
-
-                        {/* Right Panel */}
-                        <Panel defaultSize={50} minSize={30}>
-                            <div className="h-full m-4 ml-2 flex flex-col">
-                                {/* Toggle Buttons */}
-                                <div className="flex mb-4">
-                                    <Button
-                                        onClick={() => setRightPanelView('contextual')}
-                                        variant={rightPanelView === 'contextual' ? 'default' : 'outline'}
-                                        className="flex-1 rounded-r-none"
-                                        size="sm"
-                                    >
-                                        Intelligence
-                                    </Button>
-                                    <Button
-                                        onClick={() => setRightPanelView('definitions')}
-                                        variant={rightPanelView === 'definitions' ? 'default' : 'outline'}
-                                        className="flex-1 rounded-l-none"
-                                        size="sm"
-                                    >
-                                        Glossary
-                                    </Button>
-                                </div>
-
-                                {/* Content */}
-                                <div className="flex-1 min-h-0 overflow-y-auto">
-                                    {rightPanelView === 'contextual' ? (
-                                        <ContextualInsights 
-                                            socket={socketRef.current}
-                                            currentTopic={activeMeeting?.title}
-                                        />
-                                    ) : (
-                                        <DefinitionHistory 
-                                            definitions={termDefinitions}
-                                            terms={extractedTerms}
-                                        />
-                                    )}
-                                </div>
-                            </div>
-                        </Panel>
-                    </PanelGroup>
-                </div>
+                {/* Meeting Intelligence Component */}
+                <MeetingIntelligence 
+                    intelligenceView={intelligenceView}
+                    setIntelligenceView={setIntelligenceView}
+                    isRecording={isRecording}
+                    recordingStartTime={recordingStartTime}
+                    useElectronBridge={useElectronBridge}
+                    metrics={metrics}
+                    activeMeeting={activeMeeting}
+                    socket={socketRef.current}
+                    extractedTerms={extractedTerms}
+                    termDefinitions={termDefinitions}
+                    transcript={transcript}
+                    transcriptEndRef={transcriptEndRef}
+                    formatDuration={formatDuration}
+                    formatLatency={formatLatency}
+                />
             </div>
 
             {/* Report View Modal */}
@@ -803,7 +746,10 @@ function App() {
                 <DialogContent className="max-w-2xl">
                     <DialogHeader>
                         <DialogTitle className="flex items-center gap-2">
-                            🖥️ Launch TranscriptIQ Audio Bridge
+                            <div className="flex items-center gap-2">
+                                <Monitor className="h-5 w-5" />
+                                Launch TranscriptIQ Audio Bridge
+                            </div>
                         </DialogTitle>
                         <DialogDescription>
                             To capture system audio without ambient noise, you need to launch the TranscriptIQ Audio Bridge application.
@@ -838,7 +784,11 @@ function App() {
                             <CardContent className="p-4">
                                 <div className="flex items-center gap-3">
                                     <div className="text-2xl">
-                                        {electronBridgeConnected ? '✅' : '⏳'}
+                                        {electronBridgeConnected ? (
+                                            <CheckCircle className="h-6 w-6 text-green-500" />
+                                        ) : (
+                                            <Loader className="h-6 w-6 text-blue-500 animate-spin" />
+                                        )}
                                     </div>
                                     <div>
                                         <div className="font-medium">
@@ -860,7 +810,10 @@ function App() {
                             onClick={() => checkElectronBridge()}
                             variant="outline"
                         >
-                            🔄 Check Again
+                            <div className="flex items-center gap-2">
+                                <RefreshCw className="h-4 w-4" />
+                                Check Again
+                            </div>
                         </Button>
                         <Button onClick={() => setShowElectronInstructions(false)}>
                             {electronBridgeConnected ? '✓ Done' : 'Close'}

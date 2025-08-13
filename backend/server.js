@@ -15,6 +15,7 @@ const MeetingService = require('./services/meeting');
 const StorageService = require('./services/storage');
 const ReportService = require('./services/report');
 const GlobalCorrectionService = require('./services/global-corrections');
+const SettingsService = require('./services/settings');
 const meetingRoutes = require('./routes/meetings');
 const correctionsRoutes = require('./routes/corrections');
 const ModelRegistry = require('./llm/model-registry');
@@ -49,11 +50,19 @@ const meetingService = new MeetingService(db);
 const storageService = new StorageService(db);
 const reportService = new ReportService(db, storageService, contextualIntelligence);
 const correctionService = new GlobalCorrectionService(db);
+const settingsService = new SettingsService(db);
 const modelRegistry = new ModelRegistry();
 const audioProcessors = new Map(); // One processor per client
 
 // Current active meeting
 let activeMeetingId = null;
+
+// Load settings from database on startup
+settingsService.loadSettingsToCache().then(() => {
+  console.log('[Settings] Settings loaded from database');
+}).catch(err => {
+  console.error('[Settings] Failed to load settings:', err);
+});
 
 // Listen for meeting deletion events from routes
 io.on('meeting:deleted', (data) => {
@@ -509,7 +518,12 @@ io.on('connection', (socket) => {
   // Interactive intelligence features
   socket.on('intelligence:talking-points', async (topic) => {
     try {
-      const talkingPoints = await contextualIntelligence.generateTalkingPoints(topic);
+      // Get custom prompt from database
+      const customPrompt = await settingsService.getSettingValue('talkingPointsPrompt');
+      const talkingPoints = await contextualIntelligence.generateTalkingPoints(
+        topic, 
+        customPrompt
+      );
       socket.emit('intelligence:talking-points-response', {
         topic,
         points: talkingPoints,
@@ -602,24 +616,38 @@ io.on('connection', (socket) => {
   });
   
   // Settings management
-  socket.on('settings:get', () => {
+  socket.on('settings:get', async () => {
     try {
-      // Load settings from environment variables and defaults
+      // Load settings from database
+      const dbSettings = await settingsService.getAllSettings();
+      
+      // Merge with environment variables for API keys (don't expose actual keys)
       const settings = {
         deepgramApiKey: process.env.DEEPGRAM_API_KEY ? '***configured***' : '',
         openaiApiKey: process.env.OPENAI_API_KEY ? '***configured***' : '',
         anthropicApiKey: process.env.ANTHROPIC_API_KEY ? '***configured***' : '',
         geminiApiKey: process.env.GEMINI_API_KEY ? '***configured***' : '',
         tavilyApiKey: process.env.TAVILY_API_KEY ? '***configured***' : '',
-        llmProvider: process.env.LLM_PROVIDER || 'openai',
-        llmModel: process.env.LLM_MODEL || 'gpt-4o-mini',
-        maxContextLength: parseInt(process.env.MAX_CONTEXT_LENGTH) || 8000,
-        enableNotifications: process.env.ENABLE_NOTIFICATIONS !== 'false',
-        autoSaveInterval: parseInt(process.env.AUTO_SAVE_INTERVAL) || 30,
-        transcriptionConfidenceThreshold: parseFloat(process.env.TRANSCRIPTION_CONFIDENCE_THRESHOLD) || 0.8,
-        enableContextualIntelligence: process.env.ENABLE_CONTEXTUAL_INTELLIGENCE !== 'false',
-        enableKnowledgeRetrieval: process.env.ENABLE_KNOWLEDGE_RETRIEVAL !== 'false',
-        cacheExpiryHours: parseInt(process.env.CACHE_EXPIRY_HOURS) || 24
+        llmProvider: dbSettings.llmProvider || process.env.LLM_PROVIDER || 'openai',
+        llmModel: dbSettings.llmModel || process.env.LLM_MODEL || 'gpt-4o-mini',
+        transcriptionProvider: dbSettings.transcriptionProvider || 'deepgram',
+        knowledgeProvider: dbSettings.knowledgeProvider || 'tavily',
+        maxContextLength: parseInt(dbSettings.maxContextLength) || parseInt(process.env.MAX_CONTEXT_LENGTH) || 8000,
+        enableNotifications: dbSettings.enableNotifications === 'true' || dbSettings.enableNotifications === true,
+        autoSaveInterval: parseInt(dbSettings.autoSaveInterval) || parseInt(process.env.AUTO_SAVE_INTERVAL) || 30,
+        transcriptionConfidenceThreshold: parseFloat(dbSettings.transcriptionConfidenceThreshold) || parseFloat(process.env.TRANSCRIPTION_CONFIDENCE_THRESHOLD) || 0.8,
+        enableContextualIntelligence: dbSettings.enableContextualIntelligence === 'true' || dbSettings.enableContextualIntelligence === true,
+        enableKnowledgeRetrieval: dbSettings.enableKnowledgeRetrieval === 'true' || dbSettings.enableKnowledgeRetrieval === true,
+        cacheExpiryHours: parseInt(dbSettings.cacheExpiryHours) || parseInt(process.env.CACHE_EXPIRY_HOURS) || 24,
+        talkingPointsPrompt: dbSettings.talkingPointsPrompt || `Based on this meeting context, generate 3-5 intelligent talking points or questions about "{topic}".
+
+CONTEXT:
+{context}
+
+MEETING GLOSSARY:
+{glossary}
+
+Generate talking points that show understanding and move the conversation forward.`
       };
 
       socket.emit('settings:response', {
@@ -670,7 +698,7 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('settings:save', (newSettings) => {
+  socket.on('settings:save', async (newSettings) => {
     try {
       console.log('[Settings] Received settings update:', {
         ...newSettings,
@@ -678,7 +706,8 @@ io.on('connection', (socket) => {
         openaiApiKey: newSettings.openaiApiKey ? '[REDACTED]' : 'empty',
         anthropicApiKey: newSettings.anthropicApiKey ? '[REDACTED]' : 'empty',
         geminiApiKey: newSettings.geminiApiKey ? '[REDACTED]' : 'empty',
-        tavilyApiKey: newSettings.tavilyApiKey ? '[REDACTED]' : 'empty'
+        tavilyApiKey: newSettings.tavilyApiKey ? '[REDACTED]' : 'empty',
+        talkingPointsPrompt: newSettings.talkingPointsPrompt ? 'custom prompt set' : 'default'
       });
 
       // In a production environment, you would save these to a secure configuration store
@@ -755,6 +784,34 @@ io.on('connection', (socket) => {
       
       // Update provider API keys if needed
       knowledgeService.updateSettings(newSettings);
+      
+      // Save settings to database
+      const settingsToSave = {
+        llmProvider: newSettings.llmProvider,
+        llmModel: newSettings.llmModel,
+        transcriptionProvider: newSettings.transcriptionProvider,
+        knowledgeProvider: newSettings.knowledgeProvider,
+        maxContextLength: newSettings.maxContextLength,
+        enableNotifications: newSettings.enableNotifications,
+        autoSaveInterval: newSettings.autoSaveInterval,
+        transcriptionConfidenceThreshold: newSettings.transcriptionConfidenceThreshold,
+        enableContextualIntelligence: newSettings.enableContextualIntelligence,
+        enableKnowledgeRetrieval: newSettings.enableKnowledgeRetrieval,
+        cacheExpiryHours: newSettings.cacheExpiryHours,
+        talkingPointsPrompt: newSettings.talkingPointsPrompt
+      };
+      
+      // Filter out undefined values
+      const filteredSettings = Object.fromEntries(
+        Object.entries(settingsToSave).filter(([_, v]) => v !== undefined)
+      );
+      
+      const saved = await settingsService.updateSettings(filteredSettings);
+      if (saved) {
+        console.log('[Settings] Settings saved to database');
+      } else {
+        warnings.push('Some settings may not have been saved to database');
+      }
       
       // Get current provider info for confirmation
       const providerInfo = contextualIntelligence.getLLMProvider();

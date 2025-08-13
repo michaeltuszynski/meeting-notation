@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Home, Search, Check, Circle, FileText, Download, Trash2, Edit3, Target, Plus } from 'lucide-react';
 
 function MeetingSidebar({ onSelectMeeting, activeMeetingId, onNewMeeting, onGenerateReport, socket }) {
     const [meetings, setMeetings] = useState([]);
@@ -8,6 +9,7 @@ function MeetingSidebar({ onSelectMeeting, activeMeetingId, onNewMeeting, onGene
     const [newMeetingTitle, setNewMeetingTitle] = useState('');
     const [editingMeetingId, setEditingMeetingId] = useState(null);
     const [editingTitle, setEditingTitle] = useState('');
+    const [exportMenuOpen, setExportMenuOpen] = useState(null);
 
     useEffect(() => {
         fetchMeetings();
@@ -80,20 +82,16 @@ function MeetingSidebar({ onSelectMeeting, activeMeetingId, onNewMeeting, onGene
         }
     };
 
-    const handleSearch = async () => {
-        if (!searchTerm.trim()) {
-            fetchMeetings();
-            return;
-        }
-
-        try {
-            const response = await fetch(`http://localhost:9000/api/meetings?search=${encodeURIComponent(searchTerm)}`);
-            const data = await response.json();
-            setMeetings(data.meetings || []);
-        } catch (error) {
-            console.error('Error searching meetings:', error);
-        }
-    };
+    // Filter meetings based on search term
+    const filteredMeetings = meetings.filter(meeting => {
+        if (!searchTerm.trim()) return true;
+        const searchLower = searchTerm.toLowerCase();
+        return (
+            meeting.title.toLowerCase().includes(searchLower) ||
+            new Date(meeting.start_time).toLocaleDateString().includes(searchTerm) ||
+            (meeting.status && meeting.status.toLowerCase().includes(searchLower))
+        );
+    });
 
     const handleNewMeeting = () => {
         const title = newMeetingTitle.trim() || `Meeting ${new Date().toLocaleString()}`;
@@ -217,56 +215,84 @@ function MeetingSidebar({ onSelectMeeting, activeMeetingId, onNewMeeting, onGene
         return `${minutes}m`;
     };
 
+    // Add click outside handler to close export menu
+    useEffect(() => {
+        const handleClickOutside = () => {
+            if (exportMenuOpen) {
+                setExportMenuOpen(null);
+            }
+        };
+        
+        document.addEventListener('click', handleClickOutside);
+        return () => document.removeEventListener('click', handleClickOutside);
+    }, [exportMenuOpen]);
+
     return (
-        <div style={{
-            width: '300px',
-            height: '100vh',
-            background: '#f8f9fa',
-            borderRight: '1px solid #dee2e6',
-            display: 'flex',
-            flexDirection: 'column',
-            position: 'fixed',
-            left: 0,
-            top: 0,
-            zIndex: 100
-        }}>
+        <>
+            {/* CSS for pulse animation */}
+            <style>
+                {`
+                    @keyframes pulse {
+                        0% {
+                            box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7);
+                        }
+                        70% {
+                            box-shadow: 0 0 0 4px rgba(40, 167, 69, 0);
+                        }
+                        100% {
+                            box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
+                        }
+                    }
+                `}
+            </style>
+            <div style={{
+                width: '300px',
+                height: '100vh',
+                background: '#f8f9fa',
+                borderRight: '1px solid #dee2e6',
+                display: 'flex',
+                flexDirection: 'column',
+                position: 'fixed',
+                left: 0,
+                top: 0,
+                zIndex: 100
+            }}>
             {/* Header */}
             <div style={{
                 padding: '15px',
                 borderBottom: '1px solid #dee2e6',
                 background: '#ffffff'
             }}>
-                <h3 style={{ margin: '0 0 10px 0', fontSize: '18px' }}>📁 TranscriptIQ Sessions</h3>
+                <h3 style={{ margin: '0 0 10px 0', fontSize: '18px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <Home className="h-5 w-5" />
+                    Sessions
+                </h3>
                 
                 {/* Search */}
-                <div style={{ display: 'flex', gap: '5px', marginBottom: '10px' }}>
+                <div style={{ position: 'relative', marginBottom: '10px' }}>
                     <input
                         type="text"
                         placeholder="Search sessions..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
                         style={{
-                            flex: 1,
-                            padding: '5px 10px',
+                            width: '100%',
+                            padding: '5px 30px 5px 10px',
                             border: '1px solid #ced4da',
                             borderRadius: '4px',
                             fontSize: '14px'
                         }}
                     />
-                    <button
-                        onClick={handleSearch}
+                    <Search 
+                        className="h-4 w-4 text-gray-500"
                         style={{
-                            padding: '5px 10px',
-                            background: '#007bff',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '4px',
-                            cursor: 'pointer'
+                            position: 'absolute',
+                            right: '8px',
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            pointerEvents: 'none'
                         }}
-                    >
-                        🔍
-                    </button>
+                    />
                 </div>
 
                 {/* New Meeting Button - Prominent when no active meeting */}
@@ -287,7 +313,17 @@ function MeetingSidebar({ onSelectMeeting, activeMeetingId, onNewMeeting, onGene
                         transition: 'all 0.3s'
                     }}
                 >
-                    {activeMeetingId ? '+ New Meeting' : '🎯 Start New Meeting'}
+                    {activeMeetingId ? (
+                        <div className="flex items-center gap-2 justify-center">
+                            <Plus className="h-4 w-4" />
+                            New Meeting
+                        </div>
+                    ) : (
+                        <div className="flex items-center gap-2 justify-center">
+                            <Target className="h-5 w-5" />
+                            Start New Meeting
+                        </div>
+                    )}
                 </button>
                 
                 {/* Add CSS for pulse animation */}
@@ -310,12 +346,12 @@ function MeetingSidebar({ onSelectMeeting, activeMeetingId, onNewMeeting, onGene
                     <div style={{ textAlign: 'center', padding: '20px', color: '#6c757d' }}>
                         Loading sessions...
                     </div>
-                ) : meetings.length === 0 ? (
+                ) : filteredMeetings.length === 0 ? (
                     <div style={{ textAlign: 'center', padding: '20px', color: '#6c757d' }}>
                         No sessions yet
                     </div>
                 ) : (
-                    meetings.map(meeting => (
+                    filteredMeetings.map(meeting => (
                         <div
                             key={meeting.id}
                             onClick={() => onSelectMeeting(meeting)}
@@ -414,10 +450,7 @@ function MeetingSidebar({ onSelectMeeting, activeMeetingId, onNewMeeting, onGene
                                                 }}
                                                 title="Rename meeting"
                                             >
-                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-                                                </svg>
+                                                <Edit3 className="h-3.5 w-3.5" />
                                             </button>
                                         </div>
                                     )}
@@ -439,88 +472,155 @@ function MeetingSidebar({ onSelectMeeting, activeMeetingId, onNewMeeting, onGene
                                     )}
                                 </div>
                                 
-                                {/* Meeting Status */}
+                                {/* Meeting Status Icon */}
                                 <div style={{
-                                    padding: '2px 6px',
-                                    borderRadius: '3px',
-                                    fontSize: '11px',
-                                    fontWeight: '500',
-                                    background: meeting.status === 'active' ? '#d4edda' : '#f8f9fa',
-                                    color: meeting.status === 'active' ? '#155724' : '#6c757d'
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '4px'
                                 }}>
-                                    {meeting.status === 'active' ? '● LIVE' : meeting.status}
+                                    {meeting.status === 'active' ? (
+                                        <Circle 
+                                            className="h-2 w-2" 
+                                            fill="#28a745" 
+                                            stroke="#28a745"
+                                            style={{
+                                                animation: 'pulse 2s infinite'
+                                            }} 
+                                            title="Live" 
+                                        />
+                                    ) : (
+                                        <Check className="h-4 w-4 text-green-500" title="Completed" />
+                                    )}
                                 </div>
                             </div>
 
-                            {/* Action Buttons */}
+                            {/* Action Buttons - Icon Based */}
                             <div style={{
                                 display: 'flex',
-                                gap: '5px',
-                                marginTop: '8px'
+                                gap: '4px',
+                                marginTop: '8px',
+                                alignItems: 'center'
                             }}>
-                                <button
-                                    onClick={(e) => exportMeeting(meeting.id, 'json', e)}
-                                    style={{
-                                        padding: '3px 8px',
-                                        fontSize: '11px',
-                                        background: '#17a2b8',
-                                        color: 'white',
-                                        border: 'none',
-                                        borderRadius: '3px',
-                                        cursor: 'pointer'
-                                    }}
-                                    title="Export as JSON"
-                                >
-                                    JSON
-                                </button>
-                                <button
-                                    onClick={(e) => exportMeeting(meeting.id, 'csv', e)}
-                                    style={{
-                                        padding: '3px 8px',
-                                        fontSize: '11px',
-                                        background: '#6c757d',
-                                        color: 'white',
-                                        border: 'none',
-                                        borderRadius: '3px',
-                                        cursor: 'pointer'
-                                    }}
-                                    title="Export as CSV"
-                                >
-                                    CSV
-                                </button>
+                                {/* Export Dropdown */}
+                                <div style={{ position: 'relative' }}>
+                                    <button
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setExportMenuOpen(exportMenuOpen === meeting.id ? null : meeting.id);
+                                        }}
+                                        style={{
+                                            padding: '4px 8px',
+                                            background: '#17a2b8',
+                                            color: 'white',
+                                            border: 'none',
+                                            borderRadius: '3px',
+                                            cursor: 'pointer',
+                                            display: 'flex',
+                                            alignItems: 'center'
+                                        }}
+                                        title="Export data"
+                                    >
+                                        <Download className="h-3.5 w-3.5" />
+                                    </button>
+                                    {exportMenuOpen === meeting.id && (
+                                        <div style={{
+                                            position: 'absolute',
+                                            top: '100%',
+                                            left: 0,
+                                            marginTop: '2px',
+                                            background: 'white',
+                                            border: '1px solid #dee2e6',
+                                            borderRadius: '3px',
+                                            boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                                            zIndex: 1000,
+                                            minWidth: '80px'
+                                        }}>
+                                            <button
+                                                onClick={(e) => {
+                                                    exportMeeting(meeting.id, 'json', e);
+                                                    setExportMenuOpen(null);
+                                                }}
+                                                style={{
+                                                    display: 'block',
+                                                    width: '100%',
+                                                    padding: '6px 12px',
+                                                    fontSize: '11px',
+                                                    background: 'transparent',
+                                                    border: 'none',
+                                                    textAlign: 'left',
+                                                    cursor: 'pointer',
+                                                    color: '#212529'
+                                                }}
+                                                onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9fa'}
+                                                onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                                            >
+                                                JSON
+                                            </button>
+                                            <button
+                                                onClick={(e) => {
+                                                    exportMeeting(meeting.id, 'csv', e);
+                                                    setExportMenuOpen(null);
+                                                }}
+                                                style={{
+                                                    display: 'block',
+                                                    width: '100%',
+                                                    padding: '6px 12px',
+                                                    fontSize: '11px',
+                                                    background: 'transparent',
+                                                    border: 'none',
+                                                    borderTop: '1px solid #dee2e6',
+                                                    textAlign: 'left',
+                                                    cursor: 'pointer',
+                                                    color: '#212529'
+                                                }}
+                                                onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9fa'}
+                                                onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                                            >
+                                                CSV
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* Report Button */}
                                 <button
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         onGenerateReport(meeting.id);
                                     }}
                                     style={{
-                                        padding: '3px 8px',
-                                        fontSize: '11px',
+                                        padding: '4px 8px',
                                         background: '#28a745',
                                         color: 'white',
                                         border: 'none',
                                         borderRadius: '3px',
-                                        cursor: 'pointer'
+                                        cursor: 'pointer',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '4px'
                                     }}
                                     title="Generate Report"
                                 >
-                                    📊 Report
+                                    <FileText className="h-3.5 w-3.5" />
                                 </button>
+
+                                {/* Delete Button */}
                                 <button
                                     onClick={(e) => deleteMeeting(meeting.id, e)}
                                     style={{
-                                        padding: '3px 8px',
-                                        fontSize: '11px',
+                                        padding: '4px 8px',
                                         background: '#dc3545',
                                         color: 'white',
                                         border: 'none',
                                         borderRadius: '3px',
                                         cursor: 'pointer',
-                                        marginLeft: 'auto'
+                                        marginLeft: 'auto',
+                                        display: 'flex',
+                                        alignItems: 'center'
                                     }}
                                     title="Delete meeting"
                                 >
-                                    Delete
+                                    <Trash2 className="h-3.5 w-3.5" />
                                 </button>
                             </div>
                         </div>
@@ -596,7 +696,8 @@ function MeetingSidebar({ onSelectMeeting, activeMeetingId, onNewMeeting, onGene
                     </div>
                 </div>
             )}
-        </div>
+            </div>
+        </>
     );
 }
 

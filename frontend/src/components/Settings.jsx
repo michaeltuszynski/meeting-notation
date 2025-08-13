@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { AlertTriangle, Key, Brain } from 'lucide-react';
 import GlobalCorrections from './GlobalCorrections';
 
 function Settings({ isOpen, onClose, socket }) {
+    const [activeTab, setActiveTab] = useState('api');
     const [settings, setSettings] = useState({
         // Transcription API Keys
         deepgramApiKey: '',
@@ -37,7 +39,18 @@ function Settings({ isOpen, onClose, socket }) {
         transcriptionConfidenceThreshold: 0.8,
         enableContextualIntelligence: true,
         enableKnowledgeRetrieval: true,
-        cacheExpiryHours: 24
+        cacheExpiryHours: 24,
+        
+        // AI Prompts
+        talkingPointsPrompt: `Based on this meeting context, generate 3-5 intelligent talking points or questions about "{topic}".
+
+CONTEXT:
+{context}
+
+MEETING GLOSSARY:
+{glossary}
+
+Generate talking points that show understanding and move the conversation forward.`
     });
     
     const [isSaving, setIsSaving] = useState(false);
@@ -106,7 +119,11 @@ function Settings({ isOpen, onClose, socket }) {
             setIsSaving(false);
             if (data.success) {
                 setMessage({ type: 'success', text: 'Settings saved successfully!' });
-                setTimeout(() => setMessage({ type: '', text: '' }), 3000);
+                // Close modal after a brief delay to show success message
+                setTimeout(() => {
+                    setMessage({ type: '', text: '' });
+                    onClose();
+                }, 500);
             } else {
                 setMessage({ type: 'error', text: data.error || 'Failed to save settings' });
             }
@@ -324,6 +341,82 @@ function Settings({ isOpen, onClose, socket }) {
                     </button>
                 </div>
 
+                {/* Tab Navigation */}
+                <div style={{
+                    display: 'flex',
+                    borderBottom: '1px solid #e5e7eb',
+                    background: '#f9fafb'
+                }}>
+                    <button
+                        onClick={() => setActiveTab('api')}
+                        style={{
+                            flex: 1,
+                            padding: '12px',
+                            background: activeTab === 'api' ? 'white' : 'transparent',
+                            border: 'none',
+                            borderBottom: activeTab === 'api' ? '2px solid #3b82f6' : 'none',
+                            cursor: 'pointer',
+                            fontSize: '14px',
+                            fontWeight: activeTab === 'api' ? '600' : '500',
+                            color: activeTab === 'api' ? '#1e40af' : '#6b7280',
+                            transition: 'all 0.2s'
+                        }}
+                    >
+                        API Keys
+                    </button>
+                    <button
+                        onClick={() => setActiveTab('prompts')}
+                        style={{
+                            flex: 1,
+                            padding: '12px',
+                            background: activeTab === 'prompts' ? 'white' : 'transparent',
+                            border: 'none',
+                            borderBottom: activeTab === 'prompts' ? '2px solid #3b82f6' : 'none',
+                            cursor: 'pointer',
+                            fontSize: '14px',
+                            fontWeight: activeTab === 'prompts' ? '600' : '500',
+                            color: activeTab === 'prompts' ? '#1e40af' : '#6b7280',
+                            transition: 'all 0.2s'
+                        }}
+                    >
+                        AI Prompts
+                    </button>
+                    <button
+                        onClick={() => setActiveTab('corrections')}
+                        style={{
+                            flex: 1,
+                            padding: '12px',
+                            background: activeTab === 'corrections' ? 'white' : 'transparent',
+                            border: 'none',
+                            borderBottom: activeTab === 'corrections' ? '2px solid #3b82f6' : 'none',
+                            cursor: 'pointer',
+                            fontSize: '14px',
+                            fontWeight: activeTab === 'corrections' ? '600' : '500',
+                            color: activeTab === 'corrections' ? '#1e40af' : '#6b7280',
+                            transition: 'all 0.2s'
+                        }}
+                    >
+                        Corrections
+                    </button>
+                    <button
+                        onClick={() => setActiveTab('config')}
+                        style={{
+                            flex: 1,
+                            padding: '12px',
+                            background: activeTab === 'config' ? 'white' : 'transparent',
+                            border: 'none',
+                            borderBottom: activeTab === 'config' ? '2px solid #3b82f6' : 'none',
+                            cursor: 'pointer',
+                            fontSize: '14px',
+                            fontWeight: activeTab === 'config' ? '600' : '500',
+                            color: activeTab === 'config' ? '#1e40af' : '#6b7280',
+                            transition: 'all 0.2s'
+                        }}
+                    >
+                        Configuration
+                    </button>
+                </div>
+
                 {/* Content */}
                 <div style={{
                     flex: 1,
@@ -345,7 +438,9 @@ function Settings({ isOpen, onClose, socket }) {
                         </div>
                     )}
 
-                    {/* API Keys Section */}
+                    {/* API Keys Tab */}
+                    {activeTab === 'api' && (
+                    <>
                     <div style={{ marginBottom: '32px' }}>
                         <h3 style={{ 
                             margin: '0 0 16px 0', 
@@ -353,7 +448,10 @@ function Settings({ isOpen, onClose, socket }) {
                             fontWeight: '600',
                             color: '#111827'
                         }}>
-                            🔑 API Keys & LLM Configuration
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <Key className="h-4 w-4" />
+                                API Keys & LLM Configuration
+                            </div>
                         </h3>
                         
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -479,7 +577,10 @@ function Settings({ isOpen, onClose, socket }) {
                                         fontSize: '13px',
                                         color: '#92400e'
                                     }}>
-                                        ⚠️ The selected transcription provider is not configured. Please add a valid API key or select a different provider.
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                            <AlertTriangle className="h-4 w-4" />
+                                            The selected transcription provider is not configured. Please add a valid API key or select a different provider.
+                                        </div>
                                     </div>
                                 )}
                             </div>
@@ -498,7 +599,10 @@ function Settings({ isOpen, onClose, socket }) {
                                     fontWeight: '600',
                                     color: '#1e40af'
                                 }}>
-                                    🧠 Large Language Model Provider
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                        <Brain className="h-4 w-4" />
+                                        Large Language Model Provider
+                                    </div>
                                 </label>
                                 
                                 {/* Provider Selection */}
@@ -672,7 +776,10 @@ function Settings({ isOpen, onClose, socket }) {
                                         fontSize: '13px',
                                         color: '#92400e'
                                     }}>
-                                        ⚠️ The selected LLM provider is not configured. Please add a valid API key or select a different provider.
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                            <AlertTriangle className="h-4 w-4" />
+                                            The selected LLM provider is not configured. Please add a valid API key or select a different provider.
+                                        </div>
                                     </div>
                                 )}
                             </div>
@@ -793,14 +900,16 @@ function Settings({ isOpen, onClose, socket }) {
                                         fontSize: '13px',
                                         color: '#92400e'
                                     }}>
-                                        ⚠️ The selected knowledge provider is not configured. Please add a valid API key or select a different provider.
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                            <AlertTriangle className="h-4 w-4" />
+                                            The selected knowledge provider is not configured. Please add a valid API key or select a different provider.
+                                        </div>
                                     </div>
                                 )}
                             </div>
                         </div>
                     </div>
-
-                    {/* Intelligence Settings */}
+                    
                     <div style={{ marginBottom: '32px' }}>
                         <h3 style={{ 
                             margin: '0 0 16px 0', 
@@ -808,7 +917,10 @@ function Settings({ isOpen, onClose, socket }) {
                             fontWeight: '600',
                             color: '#111827'
                         }}>
-                            🧠 AI Intelligence
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <Brain className="h-4 w-4" />
+                                AI Intelligence
+                            </div>
                         </h3>
                         
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -1003,13 +1115,95 @@ function Settings({ isOpen, onClose, socket }) {
                             </div>
                         </div>
                     </div>
+                    </>
+                    )}
 
-                    {/* Global Corrections */}
+                    {/* AI Prompts Tab */}
+                    {activeTab === 'prompts' && (
+                    <div style={{ marginBottom: '32px' }}>
+                        <h3 style={{
+                            fontSize: '16px',
+                            fontWeight: '600',
+                            marginBottom: '16px',
+                            color: '#111827'
+                        }}>
+                            AI Prompts Customization
+                        </h3>
+                        <div>
+                            <label style={{
+                                display: 'block',
+                                marginBottom: '6px',
+                                fontSize: '14px',
+                                fontWeight: '500',
+                                color: '#374151'
+                            }}>
+                                Talking Points Generation Prompt
+                            </label>
+                            <p style={{
+                                fontSize: '12px',
+                                color: '#6b7280',
+                                marginBottom: '8px'
+                            }}>
+                                Customize the prompt used to generate talking points. Use {'{topic}'} for the user's topic, {'{context}'} for meeting context, and {'{glossary}'} for terms.
+                            </p>
+                            <textarea
+                                value={settings.talkingPointsPrompt}
+                                onChange={(e) => handleInputChange('talkingPointsPrompt', e.target.value)}
+                                rows="8"
+                                style={{
+                                    width: '100%',
+                                    padding: '8px 12px',
+                                    border: '1px solid #d1d5db',
+                                    borderRadius: '6px',
+                                    fontSize: '13px',
+                                    fontFamily: 'monospace',
+                                    background: 'white',
+                                    outline: 'none',
+                                    resize: 'vertical'
+                                }}
+                                onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
+                                onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
+                            />
+                            <button
+                                onClick={() => {
+                                    const defaultPrompt = `Based on this meeting context, generate 3-5 intelligent talking points or questions about "{topic}".
+
+CONTEXT:
+{context}
+
+MEETING GLOSSARY:
+{glossary}
+
+Generate talking points that show understanding and move the conversation forward.`;
+                                    handleInputChange('talkingPointsPrompt', defaultPrompt);
+                                    setMessage({ type: 'info', text: 'Restored default talking points prompt' });
+                                }}
+                                style={{
+                                    marginTop: '8px',
+                                    padding: '6px 12px',
+                                    background: '#6b7280',
+                                    color: 'white',
+                                    border: 'none',
+                                    borderRadius: '4px',
+                                    fontSize: '12px',
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                Restore Default
+                            </button>
+                        </div>
+                    </div>
+                    )}
+
+                    {/* Corrections Tab */}
+                    {activeTab === 'corrections' && (
                     <div style={{ marginBottom: '32px' }}>
                         <GlobalCorrections socket={socket} />
                     </div>
+                    )}
 
-                    {/* Notifications */}
+                    {/* Configuration Tab */}
+                    {activeTab === 'config' && (
                     <div>
                         <h3 style={{ 
                             margin: '0 0 16px 0', 
@@ -1043,6 +1237,7 @@ function Settings({ isOpen, onClose, socket }) {
                             />
                         </div>
                     </div>
+                    )}
                 </div>
 
                 {/* Footer */}

@@ -3056,14 +3056,59 @@ video {
 .relative {
   position: relative;
 }
+.sticky {
+  position: sticky;
+}
 .inset-0 {
   inset: 0px;
+}
+.-top-14 {
+  top: -3.5rem;
+}
+.bottom-6 {
+  bottom: 1.5rem;
+}
+.left-0 {
+  left: 0px;
+}
+.left-1\\/2 {
+  left: 50%;
+}
+.left-3 {
+  left: 0.75rem;
+}
+.left-4 {
+  left: 1rem;
+}
+.left-6 {
+  left: 1.5rem;
+}
+.left-\\[308px\\] {
+  left: 308px;
 }
 .left-\\[50\\%\\] {
   left: 50%;
 }
+.right-0 {
+  right: 0px;
+}
+.right-2 {
+  right: 0.5rem;
+}
 .right-4 {
   right: 1rem;
+}
+.right-6 {
+  right: 1.5rem;
+}
+.top-0 {
+  top: 0px;
+}
+.top-1\\/2 {
+  top: 50%;
+}
+.top-20 {
+  top: 5rem;
 }
 .top-4 {
   top: 1rem;
@@ -3071,15 +3116,31 @@ video {
 .top-\\[50\\%\\] {
   top: 50%;
 }
+.top-full {
+  top: 100%;
+}
+.z-10 {
+  z-index: 10;
+}
+.z-30 {
+  z-index: 30;
+}
+.z-40 {
+  z-index: 40;
+}
 .z-50 {
   z-index: 50;
 }
-.m-4 {
-  margin: 1rem;
+.z-\\[100\\] {
+  z-index: 100;
 }
-.mx-6 {
-  margin-left: 1.5rem;
-  margin-right: 1.5rem;
+.mx-1 {
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+}
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
 }
 .mb-1 {
   margin-bottom: 0.25rem;
@@ -3102,14 +3163,20 @@ video {
 .ml-3 {
   margin-left: 0.75rem;
 }
+.ml-auto {
+  margin-left: auto;
+}
 .mr-2 {
   margin-right: 0.5rem;
 }
 .mt-1 {
   margin-top: 0.25rem;
 }
-.mt-4 {
-  margin-top: 1rem;
+.mt-2 {
+  margin-top: 0.5rem;
+}
+.mt-6 {
+  margin-top: 1.5rem;
 }
 .block {
   display: block;
@@ -3126,14 +3193,26 @@ video {
 .hidden {
   display: none;
 }
+.h-1\\.5 {
+  height: 0.375rem;
+}
 .h-10 {
   height: 2.5rem;
+}
+.h-12 {
+  height: 3rem;
+}
+.h-16 {
+  height: 4rem;
 }
 .h-2 {
   height: 0.5rem;
 }
 .h-3 {
   height: 0.75rem;
+}
+.h-3\\.5 {
+  height: 0.875rem;
 }
 .h-4 {
   height: 1rem;
@@ -3143,6 +3222,9 @@ video {
 }
 .h-6 {
   height: 1.5rem;
+}
+.h-7 {
+  height: 1.75rem;
 }
 .h-8 {
   height: 2rem;
@@ -3159,17 +3241,35 @@ video {
 .max-h-64 {
   max-height: 16rem;
 }
+.max-h-96 {
+  max-height: 24rem;
+}
 .min-h-0 {
   min-height: 0px;
 }
-.w-0\\.5 {
-  width: 0.125rem;
+.w-0 {
+  width: 0px;
+}
+.w-10 {
+  width: 2.5rem;
+}
+.w-12 {
+  width: 3rem;
+}
+.w-16 {
+  width: 4rem;
 }
 .w-2 {
   width: 0.5rem;
 }
-.w-32 {
-  width: 8rem;
+.w-20 {
+  width: 5rem;
+}
+.w-3 {
+  width: 0.75rem;
+}
+.w-3\\.5 {
+  width: 0.875rem;
 }
 .w-4 {
   width: 1rem;
@@ -3179,6 +3279,12 @@ video {
 }
 .w-6 {
   width: 1.5rem;
+}
+.w-7 {
+  width: 1.75rem;
+}
+.w-8 {
+  width: 2rem;
 }
 .w-80 {
   width: 20rem;
@@ -3204,6 +3310,9 @@ video {
 .max-w-md {
   max-width: 28rem;
 }
+.max-w-sm {
+  max-width: 24rem;
+}
 .flex-1 {
   flex: 1 1 0%;
 }
@@ -3213,16 +3322,68 @@ video {
 .shrink-0 {
   flex-shrink: 0;
 }
+.-translate-x-1\\/2 {
+  --tw-translate-x: -50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+.-translate-x-full {
+  --tw-translate-x: -100%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+.-translate-y-1\\/2 {
+  --tw-translate-y: -50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+.translate-x-0 {
+  --tw-translate-x: 0px;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
 .translate-x-\\[-50\\%\\] {
   --tw-translate-x: -50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+.translate-x-full {
+  --tw-translate-x: 100%;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 .translate-y-\\[-50\\%\\] {
   --tw-translate-y: -50%;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
+.rotate-180 {
+  --tw-rotate: 180deg;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
 .transform {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+@keyframes ping {
+
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+.animate-ping {
+  animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+@keyframes pulse {
+
+  50% {
+    opacity: .5;
+  }
+}
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+@keyframes spin {
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+.animate-spin {
+  animation: spin 1s linear infinite;
 }
 .cursor-not-allowed {
   cursor: not-allowed;
@@ -3230,8 +3391,8 @@ video {
 .cursor-pointer {
   cursor: pointer;
 }
-.grid-cols-1 {
-  grid-template-columns: repeat(1, minmax(0, 1fr));
+.resize {
+  resize: both;
 }
 .grid-cols-2 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -3251,8 +3412,14 @@ video {
 .items-start {
   align-items: flex-start;
 }
+.items-end {
+  align-items: flex-end;
+}
 .items-center {
   align-items: center;
+}
+.justify-start {
+  justify-content: flex-start;
 }
 .justify-center {
   justify-content: center;
@@ -3263,6 +3430,9 @@ video {
 .gap-1 {
   gap: 0.25rem;
 }
+.gap-1\\.5 {
+  gap: 0.375rem;
+}
 .gap-2 {
   gap: 0.5rem;
 }
@@ -3271,6 +3441,14 @@ video {
 }
 .gap-4 {
   gap: 1rem;
+}
+.gap-6 {
+  gap: 1.5rem;
+}
+.space-x-1 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(0.25rem * var(--tw-space-x-reverse));
+  margin-left: calc(0.25rem * calc(1 - var(--tw-space-x-reverse)));
 }
 .space-x-2 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 0;
@@ -3286,6 +3464,11 @@ video {
   --tw-space-x-reverse: 0;
   margin-right: calc(1rem * var(--tw-space-x-reverse));
   margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
+}
+.space-y-1 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(0.25rem * var(--tw-space-y-reverse));
 }
 .space-y-1\\.5 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
@@ -3318,6 +3501,11 @@ video {
 .overflow-y-auto {
   overflow-y: auto;
 }
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .whitespace-nowrap {
   white-space: nowrap;
 }
@@ -3339,14 +3527,6 @@ video {
 .rounded-xl {
   border-radius: 0.75rem;
 }
-.rounded-l-none {
-  border-top-left-radius: 0px;
-  border-bottom-left-radius: 0px;
-}
-.rounded-r-none {
-  border-top-right-radius: 0px;
-  border-bottom-right-radius: 0px;
-}
 .border {
   border-width: 1px;
 }
@@ -3355,6 +3535,9 @@ video {
 }
 .border-b {
   border-bottom-width: 1px;
+}
+.border-b-2 {
+  border-bottom-width: 2px;
 }
 .border-r {
   border-right-width: 1px;
@@ -3368,6 +3551,18 @@ video {
 .border-blue-200 {
   --tw-border-opacity: 1;
   border-color: rgb(191 219 254 / var(--tw-border-opacity, 1));
+}
+.border-blue-500 {
+  --tw-border-opacity: 1;
+  border-color: rgb(59 130 246 / var(--tw-border-opacity, 1));
+}
+.border-blue-600 {
+  --tw-border-opacity: 1;
+  border-color: rgb(37 99 235 / var(--tw-border-opacity, 1));
+}
+.border-gray-200 {
+  --tw-border-opacity: 1;
+  border-color: rgb(229 231 235 / var(--tw-border-opacity, 1));
 }
 .border-gray-300 {
   --tw-border-opacity: 1;
@@ -3387,12 +3582,19 @@ video {
 .border-transparent {
   border-color: transparent;
 }
-.border-yellow-200 {
-  --tw-border-opacity: 1;
-  border-color: rgb(254 240 138 / var(--tw-border-opacity, 1));
+.border-t-transparent {
+  border-top-color: transparent;
+}
+.bg-amber-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(245 158 11 / var(--tw-bg-opacity, 1));
 }
 .bg-background {
   background-color: hsl(var(--background));
+}
+.bg-black {
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1));
 }
 .bg-black\\/80 {
   background-color: rgb(0 0 0 / 0.8);
@@ -3404,6 +3606,10 @@ video {
 .bg-blue-50 {
   --tw-bg-opacity: 1;
   background-color: rgb(239 246 255 / var(--tw-bg-opacity, 1));
+}
+.bg-blue-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(59 130 246 / var(--tw-bg-opacity, 1));
 }
 .bg-card {
   background-color: hsl(var(--card));
@@ -3418,10 +3624,6 @@ video {
 .bg-gray-200 {
   --tw-bg-opacity: 1;
   background-color: rgb(229 231 235 / var(--tw-bg-opacity, 1));
-}
-.bg-gray-300 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(209 213 219 / var(--tw-bg-opacity, 1));
 }
 .bg-gray-400 {
   --tw-bg-opacity: 1;
@@ -3446,10 +3648,6 @@ video {
 .bg-green-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(34 197 94 / var(--tw-bg-opacity, 1));
-}
-.bg-orange-500 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(249 115 22 / var(--tw-bg-opacity, 1));
 }
 .bg-primary {
   background-color: hsl(var(--primary));
@@ -3485,31 +3683,49 @@ video {
   --tw-bg-opacity: 1;
   background-color: rgb(254 249 195 / var(--tw-bg-opacity, 1));
 }
-.bg-yellow-50 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(254 252 232 / var(--tw-bg-opacity, 1));
-}
 .bg-yellow-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(234 179 8 / var(--tw-bg-opacity, 1));
 }
+.bg-opacity-50 {
+  --tw-bg-opacity: 0.5;
+}
 .bg-gradient-to-r {
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
+}
+.from-blue-50 {
+  --tw-gradient-from: #eff6ff var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(239 246 255 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 .from-green-500 {
   --tw-gradient-from: #22c55e var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(34 197 94 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
+.from-red-50 {
+  --tw-gradient-from: #fef2f2 var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(254 242 242 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
 .via-yellow-500 {
   --tw-gradient-to: rgb(234 179 8 / 0)  var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), #eab308 var(--tw-gradient-via-position), var(--tw-gradient-to);
 }
+.to-indigo-50 {
+  --tw-gradient-to: #eef2ff var(--tw-gradient-to-position);
+}
+.to-orange-50 {
+  --tw-gradient-to: #fff7ed var(--tw-gradient-to-position);
+}
 .to-red-500 {
   --tw-gradient-to: #ef4444 var(--tw-gradient-to-position);
 }
-.p-1 {
-  padding: 0.25rem;
+.p-0 {
+  padding: 0px;
+}
+.p-2 {
+  padding: 0.5rem;
 }
 .p-3 {
   padding: 0.75rem;
@@ -3556,13 +3772,17 @@ video {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
 }
-.py-1\\.5 {
-  padding-top: 0.375rem;
-  padding-bottom: 0.375rem;
+.py-12 {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
 }
 .py-2 {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
+}
+.py-3 {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
 }
 .py-4 {
   padding-top: 1rem;
@@ -3575,8 +3795,17 @@ video {
 .pb-4 {
   padding-bottom: 1rem;
 }
+.pl-10 {
+  padding-left: 2.5rem;
+}
+.pr-10 {
+  padding-right: 2.5rem;
+}
 .pt-0 {
   padding-top: 0px;
+}
+.pt-2 {
+  padding-top: 0.5rem;
 }
 .pt-4 {
   padding-top: 1rem;
@@ -3584,12 +3813,19 @@ video {
 .pt-6 {
   padding-top: 1.5rem;
 }
+.text-left {
+  text-align: left;
+}
 .text-center {
   text-align: center;
 }
 .text-2xl {
   font-size: 1.5rem;
   line-height: 2rem;
+}
+.text-4xl {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
 }
 .text-base {
   font-size: 1rem;
@@ -3611,6 +3847,9 @@ video {
   font-size: 0.75rem;
   line-height: 1rem;
 }
+.font-bold {
+  font-weight: 700;
+}
 .font-medium {
   font-weight: 500;
 }
@@ -3628,6 +3867,10 @@ video {
 }
 .tracking-tight {
   letter-spacing: -0.025em;
+}
+.text-amber-600 {
+  --tw-text-opacity: 1;
+  color: rgb(217 119 6 / var(--tw-text-opacity, 1));
 }
 .text-blue-400 {
   --tw-text-opacity: 1;
@@ -3678,6 +3921,10 @@ video {
   --tw-text-opacity: 1;
   color: rgb(74 222 128 / var(--tw-text-opacity, 1));
 }
+.text-green-500 {
+  --tw-text-opacity: 1;
+  color: rgb(34 197 94 / var(--tw-text-opacity, 1));
+}
 .text-green-600 {
   --tw-text-opacity: 1;
   color: rgb(22 163 74 / var(--tw-text-opacity, 1));
@@ -3703,9 +3950,17 @@ video {
   --tw-text-opacity: 1;
   color: rgb(107 33 168 / var(--tw-text-opacity, 1));
 }
+.text-red-500 {
+  --tw-text-opacity: 1;
+  color: rgb(239 68 68 / var(--tw-text-opacity, 1));
+}
 .text-red-600 {
   --tw-text-opacity: 1;
   color: rgb(220 38 38 / var(--tw-text-opacity, 1));
+}
+.text-red-700 {
+  --tw-text-opacity: 1;
+  color: rgb(185 28 28 / var(--tw-text-opacity, 1));
 }
 .text-red-800 {
   --tw-text-opacity: 1;
@@ -3718,23 +3973,26 @@ video {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
 }
-.text-yellow-500 {
+.text-yellow-600 {
   --tw-text-opacity: 1;
-  color: rgb(234 179 8 / var(--tw-text-opacity, 1));
-}
-.text-yellow-700 {
-  --tw-text-opacity: 1;
-  color: rgb(161 98 7 / var(--tw-text-opacity, 1));
+  color: rgb(202 138 4 / var(--tw-text-opacity, 1));
 }
 .text-yellow-800 {
   --tw-text-opacity: 1;
   color: rgb(133 77 14 / var(--tw-text-opacity, 1));
+}
+.text-blue-500 {
+  --tw-text-opacity: 1;
+  color: rgb(59 130 246 / var(--tw-text-opacity, 1));
 }
 .line-through {
   text-decoration-line: line-through;
 }
 .underline-offset-4 {
   text-underline-offset: 4px;
+}
+.opacity-20 {
+  opacity: 0.2;
 }
 .opacity-50 {
   opacity: 0.5;
@@ -3755,6 +4013,11 @@ video {
 .shadow-sm {
   --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+.shadow-xl {
+  --tw-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 .outline {
@@ -3806,6 +4069,12 @@ video {
 .duration-200 {
   transition-duration: 200ms;
 }
+.duration-300 {
+  transition-duration: 300ms;
+}
+.ease-in-out {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
 @keyframes enter {
 
   from {
@@ -3820,160 +4089,253 @@ video {
     transform: translate3d(var(--tw-exit-translate-x, 0), var(--tw-exit-translate-y, 0), 0) scale3d(var(--tw-exit-scale, 1), var(--tw-exit-scale, 1), var(--tw-exit-scale, 1)) rotate(var(--tw-exit-rotate, 0));
   }
 }
+.animate-in {
+  animation-name: enter;
+  animation-duration: 150ms;
+  --tw-enter-opacity: initial;
+  --tw-enter-scale: initial;
+  --tw-enter-rotate: initial;
+  --tw-enter-translate-x: initial;
+  --tw-enter-translate-y: initial;
+}
+.slide-in-from-bottom-2 {
+  --tw-enter-translate-y: 0.5rem;
+}
 .duration-100 {
   animation-duration: 100ms;
 }
 .duration-200 {
   animation-duration: 200ms;
 }
+.duration-300 {
+  animation-duration: 300ms;
+}
+.ease-in-out {
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
 .running {
   animation-play-state: running;
 }
+
+.hover\\:scale-105:hover {
+  --tw-scale-x: 1.05;
+  --tw-scale-y: 1.05;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
 .hover\\:border-blue-300:hover {
   --tw-border-opacity: 1;
   border-color: rgb(147 197 253 / var(--tw-border-opacity, 1));
 }
+
 .hover\\:bg-accent:hover {
   background-color: hsl(var(--accent));
 }
+
 .hover\\:bg-blue-100:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(219 234 254 / var(--tw-bg-opacity, 1));
 }
+
 .hover\\:bg-blue-50:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(239 246 255 / var(--tw-bg-opacity, 1));
 }
-.hover\\:bg-blue-500\\/20:hover {
-  background-color: rgb(59 130 246 / 0.2);
+
+.hover\\:bg-blue-600:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(37 99 235 / var(--tw-bg-opacity, 1));
 }
+
 .hover\\:bg-destructive\\/80:hover {
   background-color: hsl(var(--destructive) / 0.8);
 }
+
 .hover\\:bg-destructive\\/90:hover {
   background-color: hsl(var(--destructive) / 0.9);
 }
+
+.hover\\:bg-gray-100:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(243 244 246 / var(--tw-bg-opacity, 1));
+}
+
+.hover\\:bg-gray-200:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(229 231 235 / var(--tw-bg-opacity, 1));
+}
+
 .hover\\:bg-gray-50:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(249 250 251 / var(--tw-bg-opacity, 1));
 }
+
 .hover\\:bg-green-600:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(22 163 74 / var(--tw-bg-opacity, 1));
 }
-.hover\\:bg-orange-600:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(234 88 12 / var(--tw-bg-opacity, 1));
-}
+
 .hover\\:bg-primary\\/80:hover {
   background-color: hsl(var(--primary) / 0.8);
 }
+
 .hover\\:bg-primary\\/90:hover {
   background-color: hsl(var(--primary) / 0.9);
 }
+
 .hover\\:bg-red-50:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(254 242 242 / var(--tw-bg-opacity, 1));
 }
+
+.hover\\:bg-red-600:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(220 38 38 / var(--tw-bg-opacity, 1));
+}
+
 .hover\\:bg-secondary\\/80:hover {
   background-color: hsl(var(--secondary) / 0.8);
 }
+
 .hover\\:bg-yellow-600:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(202 138 4 / var(--tw-bg-opacity, 1));
 }
+
 .hover\\:text-accent-foreground:hover {
   color: hsl(var(--accent-foreground));
 }
+
+.hover\\:text-gray-700:hover {
+  --tw-text-opacity: 1;
+  color: rgb(55 65 81 / var(--tw-text-opacity, 1));
+}
+
 .hover\\:text-gray-900:hover {
   --tw-text-opacity: 1;
   color: rgb(17 24 39 / var(--tw-text-opacity, 1));
 }
+
 .hover\\:text-red-700:hover {
   --tw-text-opacity: 1;
   color: rgb(185 28 28 / var(--tw-text-opacity, 1));
 }
+
 .hover\\:underline:hover {
   text-decoration-line: underline;
 }
+
 .hover\\:opacity-100:hover {
   opacity: 1;
 }
+
+.hover\\:shadow-2xl:hover {
+  --tw-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  --tw-shadow-colored: 0 25px 50px -12px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
 .focus\\:border-blue-500:focus {
   --tw-border-opacity: 1;
   border-color: rgb(59 130 246 / var(--tw-border-opacity, 1));
 }
+
 .focus\\:outline-none:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
 }
+
 .focus\\:ring-2:focus {
   --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
   --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
   box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
 }
+
 .focus\\:ring-blue-500:focus {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(59 130 246 / var(--tw-ring-opacity, 1));
 }
+
 .focus\\:ring-ring:focus {
   --tw-ring-color: hsl(var(--ring));
 }
+
 .focus\\:ring-offset-2:focus {
   --tw-ring-offset-width: 2px;
 }
+
 .focus-visible\\:outline-none:focus-visible {
   outline: 2px solid transparent;
   outline-offset: 2px;
 }
+
 .focus-visible\\:ring-1:focus-visible {
   --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
   --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
   box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
 }
+
 .focus-visible\\:ring-2:focus-visible {
   --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
   --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
   box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
 }
+
 .focus-visible\\:ring-ring:focus-visible {
   --tw-ring-color: hsl(var(--ring));
 }
+
 .focus-visible\\:ring-offset-2:focus-visible {
   --tw-ring-offset-width: 2px;
 }
+
 .focus-visible\\:ring-offset-background:focus-visible {
   --tw-ring-offset-color: hsl(var(--background));
 }
+
 .disabled\\:pointer-events-none:disabled {
   pointer-events: none;
 }
+
 .disabled\\:cursor-not-allowed:disabled {
   cursor: not-allowed;
 }
+
+.disabled\\:bg-gray-300:disabled {
+  --tw-bg-opacity: 1;
+  background-color: rgb(209 213 219 / var(--tw-bg-opacity, 1));
+}
+
 .disabled\\:opacity-50:disabled {
   opacity: 0.5;
 }
+
 .data-\\[state\\=checked\\]\\:translate-x-4[data-state="checked"] {
   --tw-translate-x: 1rem;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
+
 .data-\\[state\\=unchecked\\]\\:translate-x-0[data-state="unchecked"] {
   --tw-translate-x: 0px;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
+
 .data-\\[state\\=checked\\]\\:bg-primary[data-state="checked"] {
   background-color: hsl(var(--primary));
 }
+
 .data-\\[state\\=open\\]\\:bg-accent[data-state="open"] {
   background-color: hsl(var(--accent));
 }
+
 .data-\\[state\\=unchecked\\]\\:bg-input[data-state="unchecked"] {
   background-color: hsl(var(--input));
 }
+
 .data-\\[state\\=open\\]\\:text-muted-foreground[data-state="open"] {
   color: hsl(var(--muted-foreground));
 }
+
 .data-\\[state\\=open\\]\\:animate-in[data-state="open"] {
   animation-name: enter;
   animation-duration: 150ms;
@@ -3983,6 +4345,7 @@ video {
   --tw-enter-translate-x: initial;
   --tw-enter-translate-y: initial;
 }
+
 .data-\\[state\\=closed\\]\\:animate-out[data-state="closed"] {
   animation-name: exit;
   animation-duration: 150ms;
@@ -3992,66 +4355,96 @@ video {
   --tw-exit-translate-x: initial;
   --tw-exit-translate-y: initial;
 }
+
 .data-\\[state\\=closed\\]\\:fade-out-0[data-state="closed"] {
   --tw-exit-opacity: 0;
 }
+
 .data-\\[state\\=open\\]\\:fade-in-0[data-state="open"] {
   --tw-enter-opacity: 0;
 }
+
 .data-\\[state\\=closed\\]\\:zoom-out-95[data-state="closed"] {
   --tw-exit-scale: .95;
 }
+
 .data-\\[state\\=open\\]\\:zoom-in-95[data-state="open"] {
   --tw-enter-scale: .95;
 }
+
 .data-\\[state\\=closed\\]\\:slide-out-to-left-1\\/2[data-state="closed"] {
   --tw-exit-translate-x: -50%;
 }
+
 .data-\\[state\\=closed\\]\\:slide-out-to-top-\\[48\\%\\][data-state="closed"] {
   --tw-exit-translate-y: -48%;
 }
+
 .data-\\[state\\=open\\]\\:slide-in-from-left-1\\/2[data-state="open"] {
   --tw-enter-translate-x: -50%;
 }
+
 .data-\\[state\\=open\\]\\:slide-in-from-top-\\[48\\%\\][data-state="open"] {
   --tw-enter-translate-y: -48%;
 }
+
+.dark\\:border-gray-600:is(.dark *) {
+  --tw-border-opacity: 1;
+  border-color: rgb(75 85 99 / var(--tw-border-opacity, 1));
+}
+
+.dark\\:border-gray-700:is(.dark *) {
+  --tw-border-opacity: 1;
+  border-color: rgb(55 65 81 / var(--tw-border-opacity, 1));
+}
+
 .dark\\:bg-gray-700:is(.dark *) {
   --tw-bg-opacity: 1;
   background-color: rgb(55 65 81 / var(--tw-bg-opacity, 1));
 }
+
 .dark\\:bg-gray-800:is(.dark *) {
   --tw-bg-opacity: 1;
   background-color: rgb(31 41 55 / var(--tw-bg-opacity, 1));
 }
+
 .dark\\:bg-gray-900:is(.dark *) {
   --tw-bg-opacity: 1;
   background-color: rgb(17 24 39 / var(--tw-bg-opacity, 1));
 }
-.dark\\:text-blue-400:is(.dark *) {
-  --tw-text-opacity: 1;
-  color: rgb(96 165 250 / var(--tw-text-opacity, 1));
-}
+
 .dark\\:text-gray-300:is(.dark *) {
   --tw-text-opacity: 1;
   color: rgb(209 213 219 / var(--tw-text-opacity, 1));
 }
+
 .dark\\:text-gray-400:is(.dark *) {
   --tw-text-opacity: 1;
   color: rgb(156 163 175 / var(--tw-text-opacity, 1));
 }
+
 .dark\\:text-white:is(.dark *) {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
 }
-.dark\\:hover\\:text-gray-200:hover:is(.dark *) {
-  --tw-text-opacity: 1;
-  color: rgb(229 231 235 / var(--tw-text-opacity, 1));
+
+.dark\\:hover\\:bg-gray-700:hover:is(.dark *) {
+  --tw-bg-opacity: 1;
+  background-color: rgb(55 65 81 / var(--tw-bg-opacity, 1));
 }
+
 @media (min-width: 640px) {
+
+  .sm\\:block {
+    display: block;
+  }
 
   .sm\\:inline {
     display: inline;
+  }
+
+  .sm\\:flex {
+    display: flex;
   }
 
   .sm\\:inline-flex {
@@ -4076,20 +4469,38 @@ video {
     border-radius: var(--radius);
   }
 
+  .sm\\:px-6 {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
   .sm\\:text-left {
     text-align: left;
   }
 }
+
 @media (min-width: 768px) {
+
+  .md\\:flex {
+    display: flex;
+  }
 
   .md\\:hidden {
     display: none;
   }
+}
 
-  .md\\:grid-cols-4 {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+@media (min-width: 1024px) {
+
+  .lg\\:inline {
+    display: inline;
   }
-}`, "",{"version":3,"sources":["webpack://./src/index.css"],"names":[],"mappings":"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B;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,iBAAmB;EAAnB;AAAmB;AAAnB;EAAA,eAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,mBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA,kBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA,oBAAmB;EAAnB;AAAmB;AAAnB;EAAA;AAAmB;AAAnB;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","sourcesContent":["@tailwind base;\n@tailwind components;\n@tailwind utilities;\n\n@layer base {\n  :root {\n    --background: 0 0% 100%;\n    --foreground: 222.2 84% 4.9%;\n    --card: 0 0% 100%;\n    --card-foreground: 222.2 84% 4.9%;\n    --popover: 0 0% 100%;\n    --popover-foreground: 222.2 84% 4.9%;\n    --primary: 221.2 83.2% 53.3%;\n    --primary-foreground: 210 40% 98%;\n    --secondary: 210 40% 96.1%;\n    --secondary-foreground: 222.2 47.4% 11.2%;\n    --muted: 210 40% 96.1%;\n    --muted-foreground: 215.4 16.3% 46.9%;\n    --accent: 210 40% 96.1%;\n    --accent-foreground: 222.2 47.4% 11.2%;\n    --destructive: 0 84.2% 60.2%;\n    --destructive-foreground: 210 40% 98%;\n    --border: 214.3 31.8% 91.4%;\n    --input: 214.3 31.8% 91.4%;\n    --ring: 221.2 83.2% 53.3%;\n    --radius: 0.5rem;\n  }\n\n  .dark {\n    --background: 222.2 84% 4.9%;\n    --foreground: 210 40% 98%;\n    --card: 222.2 84% 4.9%;\n    --card-foreground: 210 40% 98%;\n    --popover: 222.2 84% 4.9%;\n    --popover-foreground: 210 40% 98%;\n    --primary: 217.2 91.2% 59.8%;\n    --primary-foreground: 222.2 47.4% 11.2%;\n    --secondary: 217.2 32.6% 17.5%;\n    --secondary-foreground: 210 40% 98%;\n    --muted: 217.2 32.6% 17.5%;\n    --muted-foreground: 215 20.2% 65.1%;\n    --accent: 217.2 32.6% 17.5%;\n    --accent-foreground: 210 40% 98%;\n    --destructive: 0 62.8% 30.6%;\n    --destructive-foreground: 210 40% 98%;\n    --border: 217.2 32.6% 17.5%;\n    --input: 217.2 32.6% 17.5%;\n    --ring: 224.3 76.3% 48%;\n  }\n}\n\n@layer base {\n  * {\n    @apply border-border;\n  }\n  body {\n    @apply bg-background text-foreground;\n  }\n}"],"sourceRoot":""}]);
+
+  .lg\\:px-8 {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}`, "",{"version":3,"sources":["webpack://./src/index.css"],"names":[],"mappings":"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","sourcesContent":["@tailwind base;\n@tailwind components;\n@tailwind utilities;\n\n@layer base {\n  :root {\n    --background: 0 0% 100%;\n    --foreground: 222.2 84% 4.9%;\n    --card: 0 0% 100%;\n    --card-foreground: 222.2 84% 4.9%;\n    --popover: 0 0% 100%;\n    --popover-foreground: 222.2 84% 4.9%;\n    --primary: 221.2 83.2% 53.3%;\n    --primary-foreground: 210 40% 98%;\n    --secondary: 210 40% 96.1%;\n    --secondary-foreground: 222.2 47.4% 11.2%;\n    --muted: 210 40% 96.1%;\n    --muted-foreground: 215.4 16.3% 46.9%;\n    --accent: 210 40% 96.1%;\n    --accent-foreground: 222.2 47.4% 11.2%;\n    --destructive: 0 84.2% 60.2%;\n    --destructive-foreground: 210 40% 98%;\n    --border: 214.3 31.8% 91.4%;\n    --input: 214.3 31.8% 91.4%;\n    --ring: 221.2 83.2% 53.3%;\n    --radius: 0.5rem;\n  }\n\n  .dark {\n    --background: 222.2 84% 4.9%;\n    --foreground: 210 40% 98%;\n    --card: 222.2 84% 4.9%;\n    --card-foreground: 210 40% 98%;\n    --popover: 222.2 84% 4.9%;\n    --popover-foreground: 210 40% 98%;\n    --primary: 217.2 91.2% 59.8%;\n    --primary-foreground: 222.2 47.4% 11.2%;\n    --secondary: 217.2 32.6% 17.5%;\n    --secondary-foreground: 210 40% 98%;\n    --muted: 217.2 32.6% 17.5%;\n    --muted-foreground: 215 20.2% 65.1%;\n    --accent: 217.2 32.6% 17.5%;\n    --accent-foreground: 210 40% 98%;\n    --destructive: 0 62.8% 30.6%;\n    --destructive-foreground: 210 40% 98%;\n    --border: 217.2 32.6% 17.5%;\n    --input: 217.2 32.6% 17.5%;\n    --ring: 224.3 76.3% 48%;\n  }\n}\n\n@layer base {\n  * {\n    @apply border-border;\n  }\n  body {\n    @apply bg-background text-foreground;\n  }\n}"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -4193,7 +4604,23 @@ ___CSS_LOADER_EXPORT___.push([module.id, `/* Resizable Panels Custom Styles */
 
 .overflow-y-auto::-webkit-scrollbar-thumb:hover {
   background: #555;
-}`, "",{"version":3,"sources":["webpack://./src/styles/panels.css"],"names":[],"mappings":"AAAA,mCAAmC;;AAEnC,gCAAgC;AAChC;EACE,kBAAkB;EAClB,aAAa;EACb,kBAAkB;AACpB;;AAEA;EACE,yCAAyC;AAC3C;;AAEA;EACE,yCAAyC;AAC3C;;AAEA,yBAAyB;AACzB;EACE,WAAW;EACX,kBAAkB;EAClB,QAAQ;EACR,SAAS;EACT,gCAAgC;EAChC,UAAU;EACV,YAAY;EACZ;;;;;;;GAOC;EACD,kBAAkB;EAClB,oBAAoB;EACpB,yBAAyB;AAC3B;;AAEA;EACE;;;;;;;GAOC;EACD,UAAU;AACZ;;AAEA,sBAAsB;AACtB;EACE,8BAA8B;AAChC;;AAEA,iDAAiD;AACjD;EACE,YAAY;AACd;;AAEA,oDAAoD;AACpD;EACE,UAAU;AACZ;;AAEA;EACE,mBAAmB;EACnB,kBAAkB;AACpB;;AAEA;EACE,gBAAgB;EAChB,kBAAkB;AACpB;;AAEA;EACE,gBAAgB;AAClB","sourcesContent":["/* Resizable Panels Custom Styles */\n\n/* Panel resize handle styling */\n[data-panel-resize-handle-id] {\n  position: relative;\n  outline: none;\n  cursor: col-resize;\n}\n\n[data-panel-resize-handle-id]:hover {\n  background-color: rgba(59, 130, 246, 0.1);\n}\n\n[data-panel-resize-handle-id]:active {\n  background-color: rgba(59, 130, 246, 0.2);\n}\n\n/* Panel drag indicator */\n[data-panel-resize-handle-id]::after {\n  content: '';\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  width: 4px;\n  height: 40px;\n  background: linear-gradient(\n    to bottom,\n    transparent,\n    rgba(156, 163, 175, 0.3) 20%,\n    rgba(156, 163, 175, 0.5) 50%,\n    rgba(156, 163, 175, 0.3) 80%,\n    transparent\n  );\n  border-radius: 2px;\n  pointer-events: none;\n  transition: all 0.2s ease;\n}\n\n[data-panel-resize-handle-id]:hover::after {\n  background: linear-gradient(\n    to bottom,\n    transparent,\n    rgba(59, 130, 246, 0.3) 20%,\n    rgba(59, 130, 246, 0.5) 50%,\n    rgba(59, 130, 246, 0.3) 80%,\n    transparent\n  );\n  width: 6px;\n}\n\n/* Panel transitions */\n[data-panel] {\n  transition: flex 0.1s ease-out;\n}\n\n/* Ensure panels maintain minimum readable size */\n[data-panel-group] {\n  height: 100%;\n}\n\n/* Custom scrollbar for transcript and definitions */\n.overflow-y-auto::-webkit-scrollbar {\n  width: 8px;\n}\n\n.overflow-y-auto::-webkit-scrollbar-track {\n  background: #f1f1f1;\n  border-radius: 4px;\n}\n\n.overflow-y-auto::-webkit-scrollbar-thumb {\n  background: #888;\n  border-radius: 4px;\n}\n\n.overflow-y-auto::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}"],"sourceRoot":""}]);
+}
+
+/* Animation for floating notifications */
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in {
+  animation: slide-in 0.3s ease-out;
+}`, "",{"version":3,"sources":["webpack://./src/styles/panels.css"],"names":[],"mappings":"AAAA,mCAAmC;;AAEnC,gCAAgC;AAChC;EACE,kBAAkB;EAClB,aAAa;EACb,kBAAkB;AACpB;;AAEA;EACE,yCAAyC;AAC3C;;AAEA;EACE,yCAAyC;AAC3C;;AAEA,yBAAyB;AACzB;EACE,WAAW;EACX,kBAAkB;EAClB,QAAQ;EACR,SAAS;EACT,gCAAgC;EAChC,UAAU;EACV,YAAY;EACZ;;;;;;;GAOC;EACD,kBAAkB;EAClB,oBAAoB;EACpB,yBAAyB;AAC3B;;AAEA;EACE;;;;;;;GAOC;EACD,UAAU;AACZ;;AAEA,sBAAsB;AACtB;EACE,8BAA8B;AAChC;;AAEA,iDAAiD;AACjD;EACE,YAAY;AACd;;AAEA,oDAAoD;AACpD;EACE,UAAU;AACZ;;AAEA;EACE,mBAAmB;EACnB,kBAAkB;AACpB;;AAEA;EACE,gBAAgB;EAChB,kBAAkB;AACpB;;AAEA;EACE,gBAAgB;AAClB;;AAEA,yCAAyC;AACzC;EACE;IACE,2BAA2B;IAC3B,UAAU;EACZ;EACA;IACE,wBAAwB;IACxB,UAAU;EACZ;AACF;;AAEA;EACE,iCAAiC;AACnC","sourcesContent":["/* Resizable Panels Custom Styles */\n\n/* Panel resize handle styling */\n[data-panel-resize-handle-id] {\n  position: relative;\n  outline: none;\n  cursor: col-resize;\n}\n\n[data-panel-resize-handle-id]:hover {\n  background-color: rgba(59, 130, 246, 0.1);\n}\n\n[data-panel-resize-handle-id]:active {\n  background-color: rgba(59, 130, 246, 0.2);\n}\n\n/* Panel drag indicator */\n[data-panel-resize-handle-id]::after {\n  content: '';\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  width: 4px;\n  height: 40px;\n  background: linear-gradient(\n    to bottom,\n    transparent,\n    rgba(156, 163, 175, 0.3) 20%,\n    rgba(156, 163, 175, 0.5) 50%,\n    rgba(156, 163, 175, 0.3) 80%,\n    transparent\n  );\n  border-radius: 2px;\n  pointer-events: none;\n  transition: all 0.2s ease;\n}\n\n[data-panel-resize-handle-id]:hover::after {\n  background: linear-gradient(\n    to bottom,\n    transparent,\n    rgba(59, 130, 246, 0.3) 20%,\n    rgba(59, 130, 246, 0.5) 50%,\n    rgba(59, 130, 246, 0.3) 80%,\n    transparent\n  );\n  width: 6px;\n}\n\n/* Panel transitions */\n[data-panel] {\n  transition: flex 0.1s ease-out;\n}\n\n/* Ensure panels maintain minimum readable size */\n[data-panel-group] {\n  height: 100%;\n}\n\n/* Custom scrollbar for transcript and definitions */\n.overflow-y-auto::-webkit-scrollbar {\n  width: 8px;\n}\n\n.overflow-y-auto::-webkit-scrollbar-track {\n  background: #f1f1f1;\n  border-radius: 4px;\n}\n\n.overflow-y-auto::-webkit-scrollbar-thumb {\n  background: #888;\n  border-radius: 4px;\n}\n\n.overflow-y-auto::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}\n\n/* Animation for floating notifications */\n@keyframes slide-in {\n  from {\n    transform: translateX(100%);\n    opacity: 0;\n  }\n  to {\n    transform: translateX(0);\n    opacity: 1;\n  }\n}\n\n.animate-slide-in {\n  animation: slide-in 0.3s ease-out;\n}"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -6978,6 +7405,285 @@ const Activity = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"]
 
 /***/ }),
 
+/***/ "./node_modules/lucide-react/dist/esm/icons/book-open.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/book-open.js ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ BookOpen)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * @license lucide-react v0.424.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const BookOpen = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("BookOpen", [
+  ["path", { d: "M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z", key: "vv98re" }],
+  ["path", { d: "M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z", key: "1cyq3y" }]
+]);
+
+
+//# sourceMappingURL=book-open.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/bot.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/bot.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Bot)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * @license lucide-react v0.424.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const Bot = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("Bot", [
+  ["path", { d: "M12 8V4H8", key: "hb8ula" }],
+  ["rect", { width: "16", height: "12", x: "4", y: "8", rx: "2", key: "enze0r" }],
+  ["path", { d: "M2 14h2", key: "vft8re" }],
+  ["path", { d: "M20 14h2", key: "4cs60a" }],
+  ["path", { d: "M15 13v2", key: "1xurst" }],
+  ["path", { d: "M9 13v2", key: "rq6x2g" }]
+]);
+
+
+//# sourceMappingURL=bot.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/brain.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/brain.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Brain)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * @license lucide-react v0.424.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const Brain = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("Brain", [
+  [
+    "path",
+    {
+      d: "M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z",
+      key: "l5xja"
+    }
+  ],
+  [
+    "path",
+    {
+      d: "M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z",
+      key: "ep3f8r"
+    }
+  ],
+  ["path", { d: "M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4", key: "1p4c4q" }],
+  ["path", { d: "M17.599 6.5a3 3 0 0 0 .399-1.375", key: "tmeiqw" }],
+  ["path", { d: "M6.003 5.125A3 3 0 0 0 6.401 6.5", key: "105sqy" }],
+  ["path", { d: "M3.477 10.896a4 4 0 0 1 .585-.396", key: "ql3yin" }],
+  ["path", { d: "M19.938 10.5a4 4 0 0 1 .585.396", key: "1qfode" }],
+  ["path", { d: "M6 18a4 4 0 0 1-1.967-.516", key: "2e4loj" }],
+  ["path", { d: "M19.967 17.484A4 4 0 0 1 18 18", key: "159ez6" }]
+]);
+
+
+//# sourceMappingURL=brain.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/chart-column.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/chart-column.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ ChartColumn)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * @license lucide-react v0.424.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const ChartColumn = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("ChartColumn", [
+  ["path", { d: "M3 3v16a2 2 0 0 0 2 2h16", key: "c24i48" }],
+  ["path", { d: "M18 17V9", key: "2bz60n" }],
+  ["path", { d: "M13 17V5", key: "1frdt8" }],
+  ["path", { d: "M8 17v-3", key: "17ska0" }]
+]);
+
+
+//# sourceMappingURL=chart-column.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/check.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/check.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Check)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * @license lucide-react v0.424.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const Check = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("Check", [["path", { d: "M20 6 9 17l-5-5", key: "1gmf2c" }]]);
+
+
+//# sourceMappingURL=check.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/circle-check-big.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/circle-check-big.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ CircleCheckBig)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * @license lucide-react v0.424.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const CircleCheckBig = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("CircleCheckBig", [
+  ["path", { d: "M21.801 10A10 10 0 1 1 17 3.335", key: "yps3ct" }],
+  ["path", { d: "m9 11 3 3L22 4", key: "1pflzl" }]
+]);
+
+
+//# sourceMappingURL=circle-check-big.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/circle.js":
+/*!************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/circle.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Circle)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * @license lucide-react v0.424.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const Circle = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("Circle", [
+  ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }]
+]);
+
+
+//# sourceMappingURL=circle.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/clipboard-list.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/clipboard-list.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ ClipboardList)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * @license lucide-react v0.424.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const ClipboardList = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("ClipboardList", [
+  ["rect", { width: "8", height: "4", x: "8", y: "2", rx: "1", ry: "1", key: "tgr4d6" }],
+  [
+    "path",
+    {
+      d: "M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2",
+      key: "116196"
+    }
+  ],
+  ["path", { d: "M12 11h4", key: "1jrz19" }],
+  ["path", { d: "M12 16h4", key: "n85exb" }],
+  ["path", { d: "M8 11h.01", key: "1dfujw" }],
+  ["path", { d: "M8 16h.01", key: "18s6g9" }]
+]);
+
+
+//# sourceMappingURL=clipboard-list.js.map
+
+
+/***/ }),
+
 /***/ "./node_modules/lucide-react/dist/esm/icons/clock.js":
 /*!***********************************************************!*\
   !*** ./node_modules/lucide-react/dist/esm/icons/clock.js ***!
@@ -7005,6 +7711,360 @@ const Clock = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("
 
 
 //# sourceMappingURL=clock.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/dollar-sign.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/dollar-sign.js ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ DollarSign)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * @license lucide-react v0.424.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const DollarSign = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("DollarSign", [
+  ["line", { x1: "12", x2: "12", y1: "2", y2: "22", key: "7eqyqh" }],
+  ["path", { d: "M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6", key: "1b0p4s" }]
+]);
+
+
+//# sourceMappingURL=dollar-sign.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/download.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/download.js ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Download)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * @license lucide-react v0.424.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const Download = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("Download", [
+  ["path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4", key: "ih7n3h" }],
+  ["polyline", { points: "7 10 12 15 17 10", key: "2ggqvy" }],
+  ["line", { x1: "12", x2: "12", y1: "15", y2: "3", key: "1vk2je" }]
+]);
+
+
+//# sourceMappingURL=download.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/file-pen-line.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/file-pen-line.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ FilePenLine)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * @license lucide-react v0.424.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const FilePenLine = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("FilePenLine", [
+  [
+    "path",
+    {
+      d: "m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2",
+      key: "142zxg"
+    }
+  ],
+  [
+    "path",
+    {
+      d: "M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z",
+      key: "2t3380"
+    }
+  ],
+  ["path", { d: "M8 18h1", key: "13wk12" }]
+]);
+
+
+//# sourceMappingURL=file-pen-line.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/file-text.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/file-text.js ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ FileText)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * @license lucide-react v0.424.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const FileText = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("FileText", [
+  ["path", { d: "M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z", key: "1rqfz7" }],
+  ["path", { d: "M14 2v4a2 2 0 0 0 2 2h4", key: "tnqrlb" }],
+  ["path", { d: "M10 9H8", key: "b1mrlr" }],
+  ["path", { d: "M16 13H8", key: "t4e002" }],
+  ["path", { d: "M16 17H8", key: "z1uh3a" }]
+]);
+
+
+//# sourceMappingURL=file-text.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/house.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/house.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ House)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * @license lucide-react v0.424.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const House = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("House", [
+  ["path", { d: "M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8", key: "5wwlr5" }],
+  [
+    "path",
+    {
+      d: "M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z",
+      key: "1d0kgt"
+    }
+  ]
+]);
+
+
+//# sourceMappingURL=house.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/info.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/info.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Info)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * @license lucide-react v0.424.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const Info = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("Info", [
+  ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
+  ["path", { d: "M12 16v-4", key: "1dtifu" }],
+  ["path", { d: "M12 8h.01", key: "e9boi3" }]
+]);
+
+
+//# sourceMappingURL=info.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/key-round.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/key-round.js ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ KeyRound)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * @license lucide-react v0.424.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const KeyRound = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("KeyRound", [
+  [
+    "path",
+    {
+      d: "M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z",
+      key: "1s6t7t"
+    }
+  ],
+  ["circle", { cx: "16.5", cy: "7.5", r: ".5", fill: "currentColor", key: "w0ekpg" }]
+]);
+
+
+//# sourceMappingURL=key-round.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/key.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/key.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Key)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * @license lucide-react v0.424.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const Key = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("Key", [
+  ["path", { d: "m15.5 7.5 2.3 2.3a1 1 0 0 0 1.4 0l2.1-2.1a1 1 0 0 0 0-1.4L19 4", key: "g0fldk" }],
+  ["path", { d: "m21 2-9.6 9.6", key: "1j0ho8" }],
+  ["circle", { cx: "7.5", cy: "15.5", r: "5.5", key: "yqb3hr" }]
+]);
+
+
+//# sourceMappingURL=key.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/lightbulb.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/lightbulb.js ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Lightbulb)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * @license lucide-react v0.424.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const Lightbulb = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("Lightbulb", [
+  [
+    "path",
+    {
+      d: "M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5",
+      key: "1gvzjb"
+    }
+  ],
+  ["path", { d: "M9 18h6", key: "x1upvd" }],
+  ["path", { d: "M10 22h4", key: "ceow96" }]
+]);
+
+
+//# sourceMappingURL=lightbulb.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/loader.js":
+/*!************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/loader.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Loader)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * @license lucide-react v0.424.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const Loader = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("Loader", [
+  ["path", { d: "M12 2v4", key: "3427ic" }],
+  ["path", { d: "m16.2 7.8 2.9-2.9", key: "r700ao" }],
+  ["path", { d: "M18 12h4", key: "wj9ykh" }],
+  ["path", { d: "m16.2 16.2 2.9 2.9", key: "1bxg5t" }],
+  ["path", { d: "M12 18v4", key: "jadmvz" }],
+  ["path", { d: "m4.9 19.1 2.9-2.9", key: "bwix9q" }],
+  ["path", { d: "M2 12h4", key: "j09sii" }],
+  ["path", { d: "m4.9 4.9 2.9 2.9", key: "giyufr" }]
+]);
+
+
+//# sourceMappingURL=loader.js.map
 
 
 /***/ }),
@@ -7076,6 +8136,170 @@ const Mic = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("Mi
 
 /***/ }),
 
+/***/ "./node_modules/lucide-react/dist/esm/icons/monitor.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/monitor.js ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Monitor)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * @license lucide-react v0.424.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const Monitor = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("Monitor", [
+  ["rect", { width: "20", height: "14", x: "2", y: "3", rx: "2", key: "48i651" }],
+  ["line", { x1: "8", x2: "16", y1: "21", y2: "21", key: "1svkeh" }],
+  ["line", { x1: "12", x2: "12", y1: "17", y2: "21", key: "vw1qmm" }]
+]);
+
+
+//# sourceMappingURL=monitor.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/pen-line.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/pen-line.js ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ PenLine)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * @license lucide-react v0.424.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const PenLine = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("PenLine", [
+  ["path", { d: "M12 20h9", key: "t2du7b" }],
+  [
+    "path",
+    {
+      d: "M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z",
+      key: "1ykcvy"
+    }
+  ]
+]);
+
+
+//# sourceMappingURL=pen-line.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/plus.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/plus.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Plus)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * @license lucide-react v0.424.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const Plus = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("Plus", [
+  ["path", { d: "M5 12h14", key: "1ays0h" }],
+  ["path", { d: "M12 5v14", key: "s699le" }]
+]);
+
+
+//# sourceMappingURL=plus.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/refresh-cw.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/refresh-cw.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ RefreshCw)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * @license lucide-react v0.424.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const RefreshCw = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("RefreshCw", [
+  ["path", { d: "M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8", key: "v9h5vc" }],
+  ["path", { d: "M21 3v5h-5", key: "1q7to0" }],
+  ["path", { d: "M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16", key: "3uifl3" }],
+  ["path", { d: "M8 16H3v5", key: "1cv678" }]
+]);
+
+
+//# sourceMappingURL=refresh-cw.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/search.js":
+/*!************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/search.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Search)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * @license lucide-react v0.424.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const Search = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("Search", [
+  ["circle", { cx: "11", cy: "11", r: "8", key: "4ej97u" }],
+  ["path", { d: "m21 21-4.3-4.3", key: "1qie3q" }]
+]);
+
+
+//# sourceMappingURL=search.js.map
+
+
+/***/ }),
+
 /***/ "./node_modules/lucide-react/dist/esm/icons/settings.js":
 /*!**************************************************************!*\
   !*** ./node_modules/lucide-react/dist/esm/icons/settings.js ***!
@@ -7113,15 +8337,15 @@ const Settings = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"]
 
 /***/ }),
 
-/***/ "./node_modules/lucide-react/dist/esm/icons/users.js":
-/*!***********************************************************!*\
-  !*** ./node_modules/lucide-react/dist/esm/icons/users.js ***!
-  \***********************************************************/
+/***/ "./node_modules/lucide-react/dist/esm/icons/sparkles.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/sparkles.js ***!
+  \**************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ Users)
+/* harmony export */   "default": () => (/* binding */ Sparkles)
 /* harmony export */ });
 /* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
 /**
@@ -7133,15 +8357,126 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const Users = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("Users", [
-  ["path", { d: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2", key: "1yyitq" }],
-  ["circle", { cx: "9", cy: "7", r: "4", key: "nufk8" }],
-  ["path", { d: "M22 21v-2a4 4 0 0 0-3-3.87", key: "kshegd" }],
-  ["path", { d: "M16 3.13a4 4 0 0 1 0 7.75", key: "1da9ce" }]
+const Sparkles = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("Sparkles", [
+  [
+    "path",
+    {
+      d: "M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z",
+      key: "4pj2yx"
+    }
+  ],
+  ["path", { d: "M20 3v4", key: "1olli1" }],
+  ["path", { d: "M22 5h-4", key: "1gvqau" }],
+  ["path", { d: "M4 17v2", key: "vumght" }],
+  ["path", { d: "M5 18H3", key: "zchphs" }]
 ]);
 
 
-//# sourceMappingURL=users.js.map
+//# sourceMappingURL=sparkles.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/target.js":
+/*!************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/target.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Target)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * @license lucide-react v0.424.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const Target = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("Target", [
+  ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
+  ["circle", { cx: "12", cy: "12", r: "6", key: "1vlfrh" }],
+  ["circle", { cx: "12", cy: "12", r: "2", key: "1c9p78" }]
+]);
+
+
+//# sourceMappingURL=target.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/trash-2.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/trash-2.js ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Trash2)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * @license lucide-react v0.424.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const Trash2 = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("Trash2", [
+  ["path", { d: "M3 6h18", key: "d0wm0j" }],
+  ["path", { d: "M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6", key: "4alrt4" }],
+  ["path", { d: "M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2", key: "v07s0e" }],
+  ["line", { x1: "10", x2: "10", y1: "11", y2: "17", key: "1uufr5" }],
+  ["line", { x1: "14", x2: "14", y1: "11", y2: "17", key: "xtxkd" }]
+]);
+
+
+//# sourceMappingURL=trash-2.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/triangle-alert.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/triangle-alert.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ TriangleAlert)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * @license lucide-react v0.424.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const TriangleAlert = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("TriangleAlert", [
+  [
+    "path",
+    {
+      d: "m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3",
+      key: "wmoenq"
+    }
+  ],
+  ["path", { d: "M12 9v4", key: "juzpu7" }],
+  ["path", { d: "M12 17h.01", key: "p32p05" }]
+]);
+
+
+//# sourceMappingURL=triangle-alert.js.map
 
 
 /***/ }),
@@ -37864,2630 +39199,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/react-resizable-panels/dist/react-resizable-panels.browser.development.js":
-/*!************************************************************************************************!*\
-  !*** ./node_modules/react-resizable-panels/dist/react-resizable-panels.browser.development.js ***!
-  \************************************************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-var react__WEBPACK_IMPORTED_MODULE_0___namespace_cache;
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   DATA_ATTRIBUTES: () => (/* binding */ DATA_ATTRIBUTES),
-/* harmony export */   Panel: () => (/* binding */ Panel),
-/* harmony export */   PanelGroup: () => (/* binding */ PanelGroup),
-/* harmony export */   PanelResizeHandle: () => (/* binding */ PanelResizeHandle),
-/* harmony export */   assert: () => (/* binding */ assert),
-/* harmony export */   customizeGlobalCursorStyles: () => (/* binding */ customizeGlobalCursorStyles),
-/* harmony export */   disableGlobalCursorStyles: () => (/* binding */ disableGlobalCursorStyles),
-/* harmony export */   enableGlobalCursorStyles: () => (/* binding */ enableGlobalCursorStyles),
-/* harmony export */   getIntersectingRectangle: () => (/* binding */ getIntersectingRectangle),
-/* harmony export */   getPanelElement: () => (/* binding */ getPanelElement),
-/* harmony export */   getPanelElementsForGroup: () => (/* binding */ getPanelElementsForGroup),
-/* harmony export */   getPanelGroupElement: () => (/* binding */ getPanelGroupElement),
-/* harmony export */   getResizeHandleElement: () => (/* binding */ getResizeHandleElement),
-/* harmony export */   getResizeHandleElementIndex: () => (/* binding */ getResizeHandleElementIndex),
-/* harmony export */   getResizeHandleElementsForGroup: () => (/* binding */ getResizeHandleElementsForGroup),
-/* harmony export */   getResizeHandlePanelIds: () => (/* binding */ getResizeHandlePanelIds),
-/* harmony export */   intersects: () => (/* binding */ intersects),
-/* harmony export */   setNonce: () => (/* binding */ setNonce),
-/* harmony export */   usePanelGroupContext: () => (/* binding */ usePanelGroupContext)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-
-
-// The "contextmenu" event is not supported as a PointerEvent in all browsers yet, so MouseEvent still need to be handled
-
-const PanelGroupContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.createContext)(null);
-PanelGroupContext.displayName = "PanelGroupContext";
-
-const DATA_ATTRIBUTES = {
-  group: "data-panel-group",
-  groupDirection: "data-panel-group-direction",
-  groupId: "data-panel-group-id",
-  panel: "data-panel",
-  panelCollapsible: "data-panel-collapsible",
-  panelId: "data-panel-id",
-  panelSize: "data-panel-size",
-  resizeHandle: "data-resize-handle",
-  resizeHandleActive: "data-resize-handle-active",
-  resizeHandleEnabled: "data-panel-resize-handle-enabled",
-  resizeHandleId: "data-panel-resize-handle-id",
-  resizeHandleState: "data-resize-handle-state"
-};
-const PRECISION = 10;
-
-const useIsomorphicLayoutEffect = react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect ;
-
-const useId = /*#__PURE__*/ (react__WEBPACK_IMPORTED_MODULE_0___namespace_cache || (react__WEBPACK_IMPORTED_MODULE_0___namespace_cache = __webpack_require__.t(react__WEBPACK_IMPORTED_MODULE_0__, 2)))["useId".toString()];
-const wrappedUseId = typeof useId === "function" ? useId : () => null;
-let counter = 0;
-function useUniqueId(idFromParams = null) {
-  const idFromUseId = wrappedUseId();
-  const idRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(idFromParams || idFromUseId || null);
-  if (idRef.current === null) {
-    idRef.current = "" + counter++;
-  }
-  return idFromParams !== null && idFromParams !== void 0 ? idFromParams : idRef.current;
-}
-
-function PanelWithForwardedRef({
-  children,
-  className: classNameFromProps = "",
-  collapsedSize,
-  collapsible,
-  defaultSize,
-  forwardedRef,
-  id: idFromProps,
-  maxSize,
-  minSize,
-  onCollapse,
-  onExpand,
-  onResize,
-  order,
-  style: styleFromProps,
-  tagName: Type = "div",
-  ...rest
-}) {
-  const context = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(PanelGroupContext);
-  if (context === null) {
-    throw Error(`Panel components must be rendered within a PanelGroup container`);
-  }
-  const {
-    collapsePanel,
-    expandPanel,
-    getPanelSize,
-    getPanelStyle,
-    groupId,
-    isPanelCollapsed,
-    reevaluatePanelConstraints,
-    registerPanel,
-    resizePanel,
-    unregisterPanel
-  } = context;
-  const panelId = useUniqueId(idFromProps);
-  const panelDataRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)({
-    callbacks: {
-      onCollapse,
-      onExpand,
-      onResize
-    },
-    constraints: {
-      collapsedSize,
-      collapsible,
-      defaultSize,
-      maxSize,
-      minSize
-    },
-    id: panelId,
-    idIsFromProps: idFromProps !== undefined,
-    order
-  });
-  const devWarningsRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)({
-    didLogMissingDefaultSizeWarning: false
-  });
-
-  // Normally we wouldn't log a warning during render,
-  // but effects don't run on the server, so we can't do it there
-  {
-    if (!devWarningsRef.current.didLogMissingDefaultSizeWarning) ;
-  }
-  useIsomorphicLayoutEffect(() => {
-    const {
-      callbacks,
-      constraints
-    } = panelDataRef.current;
-    const prevConstraints = {
-      ...constraints
-    };
-    panelDataRef.current.id = panelId;
-    panelDataRef.current.idIsFromProps = idFromProps !== undefined;
-    panelDataRef.current.order = order;
-    callbacks.onCollapse = onCollapse;
-    callbacks.onExpand = onExpand;
-    callbacks.onResize = onResize;
-    constraints.collapsedSize = collapsedSize;
-    constraints.collapsible = collapsible;
-    constraints.defaultSize = defaultSize;
-    constraints.maxSize = maxSize;
-    constraints.minSize = minSize;
-
-    // If constraints have changed, we should revisit panel sizes.
-    // This is uncommon but may happen if people are trying to implement pixel based constraints.
-    if (prevConstraints.collapsedSize !== constraints.collapsedSize || prevConstraints.collapsible !== constraints.collapsible || prevConstraints.maxSize !== constraints.maxSize || prevConstraints.minSize !== constraints.minSize) {
-      reevaluatePanelConstraints(panelDataRef.current, prevConstraints);
-    }
-  });
-  useIsomorphicLayoutEffect(() => {
-    const panelData = panelDataRef.current;
-    registerPanel(panelData);
-    return () => {
-      unregisterPanel(panelData);
-    };
-  }, [order, panelId, registerPanel, unregisterPanel]);
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useImperativeHandle)(forwardedRef, () => ({
-    collapse: () => {
-      collapsePanel(panelDataRef.current);
-    },
-    expand: minSize => {
-      expandPanel(panelDataRef.current, minSize);
-    },
-    getId() {
-      return panelId;
-    },
-    getSize() {
-      return getPanelSize(panelDataRef.current);
-    },
-    isCollapsed() {
-      return isPanelCollapsed(panelDataRef.current);
-    },
-    isExpanded() {
-      return !isPanelCollapsed(panelDataRef.current);
-    },
-    resize: size => {
-      resizePanel(panelDataRef.current, size);
-    }
-  }), [collapsePanel, expandPanel, getPanelSize, isPanelCollapsed, panelId, resizePanel]);
-  const style = getPanelStyle(panelDataRef.current, defaultSize);
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Type, {
-    ...rest,
-    children,
-    className: classNameFromProps,
-    id: panelId,
-    style: {
-      ...style,
-      ...styleFromProps
-    },
-    // CSS selectors
-    [DATA_ATTRIBUTES.groupId]: groupId,
-    [DATA_ATTRIBUTES.panel]: "",
-    [DATA_ATTRIBUTES.panelCollapsible]: collapsible || undefined,
-    [DATA_ATTRIBUTES.panelId]: panelId,
-    [DATA_ATTRIBUTES.panelSize]: parseFloat("" + style.flexGrow).toFixed(1)
-  });
-}
-const Panel = (0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)((props, ref) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(PanelWithForwardedRef, {
-  ...props,
-  forwardedRef: ref
-}));
-PanelWithForwardedRef.displayName = "Panel";
-Panel.displayName = "forwardRef(Panel)";
-
-let nonce;
-function getNonce() {
-  return nonce;
-}
-function setNonce(value) {
-  nonce = value;
-}
-
-let currentCursorStyle = null;
-let enabled = true;
-let getCustomCursorStyleFunction = null;
-let prevRuleIndex = -1;
-let styleElement = null;
-function customizeGlobalCursorStyles(callback) {
-  getCustomCursorStyleFunction = callback;
-}
-function disableGlobalCursorStyles() {
-  enabled = false;
-}
-function enableGlobalCursorStyles() {
-  enabled = true;
-}
-function getCursorStyle(state, constraintFlags, isPointerDown) {
-  const horizontalMin = (constraintFlags & EXCEEDED_HORIZONTAL_MIN) !== 0;
-  const horizontalMax = (constraintFlags & EXCEEDED_HORIZONTAL_MAX) !== 0;
-  const verticalMin = (constraintFlags & EXCEEDED_VERTICAL_MIN) !== 0;
-  const verticalMax = (constraintFlags & EXCEEDED_VERTICAL_MAX) !== 0;
-  if (getCustomCursorStyleFunction) {
-    return getCustomCursorStyleFunction({
-      exceedsHorizontalMaximum: horizontalMax,
-      exceedsHorizontalMinimum: horizontalMin,
-      exceedsVerticalMaximum: verticalMax,
-      exceedsVerticalMinimum: verticalMin,
-      intersectsHorizontalDragHandle: state === "horizontal" || state === "intersection",
-      intersectsVerticalDragHandle: state === "vertical" || state === "intersection",
-      isPointerDown
-    });
-  }
-  if (constraintFlags) {
-    if (horizontalMin) {
-      if (verticalMin) {
-        return "se-resize";
-      } else if (verticalMax) {
-        return "ne-resize";
-      } else {
-        return "e-resize";
-      }
-    } else if (horizontalMax) {
-      if (verticalMin) {
-        return "sw-resize";
-      } else if (verticalMax) {
-        return "nw-resize";
-      } else {
-        return "w-resize";
-      }
-    } else if (verticalMin) {
-      return "s-resize";
-    } else if (verticalMax) {
-      return "n-resize";
-    }
-  }
-  switch (state) {
-    case "horizontal":
-      return "ew-resize";
-    case "intersection":
-      return "move";
-    case "vertical":
-      return "ns-resize";
-  }
-}
-function resetGlobalCursorStyle() {
-  if (styleElement !== null) {
-    document.head.removeChild(styleElement);
-    currentCursorStyle = null;
-    styleElement = null;
-    prevRuleIndex = -1;
-  }
-}
-function setGlobalCursorStyle(state, constraintFlags, isPointerDown) {
-  var _styleElement$sheet$i, _styleElement$sheet2;
-  if (!enabled) {
-    return;
-  }
-  const style = getCursorStyle(state, constraintFlags, isPointerDown);
-  if (currentCursorStyle === style) {
-    return;
-  }
-  currentCursorStyle = style;
-  if (styleElement === null) {
-    styleElement = document.createElement("style");
-    const nonce = getNonce();
-    if (nonce) {
-      styleElement.setAttribute("nonce", nonce);
-    }
-    document.head.appendChild(styleElement);
-  }
-  if (prevRuleIndex >= 0) {
-    var _styleElement$sheet;
-    (_styleElement$sheet = styleElement.sheet) === null || _styleElement$sheet === void 0 ? void 0 : _styleElement$sheet.removeRule(prevRuleIndex);
-  }
-  prevRuleIndex = (_styleElement$sheet$i = (_styleElement$sheet2 = styleElement.sheet) === null || _styleElement$sheet2 === void 0 ? void 0 : _styleElement$sheet2.insertRule(`*{cursor: ${style} !important;}`)) !== null && _styleElement$sheet$i !== void 0 ? _styleElement$sheet$i : -1;
-}
-
-function isKeyDown(event) {
-  return event.type === "keydown";
-}
-function isPointerEvent(event) {
-  return event.type.startsWith("pointer");
-}
-function isMouseEvent(event) {
-  return event.type.startsWith("mouse");
-}
-
-function getResizeEventCoordinates(event) {
-  if (isPointerEvent(event)) {
-    if (event.isPrimary) {
-      return {
-        x: event.clientX,
-        y: event.clientY
-      };
-    }
-  } else if (isMouseEvent(event)) {
-    return {
-      x: event.clientX,
-      y: event.clientY
-    };
-  }
-  return {
-    x: Infinity,
-    y: Infinity
-  };
-}
-
-function getInputType() {
-  if (typeof matchMedia === "function") {
-    return matchMedia("(pointer:coarse)").matches ? "coarse" : "fine";
-  }
-}
-
-function intersects(rectOne, rectTwo, strict) {
-  if (strict) {
-    return rectOne.x < rectTwo.x + rectTwo.width && rectOne.x + rectOne.width > rectTwo.x && rectOne.y < rectTwo.y + rectTwo.height && rectOne.y + rectOne.height > rectTwo.y;
-  } else {
-    return rectOne.x <= rectTwo.x + rectTwo.width && rectOne.x + rectOne.width >= rectTwo.x && rectOne.y <= rectTwo.y + rectTwo.height && rectOne.y + rectOne.height >= rectTwo.y;
-  }
-}
-
-// Forked from NPM stacking-order@2.0.0
-
-/**
- * Determine which of two nodes appears in front of the other —
- * if `a` is in front, returns 1, otherwise returns -1
- * @param {HTMLElement | SVGElement} a
- * @param {HTMLElement | SVGElement} b
- */
-function compare(a, b) {
-  if (a === b) throw new Error("Cannot compare node with itself");
-  const ancestors = {
-    a: get_ancestors(a),
-    b: get_ancestors(b)
-  };
-  let common_ancestor;
-
-  // remove shared ancestors
-  while (ancestors.a.at(-1) === ancestors.b.at(-1)) {
-    a = ancestors.a.pop();
-    b = ancestors.b.pop();
-    common_ancestor = a;
-  }
-  assert(common_ancestor, "Stacking order can only be calculated for elements with a common ancestor");
-  const z_indexes = {
-    a: get_z_index(find_stacking_context(ancestors.a)),
-    b: get_z_index(find_stacking_context(ancestors.b))
-  };
-  if (z_indexes.a === z_indexes.b) {
-    const children = common_ancestor.childNodes;
-    const furthest_ancestors = {
-      a: ancestors.a.at(-1),
-      b: ancestors.b.at(-1)
-    };
-    let i = children.length;
-    while (i--) {
-      const child = children[i];
-      if (child === furthest_ancestors.a) return 1;
-      if (child === furthest_ancestors.b) return -1;
-    }
-  }
-  return Math.sign(z_indexes.a - z_indexes.b);
-}
-const props = /\b(?:position|zIndex|opacity|transform|webkitTransform|mixBlendMode|filter|webkitFilter|isolation)\b/;
-
-/** @param {HTMLElement | SVGElement} node */
-function is_flex_item(node) {
-  var _get_parent;
-  // @ts-ignore
-  const display = getComputedStyle((_get_parent = get_parent(node)) !== null && _get_parent !== void 0 ? _get_parent : node).display;
-  return display === "flex" || display === "inline-flex";
-}
-
-/** @param {HTMLElement | SVGElement} node */
-function creates_stacking_context(node) {
-  const style = getComputedStyle(node);
-
-  // https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/The_stacking_context
-  if (style.position === "fixed") return true;
-  // Forked to fix upstream bug https://github.com/Rich-Harris/stacking-order/issues/3
-  // if (
-  //   (style.zIndex !== "auto" && style.position !== "static") ||
-  //   is_flex_item(node)
-  // )
-  if (style.zIndex !== "auto" && (style.position !== "static" || is_flex_item(node))) return true;
-  if (+style.opacity < 1) return true;
-  if ("transform" in style && style.transform !== "none") return true;
-  if ("webkitTransform" in style && style.webkitTransform !== "none") return true;
-  if ("mixBlendMode" in style && style.mixBlendMode !== "normal") return true;
-  if ("filter" in style && style.filter !== "none") return true;
-  if ("webkitFilter" in style && style.webkitFilter !== "none") return true;
-  if ("isolation" in style && style.isolation === "isolate") return true;
-  if (props.test(style.willChange)) return true;
-  // @ts-expect-error
-  if (style.webkitOverflowScrolling === "touch") return true;
-  return false;
-}
-
-/** @param {(HTMLElement| SVGElement)[]} nodes */
-function find_stacking_context(nodes) {
-  let i = nodes.length;
-  while (i--) {
-    const node = nodes[i];
-    assert(node, "Missing node");
-    if (creates_stacking_context(node)) return node;
-  }
-  return null;
-}
-
-/** @param {HTMLElement | SVGElement} node */
-function get_z_index(node) {
-  return node && Number(getComputedStyle(node).zIndex) || 0;
-}
-
-/** @param {HTMLElement} node */
-function get_ancestors(node) {
-  const ancestors = [];
-  while (node) {
-    ancestors.push(node);
-    // @ts-ignore
-    node = get_parent(node);
-  }
-  return ancestors; // [ node, ... <body>, <html>, document ]
-}
-
-/** @param {HTMLElement} node */
-function get_parent(node) {
-  const {
-    parentNode
-  } = node;
-  if (parentNode && parentNode instanceof ShadowRoot) {
-    return parentNode.host;
-  }
-  return parentNode;
-}
-
-const EXCEEDED_HORIZONTAL_MIN = 0b0001;
-const EXCEEDED_HORIZONTAL_MAX = 0b0010;
-const EXCEEDED_VERTICAL_MIN = 0b0100;
-const EXCEEDED_VERTICAL_MAX = 0b1000;
-const isCoarsePointer = getInputType() === "coarse";
-let intersectingHandles = [];
-let isPointerDown = false;
-let ownerDocumentCounts = new Map();
-let panelConstraintFlags = new Map();
-const registeredResizeHandlers = new Set();
-function registerResizeHandle(resizeHandleId, element, direction, hitAreaMargins, setResizeHandlerState) {
-  var _ownerDocumentCounts$;
-  const {
-    ownerDocument
-  } = element;
-  const data = {
-    direction,
-    element,
-    hitAreaMargins,
-    setResizeHandlerState
-  };
-  const count = (_ownerDocumentCounts$ = ownerDocumentCounts.get(ownerDocument)) !== null && _ownerDocumentCounts$ !== void 0 ? _ownerDocumentCounts$ : 0;
-  ownerDocumentCounts.set(ownerDocument, count + 1);
-  registeredResizeHandlers.add(data);
-  updateListeners();
-  return function unregisterResizeHandle() {
-    var _ownerDocumentCounts$2;
-    panelConstraintFlags.delete(resizeHandleId);
-    registeredResizeHandlers.delete(data);
-    const count = (_ownerDocumentCounts$2 = ownerDocumentCounts.get(ownerDocument)) !== null && _ownerDocumentCounts$2 !== void 0 ? _ownerDocumentCounts$2 : 1;
-    ownerDocumentCounts.set(ownerDocument, count - 1);
-    updateListeners();
-    if (count === 1) {
-      ownerDocumentCounts.delete(ownerDocument);
-    }
-
-    // If the resize handle that is currently unmounting is intersecting with the pointer,
-    // update the global pointer to account for the change
-    if (intersectingHandles.includes(data)) {
-      const index = intersectingHandles.indexOf(data);
-      if (index >= 0) {
-        intersectingHandles.splice(index, 1);
-      }
-      updateCursor();
-
-      // Also instruct the handle to stop dragging; this prevents the parent group from being left in an inconsistent state
-      // See github.com/bvaughn/react-resizable-panels/issues/402
-      setResizeHandlerState("up", true, null);
-    }
-  };
-}
-function handlePointerDown(event) {
-  const {
-    target
-  } = event;
-  const {
-    x,
-    y
-  } = getResizeEventCoordinates(event);
-  isPointerDown = true;
-  recalculateIntersectingHandles({
-    target,
-    x,
-    y
-  });
-  updateListeners();
-  if (intersectingHandles.length > 0) {
-    updateResizeHandlerStates("down", event);
-
-    // Update cursor based on return value(s) from active handles
-    updateCursor();
-    event.preventDefault();
-    if (!isWithinResizeHandle(target)) {
-      event.stopImmediatePropagation();
-    }
-  }
-}
-function handlePointerMove(event) {
-  const {
-    x,
-    y
-  } = getResizeEventCoordinates(event);
-
-  // Edge case (see #340)
-  // Detect when the pointer has been released outside an iframe on a different domain
-  if (isPointerDown && event.buttons === 0) {
-    isPointerDown = false;
-    updateResizeHandlerStates("up", event);
-  }
-  if (!isPointerDown) {
-    const {
-      target
-    } = event;
-
-    // Recalculate intersecting handles whenever the pointer moves, except if it has already been pressed
-    // at that point, the handles may not move with the pointer (depending on constraints)
-    // but the same set of active handles should be locked until the pointer is released
-    recalculateIntersectingHandles({
-      target,
-      x,
-      y
-    });
-  }
-  updateResizeHandlerStates("move", event);
-
-  // Update cursor based on return value(s) from active handles
-  updateCursor();
-  if (intersectingHandles.length > 0) {
-    event.preventDefault();
-  }
-}
-function handlePointerUp(event) {
-  const {
-    target
-  } = event;
-  const {
-    x,
-    y
-  } = getResizeEventCoordinates(event);
-  panelConstraintFlags.clear();
-  isPointerDown = false;
-  if (intersectingHandles.length > 0) {
-    event.preventDefault();
-    if (!isWithinResizeHandle(target)) {
-      event.stopImmediatePropagation();
-    }
-  }
-  updateResizeHandlerStates("up", event);
-  recalculateIntersectingHandles({
-    target,
-    x,
-    y
-  });
-  updateCursor();
-  updateListeners();
-}
-function isWithinResizeHandle(element) {
-  let currentElement = element;
-  while (currentElement) {
-    if (currentElement.hasAttribute(DATA_ATTRIBUTES.resizeHandle)) {
-      return true;
-    }
-    currentElement = currentElement.parentElement;
-  }
-  return false;
-}
-function recalculateIntersectingHandles({
-  target,
-  x,
-  y
-}) {
-  intersectingHandles.splice(0);
-  let targetElement = null;
-  if (target instanceof HTMLElement || target instanceof SVGElement) {
-    targetElement = target;
-  }
-  registeredResizeHandlers.forEach(data => {
-    const {
-      element: dragHandleElement,
-      hitAreaMargins
-    } = data;
-    const dragHandleRect = dragHandleElement.getBoundingClientRect();
-    const {
-      bottom,
-      left,
-      right,
-      top
-    } = dragHandleRect;
-    const margin = isCoarsePointer ? hitAreaMargins.coarse : hitAreaMargins.fine;
-    const eventIntersects = x >= left - margin && x <= right + margin && y >= top - margin && y <= bottom + margin;
-    if (eventIntersects) {
-      // TRICKY
-      // We listen for pointers events at the root in order to support hit area margins
-      // (determining when the pointer is close enough to an element to be considered a "hit")
-      // Clicking on an element "above" a handle (e.g. a modal) should prevent a hit though
-      // so at this point we need to compare stacking order of a potentially intersecting drag handle,
-      // and the element that was actually clicked/touched
-      if (targetElement !== null && document.contains(targetElement) && dragHandleElement !== targetElement && !dragHandleElement.contains(targetElement) && !targetElement.contains(dragHandleElement) &&
-      // Calculating stacking order has a cost, so we should avoid it if possible
-      // That is why we only check potentially intersecting handles,
-      // and why we skip if the event target is within the handle's DOM
-      compare(targetElement, dragHandleElement) > 0) {
-        // If the target is above the drag handle, then we also need to confirm they overlap
-        // If they are beside each other (e.g. a panel and its drag handle) then the handle is still interactive
-        //
-        // It's not enough to compare only the target
-        // The target might be a small element inside of a larger container
-        // (For example, a SPAN or a DIV inside of a larger modal dialog)
-        let currentElement = targetElement;
-        let didIntersect = false;
-        while (currentElement) {
-          if (currentElement.contains(dragHandleElement)) {
-            break;
-          } else if (intersects(currentElement.getBoundingClientRect(), dragHandleRect, true)) {
-            didIntersect = true;
-            break;
-          }
-          currentElement = currentElement.parentElement;
-        }
-        if (didIntersect) {
-          return;
-        }
-      }
-      intersectingHandles.push(data);
-    }
-  });
-}
-function reportConstraintsViolation(resizeHandleId, flag) {
-  panelConstraintFlags.set(resizeHandleId, flag);
-}
-function updateCursor() {
-  let intersectsHorizontal = false;
-  let intersectsVertical = false;
-  intersectingHandles.forEach(data => {
-    const {
-      direction
-    } = data;
-    if (direction === "horizontal") {
-      intersectsHorizontal = true;
-    } else {
-      intersectsVertical = true;
-    }
-  });
-  let constraintFlags = 0;
-  panelConstraintFlags.forEach(flag => {
-    constraintFlags |= flag;
-  });
-  if (intersectsHorizontal && intersectsVertical) {
-    setGlobalCursorStyle("intersection", constraintFlags, isPointerDown);
-  } else if (intersectsHorizontal) {
-    setGlobalCursorStyle("horizontal", constraintFlags, isPointerDown);
-  } else if (intersectsVertical) {
-    setGlobalCursorStyle("vertical", constraintFlags, isPointerDown);
-  } else {
-    resetGlobalCursorStyle();
-  }
-}
-let listenersAbortController;
-function updateListeners() {
-  var _listenersAbortContro;
-  (_listenersAbortContro = listenersAbortController) === null || _listenersAbortContro === void 0 ? void 0 : _listenersAbortContro.abort();
-  listenersAbortController = new AbortController();
-  const options = {
-    capture: true,
-    signal: listenersAbortController.signal
-  };
-  if (!registeredResizeHandlers.size) {
-    return;
-  }
-  if (isPointerDown) {
-    if (intersectingHandles.length > 0) {
-      ownerDocumentCounts.forEach((count, ownerDocument) => {
-        const {
-          body
-        } = ownerDocument;
-        if (count > 0) {
-          body.addEventListener("contextmenu", handlePointerUp, options);
-          body.addEventListener("pointerleave", handlePointerMove, options);
-          body.addEventListener("pointermove", handlePointerMove, options);
-        }
-      });
-    }
-    ownerDocumentCounts.forEach((_, ownerDocument) => {
-      const {
-        body
-      } = ownerDocument;
-      body.addEventListener("pointerup", handlePointerUp, options);
-      body.addEventListener("pointercancel", handlePointerUp, options);
-    });
-  } else {
-    ownerDocumentCounts.forEach((count, ownerDocument) => {
-      const {
-        body
-      } = ownerDocument;
-      if (count > 0) {
-        body.addEventListener("pointerdown", handlePointerDown, options);
-        body.addEventListener("pointermove", handlePointerMove, options);
-      }
-    });
-  }
-}
-function updateResizeHandlerStates(action, event) {
-  registeredResizeHandlers.forEach(data => {
-    const {
-      setResizeHandlerState
-    } = data;
-    const isActive = intersectingHandles.includes(data);
-    setResizeHandlerState(action, isActive, event);
-  });
-}
-
-function useForceUpdate() {
-  const [_, setCount] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0);
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(() => setCount(prevCount => prevCount + 1), []);
-}
-
-function assert(expectedCondition, message) {
-  if (!expectedCondition) {
-    console.error(message);
-    throw Error(message);
-  }
-}
-
-function fuzzyCompareNumbers(actual, expected, fractionDigits = PRECISION) {
-  if (actual.toFixed(fractionDigits) === expected.toFixed(fractionDigits)) {
-    return 0;
-  } else {
-    return actual > expected ? 1 : -1;
-  }
-}
-function fuzzyNumbersEqual$1(actual, expected, fractionDigits = PRECISION) {
-  return fuzzyCompareNumbers(actual, expected, fractionDigits) === 0;
-}
-
-function fuzzyNumbersEqual(actual, expected, fractionDigits) {
-  return fuzzyCompareNumbers(actual, expected, fractionDigits) === 0;
-}
-
-function fuzzyLayoutsEqual(actual, expected, fractionDigits) {
-  if (actual.length !== expected.length) {
-    return false;
-  }
-  for (let index = 0; index < actual.length; index++) {
-    const actualSize = actual[index];
-    const expectedSize = expected[index];
-    if (!fuzzyNumbersEqual(actualSize, expectedSize, fractionDigits)) {
-      return false;
-    }
-  }
-  return true;
-}
-
-// Panel size must be in percentages; pixel values should be pre-converted
-function resizePanel({
-  panelConstraints: panelConstraintsArray,
-  panelIndex,
-  size
-}) {
-  const panelConstraints = panelConstraintsArray[panelIndex];
-  assert(panelConstraints != null, `Panel constraints not found for index ${panelIndex}`);
-  let {
-    collapsedSize = 0,
-    collapsible,
-    maxSize = 100,
-    minSize = 0
-  } = panelConstraints;
-  if (fuzzyCompareNumbers(size, minSize) < 0) {
-    if (collapsible) {
-      // Collapsible panels should snap closed or open only once they cross the halfway point between collapsed and min size.
-      const halfwayPoint = (collapsedSize + minSize) / 2;
-      if (fuzzyCompareNumbers(size, halfwayPoint) < 0) {
-        size = collapsedSize;
-      } else {
-        size = minSize;
-      }
-    } else {
-      size = minSize;
-    }
-  }
-  size = Math.min(maxSize, size);
-  size = parseFloat(size.toFixed(PRECISION));
-  return size;
-}
-
-// All units must be in percentages; pixel values should be pre-converted
-function adjustLayoutByDelta({
-  delta,
-  initialLayout,
-  panelConstraints: panelConstraintsArray,
-  pivotIndices,
-  prevLayout,
-  trigger
-}) {
-  if (fuzzyNumbersEqual(delta, 0)) {
-    return initialLayout;
-  }
-  const nextLayout = [...initialLayout];
-  const [firstPivotIndex, secondPivotIndex] = pivotIndices;
-  assert(firstPivotIndex != null, "Invalid first pivot index");
-  assert(secondPivotIndex != null, "Invalid second pivot index");
-  let deltaApplied = 0;
-
-  // const DEBUG = [];
-  // DEBUG.push(`adjustLayoutByDelta()`);
-  // DEBUG.push(`  initialLayout: ${initialLayout.join(", ")}`);
-  // DEBUG.push(`  prevLayout: ${prevLayout.join(", ")}`);
-  // DEBUG.push(`  delta: ${delta}`);
-  // DEBUG.push(`  pivotIndices: ${pivotIndices.join(", ")}`);
-  // DEBUG.push(`  trigger: ${trigger}`);
-  // DEBUG.push("");
-
-  // A resizing panel affects the panels before or after it.
-  //
-  // A negative delta means the panel(s) immediately after the resize handle should grow/expand by decreasing its offset.
-  // Other panels may also need to shrink/contract (and shift) to make room, depending on the min weights.
-  //
-  // A positive delta means the panel(s) immediately before the resize handle should "expand".
-  // This is accomplished by shrinking/contracting (and shifting) one or more of the panels after the resize handle.
-
-  {
-    // If this is a resize triggered by a keyboard event, our logic for expanding/collapsing is different.
-    // We no longer check the halfway threshold because this may prevent the panel from expanding at all.
-    if (trigger === "keyboard") {
-      {
-        // Check if we should expand a collapsed panel
-        const index = delta < 0 ? secondPivotIndex : firstPivotIndex;
-        const panelConstraints = panelConstraintsArray[index];
-        assert(panelConstraints, `Panel constraints not found for index ${index}`);
-        const {
-          collapsedSize = 0,
-          collapsible,
-          minSize = 0
-        } = panelConstraints;
-
-        // DEBUG.push(`edge case check 1: ${index}`);
-        // DEBUG.push(`  -> collapsible? ${collapsible}`);
-        if (collapsible) {
-          const prevSize = initialLayout[index];
-          assert(prevSize != null, `Previous layout not found for panel index ${index}`);
-          if (fuzzyNumbersEqual(prevSize, collapsedSize)) {
-            const localDelta = minSize - prevSize;
-            // DEBUG.push(`  -> expand delta: ${localDelta}`);
-
-            if (fuzzyCompareNumbers(localDelta, Math.abs(delta)) > 0) {
-              delta = delta < 0 ? 0 - localDelta : localDelta;
-              // DEBUG.push(`  -> delta: ${delta}`);
-            }
-          }
-        }
-      }
-
-      {
-        // Check if we should collapse a panel at its minimum size
-        const index = delta < 0 ? firstPivotIndex : secondPivotIndex;
-        const panelConstraints = panelConstraintsArray[index];
-        assert(panelConstraints, `No panel constraints found for index ${index}`);
-        const {
-          collapsedSize = 0,
-          collapsible,
-          minSize = 0
-        } = panelConstraints;
-
-        // DEBUG.push(`edge case check 2: ${index}`);
-        // DEBUG.push(`  -> collapsible? ${collapsible}`);
-        if (collapsible) {
-          const prevSize = initialLayout[index];
-          assert(prevSize != null, `Previous layout not found for panel index ${index}`);
-          if (fuzzyNumbersEqual(prevSize, minSize)) {
-            const localDelta = prevSize - collapsedSize;
-            // DEBUG.push(`  -> expand delta: ${localDelta}`);
-
-            if (fuzzyCompareNumbers(localDelta, Math.abs(delta)) > 0) {
-              delta = delta < 0 ? 0 - localDelta : localDelta;
-              // DEBUG.push(`  -> delta: ${delta}`);
-            }
-          }
-        }
-      }
-    }
-    // DEBUG.push("");
-  }
-
-  {
-    // Pre-calculate max available delta in the opposite direction of our pivot.
-    // This will be the maximum amount we're allowed to expand/contract the panels in the primary direction.
-    // If this amount is less than the requested delta, adjust the requested delta.
-    // If this amount is greater than the requested delta, that's useful information too–
-    // as an expanding panel might change from collapsed to min size.
-
-    const increment = delta < 0 ? 1 : -1;
-    let index = delta < 0 ? secondPivotIndex : firstPivotIndex;
-    let maxAvailableDelta = 0;
-
-    // DEBUG.push("pre calc...");
-    while (true) {
-      const prevSize = initialLayout[index];
-      assert(prevSize != null, `Previous layout not found for panel index ${index}`);
-      const maxSafeSize = resizePanel({
-        panelConstraints: panelConstraintsArray,
-        panelIndex: index,
-        size: 100
-      });
-      const delta = maxSafeSize - prevSize;
-      // DEBUG.push(`  ${index}: ${prevSize} -> ${maxSafeSize}`);
-
-      maxAvailableDelta += delta;
-      index += increment;
-      if (index < 0 || index >= panelConstraintsArray.length) {
-        break;
-      }
-    }
-
-    // DEBUG.push(`  -> max available delta: ${maxAvailableDelta}`);
-    const minAbsDelta = Math.min(Math.abs(delta), Math.abs(maxAvailableDelta));
-    delta = delta < 0 ? 0 - minAbsDelta : minAbsDelta;
-    // DEBUG.push(`  -> adjusted delta: ${delta}`);
-    // DEBUG.push("");
-  }
-
-  {
-    // Delta added to a panel needs to be subtracted from other panels (within the constraints that those panels allow).
-
-    const pivotIndex = delta < 0 ? firstPivotIndex : secondPivotIndex;
-    let index = pivotIndex;
-    while (index >= 0 && index < panelConstraintsArray.length) {
-      const deltaRemaining = Math.abs(delta) - Math.abs(deltaApplied);
-      const prevSize = initialLayout[index];
-      assert(prevSize != null, `Previous layout not found for panel index ${index}`);
-      const unsafeSize = prevSize - deltaRemaining;
-      const safeSize = resizePanel({
-        panelConstraints: panelConstraintsArray,
-        panelIndex: index,
-        size: unsafeSize
-      });
-      if (!fuzzyNumbersEqual(prevSize, safeSize)) {
-        deltaApplied += prevSize - safeSize;
-        nextLayout[index] = safeSize;
-        if (deltaApplied.toPrecision(3).localeCompare(Math.abs(delta).toPrecision(3), undefined, {
-          numeric: true
-        }) >= 0) {
-          break;
-        }
-      }
-      if (delta < 0) {
-        index--;
-      } else {
-        index++;
-      }
-    }
-  }
-  // DEBUG.push(`after 1: ${nextLayout.join(", ")}`);
-  // DEBUG.push(`  deltaApplied: ${deltaApplied}`);
-  // DEBUG.push("");
-
-  // If we were unable to resize any of the panels panels, return the previous state.
-  // This will essentially bailout and ignore e.g. drags past a panel's boundaries
-  if (fuzzyLayoutsEqual(prevLayout, nextLayout)) {
-    // DEBUG.push(`bailout to previous layout: ${prevLayout.join(", ")}`);
-    // console.log(DEBUG.join("\n"));
-
-    return prevLayout;
-  }
-  {
-    // Now distribute the applied delta to the panels in the other direction
-    const pivotIndex = delta < 0 ? secondPivotIndex : firstPivotIndex;
-    const prevSize = initialLayout[pivotIndex];
-    assert(prevSize != null, `Previous layout not found for panel index ${pivotIndex}`);
-    const unsafeSize = prevSize + deltaApplied;
-    const safeSize = resizePanel({
-      panelConstraints: panelConstraintsArray,
-      panelIndex: pivotIndex,
-      size: unsafeSize
-    });
-
-    // Adjust the pivot panel before, but only by the amount that surrounding panels were able to shrink/contract.
-    nextLayout[pivotIndex] = safeSize;
-
-    // Edge case where expanding or contracting one panel caused another one to change collapsed state
-    if (!fuzzyNumbersEqual(safeSize, unsafeSize)) {
-      let deltaRemaining = unsafeSize - safeSize;
-      const pivotIndex = delta < 0 ? secondPivotIndex : firstPivotIndex;
-      let index = pivotIndex;
-      while (index >= 0 && index < panelConstraintsArray.length) {
-        const prevSize = nextLayout[index];
-        assert(prevSize != null, `Previous layout not found for panel index ${index}`);
-        const unsafeSize = prevSize + deltaRemaining;
-        const safeSize = resizePanel({
-          panelConstraints: panelConstraintsArray,
-          panelIndex: index,
-          size: unsafeSize
-        });
-        if (!fuzzyNumbersEqual(prevSize, safeSize)) {
-          deltaRemaining -= safeSize - prevSize;
-          nextLayout[index] = safeSize;
-        }
-        if (fuzzyNumbersEqual(deltaRemaining, 0)) {
-          break;
-        }
-        if (delta > 0) {
-          index--;
-        } else {
-          index++;
-        }
-      }
-    }
-  }
-  // DEBUG.push(`after 2: ${nextLayout.join(", ")}`);
-  // DEBUG.push(`  deltaApplied: ${deltaApplied}`);
-  // DEBUG.push("");
-
-  const totalSize = nextLayout.reduce((total, size) => size + total, 0);
-  // DEBUG.push(`total size: ${totalSize}`);
-
-  // If our new layout doesn't add up to 100%, that means the requested delta can't be applied
-  // In that case, fall back to our most recent valid layout
-  if (!fuzzyNumbersEqual(totalSize, 100)) {
-    // DEBUG.push(`bailout to previous layout: ${prevLayout.join(", ")}`);
-    // console.log(DEBUG.join("\n"));
-
-    return prevLayout;
-  }
-
-  // console.log(DEBUG.join("\n"));
-  return nextLayout;
-}
-
-function calculateAriaValues({
-  layout,
-  panelsArray,
-  pivotIndices
-}) {
-  let currentMinSize = 0;
-  let currentMaxSize = 100;
-  let totalMinSize = 0;
-  let totalMaxSize = 0;
-  const firstIndex = pivotIndices[0];
-  assert(firstIndex != null, "No pivot index found");
-
-  // A panel's effective min/max sizes also need to account for other panel's sizes.
-  panelsArray.forEach((panelData, index) => {
-    const {
-      constraints
-    } = panelData;
-    const {
-      maxSize = 100,
-      minSize = 0
-    } = constraints;
-    if (index === firstIndex) {
-      currentMinSize = minSize;
-      currentMaxSize = maxSize;
-    } else {
-      totalMinSize += minSize;
-      totalMaxSize += maxSize;
-    }
-  });
-  const valueMax = Math.min(currentMaxSize, 100 - totalMinSize);
-  const valueMin = Math.max(currentMinSize, 100 - totalMaxSize);
-  const valueNow = layout[firstIndex];
-  return {
-    valueMax,
-    valueMin,
-    valueNow
-  };
-}
-
-function getResizeHandleElementsForGroup(groupId, scope = document) {
-  return Array.from(scope.querySelectorAll(`[${DATA_ATTRIBUTES.resizeHandleId}][data-panel-group-id="${groupId}"]`));
-}
-
-function getResizeHandleElementIndex(groupId, id, scope = document) {
-  const handles = getResizeHandleElementsForGroup(groupId, scope);
-  const index = handles.findIndex(handle => handle.getAttribute(DATA_ATTRIBUTES.resizeHandleId) === id);
-  return index !== null && index !== void 0 ? index : null;
-}
-
-function determinePivotIndices(groupId, dragHandleId, panelGroupElement) {
-  const index = getResizeHandleElementIndex(groupId, dragHandleId, panelGroupElement);
-  return index != null ? [index, index + 1] : [-1, -1];
-}
-
-function isHTMLElement(target) {
-  if (target instanceof HTMLElement) {
-    return true;
-  }
-
-  // Fallback to duck typing to handle edge case of portals within a popup window
-  return typeof target === "object" && target !== null && "tagName" in target && "getAttribute" in target;
-}
-
-function getPanelGroupElement(id, rootElement = document) {
-  // If the root element is the PanelGroup
-  if (isHTMLElement(rootElement) && rootElement.dataset.panelGroupId == id) {
-    return rootElement;
-  }
-
-  // Else query children
-  const element = rootElement.querySelector(`[data-panel-group][data-panel-group-id="${id}"]`);
-  if (element) {
-    return element;
-  }
-  return null;
-}
-
-function getResizeHandleElement(id, scope = document) {
-  const element = scope.querySelector(`[${DATA_ATTRIBUTES.resizeHandleId}="${id}"]`);
-  if (element) {
-    return element;
-  }
-  return null;
-}
-
-function getResizeHandlePanelIds(groupId, handleId, panelsArray, scope = document) {
-  var _panelsArray$index$id, _panelsArray$index, _panelsArray$id, _panelsArray;
-  const handle = getResizeHandleElement(handleId, scope);
-  const handles = getResizeHandleElementsForGroup(groupId, scope);
-  const index = handle ? handles.indexOf(handle) : -1;
-  const idBefore = (_panelsArray$index$id = (_panelsArray$index = panelsArray[index]) === null || _panelsArray$index === void 0 ? void 0 : _panelsArray$index.id) !== null && _panelsArray$index$id !== void 0 ? _panelsArray$index$id : null;
-  const idAfter = (_panelsArray$id = (_panelsArray = panelsArray[index + 1]) === null || _panelsArray === void 0 ? void 0 : _panelsArray.id) !== null && _panelsArray$id !== void 0 ? _panelsArray$id : null;
-  return [idBefore, idAfter];
-}
-
-// https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/
-
-function useWindowSplitterPanelGroupBehavior({
-  committedValuesRef,
-  eagerValuesRef,
-  groupId,
-  layout,
-  panelDataArray,
-  panelGroupElement,
-  setLayout
-}) {
-  const devWarningsRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)({
-    didWarnAboutMissingResizeHandle: false
-  });
-  useIsomorphicLayoutEffect(() => {
-    if (!panelGroupElement) {
-      return;
-    }
-    const resizeHandleElements = getResizeHandleElementsForGroup(groupId, panelGroupElement);
-    for (let index = 0; index < panelDataArray.length - 1; index++) {
-      const {
-        valueMax,
-        valueMin,
-        valueNow
-      } = calculateAriaValues({
-        layout,
-        panelsArray: panelDataArray,
-        pivotIndices: [index, index + 1]
-      });
-      const resizeHandleElement = resizeHandleElements[index];
-      if (resizeHandleElement == null) {
-        {
-          const {
-            didWarnAboutMissingResizeHandle
-          } = devWarningsRef.current;
-          if (!didWarnAboutMissingResizeHandle) {
-            devWarningsRef.current.didWarnAboutMissingResizeHandle = true;
-            console.warn(`WARNING: Missing resize handle for PanelGroup "${groupId}"`);
-          }
-        }
-      } else {
-        const panelData = panelDataArray[index];
-        assert(panelData, `No panel data found for index "${index}"`);
-        resizeHandleElement.setAttribute("aria-controls", panelData.id);
-        resizeHandleElement.setAttribute("aria-valuemax", "" + Math.round(valueMax));
-        resizeHandleElement.setAttribute("aria-valuemin", "" + Math.round(valueMin));
-        resizeHandleElement.setAttribute("aria-valuenow", valueNow != null ? "" + Math.round(valueNow) : "");
-      }
-    }
-    return () => {
-      resizeHandleElements.forEach((resizeHandleElement, index) => {
-        resizeHandleElement.removeAttribute("aria-controls");
-        resizeHandleElement.removeAttribute("aria-valuemax");
-        resizeHandleElement.removeAttribute("aria-valuemin");
-        resizeHandleElement.removeAttribute("aria-valuenow");
-      });
-    };
-  }, [groupId, layout, panelDataArray, panelGroupElement]);
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    if (!panelGroupElement) {
-      return;
-    }
-    const eagerValues = eagerValuesRef.current;
-    assert(eagerValues, `Eager values not found`);
-    const {
-      panelDataArray
-    } = eagerValues;
-    const groupElement = getPanelGroupElement(groupId, panelGroupElement);
-    assert(groupElement != null, `No group found for id "${groupId}"`);
-    const handles = getResizeHandleElementsForGroup(groupId, panelGroupElement);
-    assert(handles, `No resize handles found for group id "${groupId}"`);
-    const cleanupFunctions = handles.map(handle => {
-      const handleId = handle.getAttribute(DATA_ATTRIBUTES.resizeHandleId);
-      assert(handleId, `Resize handle element has no handle id attribute`);
-      const [idBefore, idAfter] = getResizeHandlePanelIds(groupId, handleId, panelDataArray, panelGroupElement);
-      if (idBefore == null || idAfter == null) {
-        return () => {};
-      }
-      const onKeyDown = event => {
-        if (event.defaultPrevented) {
-          return;
-        }
-        switch (event.key) {
-          case "Enter":
-            {
-              event.preventDefault();
-              const index = panelDataArray.findIndex(panelData => panelData.id === idBefore);
-              if (index >= 0) {
-                const panelData = panelDataArray[index];
-                assert(panelData, `No panel data found for index ${index}`);
-                const size = layout[index];
-                const {
-                  collapsedSize = 0,
-                  collapsible,
-                  minSize = 0
-                } = panelData.constraints;
-                if (size != null && collapsible) {
-                  const nextLayout = adjustLayoutByDelta({
-                    delta: fuzzyNumbersEqual(size, collapsedSize) ? minSize - collapsedSize : collapsedSize - size,
-                    initialLayout: layout,
-                    panelConstraints: panelDataArray.map(panelData => panelData.constraints),
-                    pivotIndices: determinePivotIndices(groupId, handleId, panelGroupElement),
-                    prevLayout: layout,
-                    trigger: "keyboard"
-                  });
-                  if (layout !== nextLayout) {
-                    setLayout(nextLayout);
-                  }
-                }
-              }
-              break;
-            }
-        }
-      };
-      handle.addEventListener("keydown", onKeyDown);
-      return () => {
-        handle.removeEventListener("keydown", onKeyDown);
-      };
-    });
-    return () => {
-      cleanupFunctions.forEach(cleanupFunction => cleanupFunction());
-    };
-  }, [panelGroupElement, committedValuesRef, eagerValuesRef, groupId, layout, panelDataArray, setLayout]);
-}
-
-function areEqual(arrayA, arrayB) {
-  if (arrayA.length !== arrayB.length) {
-    return false;
-  }
-  for (let index = 0; index < arrayA.length; index++) {
-    if (arrayA[index] !== arrayB[index]) {
-      return false;
-    }
-  }
-  return true;
-}
-
-function getResizeEventCursorPosition(direction, event) {
-  const isHorizontal = direction === "horizontal";
-  const {
-    x,
-    y
-  } = getResizeEventCoordinates(event);
-  return isHorizontal ? x : y;
-}
-
-function calculateDragOffsetPercentage(event, dragHandleId, direction, initialDragState, panelGroupElement) {
-  const isHorizontal = direction === "horizontal";
-  const handleElement = getResizeHandleElement(dragHandleId, panelGroupElement);
-  assert(handleElement, `No resize handle element found for id "${dragHandleId}"`);
-  const groupId = handleElement.getAttribute(DATA_ATTRIBUTES.groupId);
-  assert(groupId, `Resize handle element has no group id attribute`);
-  let {
-    initialCursorPosition
-  } = initialDragState;
-  const cursorPosition = getResizeEventCursorPosition(direction, event);
-  const groupElement = getPanelGroupElement(groupId, panelGroupElement);
-  assert(groupElement, `No group element found for id "${groupId}"`);
-  const groupRect = groupElement.getBoundingClientRect();
-  const groupSizeInPixels = isHorizontal ? groupRect.width : groupRect.height;
-  const offsetPixels = cursorPosition - initialCursorPosition;
-  const offsetPercentage = offsetPixels / groupSizeInPixels * 100;
-  return offsetPercentage;
-}
-
-// https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/movementX
-function calculateDeltaPercentage(event, dragHandleId, direction, initialDragState, keyboardResizeBy, panelGroupElement) {
-  if (isKeyDown(event)) {
-    const isHorizontal = direction === "horizontal";
-    let delta = 0;
-    if (event.shiftKey) {
-      delta = 100;
-    } else if (keyboardResizeBy != null) {
-      delta = keyboardResizeBy;
-    } else {
-      delta = 10;
-    }
-    let movement = 0;
-    switch (event.key) {
-      case "ArrowDown":
-        movement = isHorizontal ? 0 : delta;
-        break;
-      case "ArrowLeft":
-        movement = isHorizontal ? -delta : 0;
-        break;
-      case "ArrowRight":
-        movement = isHorizontal ? delta : 0;
-        break;
-      case "ArrowUp":
-        movement = isHorizontal ? 0 : -delta;
-        break;
-      case "End":
-        movement = 100;
-        break;
-      case "Home":
-        movement = -100;
-        break;
-    }
-    return movement;
-  } else {
-    if (initialDragState == null) {
-      return 0;
-    }
-    return calculateDragOffsetPercentage(event, dragHandleId, direction, initialDragState, panelGroupElement);
-  }
-}
-
-function calculateUnsafeDefaultLayout({
-  panelDataArray
-}) {
-  const layout = Array(panelDataArray.length);
-  const panelConstraintsArray = panelDataArray.map(panelData => panelData.constraints);
-  let numPanelsWithSizes = 0;
-  let remainingSize = 100;
-
-  // Distribute default sizes first
-  for (let index = 0; index < panelDataArray.length; index++) {
-    const panelConstraints = panelConstraintsArray[index];
-    assert(panelConstraints, `Panel constraints not found for index ${index}`);
-    const {
-      defaultSize
-    } = panelConstraints;
-    if (defaultSize != null) {
-      numPanelsWithSizes++;
-      layout[index] = defaultSize;
-      remainingSize -= defaultSize;
-    }
-  }
-
-  // Remaining size should be distributed evenly between panels without default sizes
-  for (let index = 0; index < panelDataArray.length; index++) {
-    const panelConstraints = panelConstraintsArray[index];
-    assert(panelConstraints, `Panel constraints not found for index ${index}`);
-    const {
-      defaultSize
-    } = panelConstraints;
-    if (defaultSize != null) {
-      continue;
-    }
-    const numRemainingPanels = panelDataArray.length - numPanelsWithSizes;
-    const size = remainingSize / numRemainingPanels;
-    numPanelsWithSizes++;
-    layout[index] = size;
-    remainingSize -= size;
-  }
-  return layout;
-}
-
-// Layout should be pre-converted into percentages
-function callPanelCallbacks(panelsArray, layout, panelIdToLastNotifiedSizeMap) {
-  layout.forEach((size, index) => {
-    const panelData = panelsArray[index];
-    assert(panelData, `Panel data not found for index ${index}`);
-    const {
-      callbacks,
-      constraints,
-      id: panelId
-    } = panelData;
-    const {
-      collapsedSize = 0,
-      collapsible
-    } = constraints;
-    const lastNotifiedSize = panelIdToLastNotifiedSizeMap[panelId];
-    if (lastNotifiedSize == null || size !== lastNotifiedSize) {
-      panelIdToLastNotifiedSizeMap[panelId] = size;
-      const {
-        onCollapse,
-        onExpand,
-        onResize
-      } = callbacks;
-      if (onResize) {
-        onResize(size, lastNotifiedSize);
-      }
-      if (collapsible && (onCollapse || onExpand)) {
-        if (onExpand && (lastNotifiedSize == null || fuzzyNumbersEqual$1(lastNotifiedSize, collapsedSize)) && !fuzzyNumbersEqual$1(size, collapsedSize)) {
-          onExpand();
-        }
-        if (onCollapse && (lastNotifiedSize == null || !fuzzyNumbersEqual$1(lastNotifiedSize, collapsedSize)) && fuzzyNumbersEqual$1(size, collapsedSize)) {
-          onCollapse();
-        }
-      }
-    }
-  });
-}
-
-function compareLayouts(a, b) {
-  if (a.length !== b.length) {
-    return false;
-  } else {
-    for (let index = 0; index < a.length; index++) {
-      if (a[index] != b[index]) {
-        return false;
-      }
-    }
-  }
-  return true;
-}
-
-// This method returns a number between 1 and 100 representing
-
-// the % of the group's overall space this panel should occupy.
-function computePanelFlexBoxStyle({
-  defaultSize,
-  dragState,
-  layout,
-  panelData,
-  panelIndex,
-  precision = 3
-}) {
-  const size = layout[panelIndex];
-  let flexGrow;
-  if (size == null) {
-    // Initial render (before panels have registered themselves)
-    // In order to support server rendering, fall back to default size if provided
-    flexGrow = defaultSize != undefined ? defaultSize.toPrecision(precision) : "1";
-  } else if (panelData.length === 1) {
-    // Special case: Single panel group should always fill full width/height
-    flexGrow = "1";
-  } else {
-    flexGrow = size.toPrecision(precision);
-  }
-  return {
-    flexBasis: 0,
-    flexGrow,
-    flexShrink: 1,
-    // Without this, Panel sizes may be unintentionally overridden by their content
-    overflow: "hidden",
-    // Disable pointer events inside of a panel during resize
-    // This avoid edge cases like nested iframes
-    pointerEvents: dragState !== null ? "none" : undefined
-  };
-}
-
-function debounce(callback, durationMs = 10) {
-  let timeoutId = null;
-  let callable = (...args) => {
-    if (timeoutId !== null) {
-      clearTimeout(timeoutId);
-    }
-    timeoutId = setTimeout(() => {
-      callback(...args);
-    }, durationMs);
-  };
-  return callable;
-}
-
-// PanelGroup might be rendering in a server-side environment where localStorage is not available
-// or on a browser with cookies/storage disabled.
-// In either case, this function avoids accessing localStorage until needed,
-// and avoids throwing user-visible errors.
-function initializeDefaultStorage(storageObject) {
-  try {
-    if (typeof localStorage !== "undefined") {
-      // Bypass this check for future calls
-      storageObject.getItem = name => {
-        return localStorage.getItem(name);
-      };
-      storageObject.setItem = (name, value) => {
-        localStorage.setItem(name, value);
-      };
-    } else {
-      throw new Error("localStorage not supported in this environment");
-    }
-  } catch (error) {
-    console.error(error);
-    storageObject.getItem = () => null;
-    storageObject.setItem = () => {};
-  }
-}
-
-function getPanelGroupKey(autoSaveId) {
-  return `react-resizable-panels:${autoSaveId}`;
-}
-
-// Note that Panel ids might be user-provided (stable) or useId generated (non-deterministic)
-// so they should not be used as part of the serialization key.
-// Using the min/max size attributes should work well enough as a backup.
-// Pre-sorting by minSize allows remembering layouts even if panels are re-ordered/dragged.
-function getPanelKey(panels) {
-  return panels.map(panel => {
-    const {
-      constraints,
-      id,
-      idIsFromProps,
-      order
-    } = panel;
-    if (idIsFromProps) {
-      return id;
-    } else {
-      return order ? `${order}:${JSON.stringify(constraints)}` : JSON.stringify(constraints);
-    }
-  }).sort((a, b) => a.localeCompare(b)).join(",");
-}
-function loadSerializedPanelGroupState(autoSaveId, storage) {
-  try {
-    const panelGroupKey = getPanelGroupKey(autoSaveId);
-    const serialized = storage.getItem(panelGroupKey);
-    if (serialized) {
-      const parsed = JSON.parse(serialized);
-      if (typeof parsed === "object" && parsed != null) {
-        return parsed;
-      }
-    }
-  } catch (error) {}
-  return null;
-}
-function loadPanelGroupState(autoSaveId, panels, storage) {
-  var _loadSerializedPanelG, _state$panelKey;
-  const state = (_loadSerializedPanelG = loadSerializedPanelGroupState(autoSaveId, storage)) !== null && _loadSerializedPanelG !== void 0 ? _loadSerializedPanelG : {};
-  const panelKey = getPanelKey(panels);
-  return (_state$panelKey = state[panelKey]) !== null && _state$panelKey !== void 0 ? _state$panelKey : null;
-}
-function savePanelGroupState(autoSaveId, panels, panelSizesBeforeCollapse, sizes, storage) {
-  var _loadSerializedPanelG2;
-  const panelGroupKey = getPanelGroupKey(autoSaveId);
-  const panelKey = getPanelKey(panels);
-  const state = (_loadSerializedPanelG2 = loadSerializedPanelGroupState(autoSaveId, storage)) !== null && _loadSerializedPanelG2 !== void 0 ? _loadSerializedPanelG2 : {};
-  state[panelKey] = {
-    expandToSizes: Object.fromEntries(panelSizesBeforeCollapse.entries()),
-    layout: sizes
-  };
-  try {
-    storage.setItem(panelGroupKey, JSON.stringify(state));
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-function validatePanelConstraints({
-  panelConstraints: panelConstraintsArray,
-  panelId,
-  panelIndex
-}) {
-  {
-    const warnings = [];
-    const panelConstraints = panelConstraintsArray[panelIndex];
-    assert(panelConstraints, `No panel constraints found for index ${panelIndex}`);
-    const {
-      collapsedSize = 0,
-      collapsible = false,
-      defaultSize,
-      maxSize = 100,
-      minSize = 0
-    } = panelConstraints;
-    if (minSize > maxSize) {
-      warnings.push(`min size (${minSize}%) should not be greater than max size (${maxSize}%)`);
-    }
-    if (defaultSize != null) {
-      if (defaultSize < 0) {
-        warnings.push("default size should not be less than 0");
-      } else if (defaultSize < minSize && (!collapsible || defaultSize !== collapsedSize)) {
-        warnings.push("default size should not be less than min size");
-      }
-      if (defaultSize > 100) {
-        warnings.push("default size should not be greater than 100");
-      } else if (defaultSize > maxSize) {
-        warnings.push("default size should not be greater than max size");
-      }
-    }
-    if (collapsedSize > minSize) {
-      warnings.push("collapsed size should not be greater than min size");
-    }
-    if (warnings.length > 0) {
-      const name = panelId != null ? `Panel "${panelId}"` : "Panel";
-      console.warn(`${name} has an invalid configuration:\n\n${warnings.join("\n")}`);
-      return false;
-    }
-  }
-  return true;
-}
-
-// All units must be in percentages; pixel values should be pre-converted
-function validatePanelGroupLayout({
-  layout: prevLayout,
-  panelConstraints
-}) {
-  const nextLayout = [...prevLayout];
-  const nextLayoutTotalSize = nextLayout.reduce((accumulated, current) => accumulated + current, 0);
-
-  // Validate layout expectations
-  if (nextLayout.length !== panelConstraints.length) {
-    throw Error(`Invalid ${panelConstraints.length} panel layout: ${nextLayout.map(size => `${size}%`).join(", ")}`);
-  } else if (!fuzzyNumbersEqual(nextLayoutTotalSize, 100) && nextLayout.length > 0) {
-    // This is not ideal so we should warn about it, but it may be recoverable in some cases
-    // (especially if the amount is small)
-    {
-      console.warn(`WARNING: Invalid layout total size: ${nextLayout.map(size => `${size}%`).join(", ")}. Layout normalization will be applied.`);
-    }
-    for (let index = 0; index < panelConstraints.length; index++) {
-      const unsafeSize = nextLayout[index];
-      assert(unsafeSize != null, `No layout data found for index ${index}`);
-      const safeSize = 100 / nextLayoutTotalSize * unsafeSize;
-      nextLayout[index] = safeSize;
-    }
-  }
-  let remainingSize = 0;
-
-  // First pass: Validate the proposed layout given each panel's constraints
-  for (let index = 0; index < panelConstraints.length; index++) {
-    const unsafeSize = nextLayout[index];
-    assert(unsafeSize != null, `No layout data found for index ${index}`);
-    const safeSize = resizePanel({
-      panelConstraints,
-      panelIndex: index,
-      size: unsafeSize
-    });
-    if (unsafeSize != safeSize) {
-      remainingSize += unsafeSize - safeSize;
-      nextLayout[index] = safeSize;
-    }
-  }
-
-  // If there is additional, left over space, assign it to any panel(s) that permits it
-  // (It's not worth taking multiple additional passes to evenly distribute)
-  if (!fuzzyNumbersEqual(remainingSize, 0)) {
-    for (let index = 0; index < panelConstraints.length; index++) {
-      const prevSize = nextLayout[index];
-      assert(prevSize != null, `No layout data found for index ${index}`);
-      const unsafeSize = prevSize + remainingSize;
-      const safeSize = resizePanel({
-        panelConstraints,
-        panelIndex: index,
-        size: unsafeSize
-      });
-      if (prevSize !== safeSize) {
-        remainingSize -= safeSize - prevSize;
-        nextLayout[index] = safeSize;
-
-        // Once we've used up the remainder, bail
-        if (fuzzyNumbersEqual(remainingSize, 0)) {
-          break;
-        }
-      }
-    }
-  }
-  return nextLayout;
-}
-
-const LOCAL_STORAGE_DEBOUNCE_INTERVAL = 100;
-const defaultStorage = {
-  getItem: name => {
-    initializeDefaultStorage(defaultStorage);
-    return defaultStorage.getItem(name);
-  },
-  setItem: (name, value) => {
-    initializeDefaultStorage(defaultStorage);
-    defaultStorage.setItem(name, value);
-  }
-};
-const debounceMap = {};
-function PanelGroupWithForwardedRef({
-  autoSaveId = null,
-  children,
-  className: classNameFromProps = "",
-  direction,
-  forwardedRef,
-  id: idFromProps = null,
-  onLayout = null,
-  keyboardResizeBy = null,
-  storage = defaultStorage,
-  style: styleFromProps,
-  tagName: Type = "div",
-  ...rest
-}) {
-  const groupId = useUniqueId(idFromProps);
-  const panelGroupElementRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
-  const [dragState, setDragState] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
-  const [layout, setLayout] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
-  const forceUpdate = useForceUpdate();
-  const panelIdToLastNotifiedSizeMapRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)({});
-  const panelSizeBeforeCollapseRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(new Map());
-  const prevDeltaRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(0);
-  const committedValuesRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)({
-    autoSaveId,
-    direction,
-    dragState,
-    id: groupId,
-    keyboardResizeBy,
-    onLayout,
-    storage
-  });
-  const eagerValuesRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)({
-    layout,
-    panelDataArray: [],
-    panelDataArrayChanged: false
-  });
-  const devWarningsRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)({
-    didLogIdAndOrderWarning: false,
-    didLogPanelConstraintsWarning: false,
-    prevPanelIds: []
-  });
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useImperativeHandle)(forwardedRef, () => ({
-    getId: () => committedValuesRef.current.id,
-    getLayout: () => {
-      const {
-        layout
-      } = eagerValuesRef.current;
-      return layout;
-    },
-    setLayout: unsafeLayout => {
-      const {
-        onLayout
-      } = committedValuesRef.current;
-      const {
-        layout: prevLayout,
-        panelDataArray
-      } = eagerValuesRef.current;
-      const safeLayout = validatePanelGroupLayout({
-        layout: unsafeLayout,
-        panelConstraints: panelDataArray.map(panelData => panelData.constraints)
-      });
-      if (!areEqual(prevLayout, safeLayout)) {
-        setLayout(safeLayout);
-        eagerValuesRef.current.layout = safeLayout;
-        if (onLayout) {
-          onLayout(safeLayout);
-        }
-        callPanelCallbacks(panelDataArray, safeLayout, panelIdToLastNotifiedSizeMapRef.current);
-      }
-    }
-  }), []);
-  useIsomorphicLayoutEffect(() => {
-    committedValuesRef.current.autoSaveId = autoSaveId;
-    committedValuesRef.current.direction = direction;
-    committedValuesRef.current.dragState = dragState;
-    committedValuesRef.current.id = groupId;
-    committedValuesRef.current.onLayout = onLayout;
-    committedValuesRef.current.storage = storage;
-  });
-  useWindowSplitterPanelGroupBehavior({
-    committedValuesRef,
-    eagerValuesRef,
-    groupId,
-    layout,
-    panelDataArray: eagerValuesRef.current.panelDataArray,
-    setLayout,
-    panelGroupElement: panelGroupElementRef.current
-  });
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    const {
-      panelDataArray
-    } = eagerValuesRef.current;
-
-    // If this panel has been configured to persist sizing information, save sizes to local storage.
-    if (autoSaveId) {
-      if (layout.length === 0 || layout.length !== panelDataArray.length) {
-        return;
-      }
-      let debouncedSave = debounceMap[autoSaveId];
-
-      // Limit the frequency of localStorage updates.
-      if (debouncedSave == null) {
-        debouncedSave = debounce(savePanelGroupState, LOCAL_STORAGE_DEBOUNCE_INTERVAL);
-        debounceMap[autoSaveId] = debouncedSave;
-      }
-
-      // Clone mutable data before passing to the debounced function,
-      // else we run the risk of saving an incorrect combination of mutable and immutable values to state.
-      const clonedPanelDataArray = [...panelDataArray];
-      const clonedPanelSizesBeforeCollapse = new Map(panelSizeBeforeCollapseRef.current);
-      debouncedSave(autoSaveId, clonedPanelDataArray, clonedPanelSizesBeforeCollapse, layout, storage);
-    }
-  }, [autoSaveId, layout, storage]);
-
-  // DEV warnings
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    {
-      const {
-        panelDataArray
-      } = eagerValuesRef.current;
-      const {
-        didLogIdAndOrderWarning,
-        didLogPanelConstraintsWarning,
-        prevPanelIds
-      } = devWarningsRef.current;
-      if (!didLogIdAndOrderWarning) {
-        const panelIds = panelDataArray.map(({
-          id
-        }) => id);
-        devWarningsRef.current.prevPanelIds = panelIds;
-        const panelsHaveChanged = prevPanelIds.length > 0 && !areEqual(prevPanelIds, panelIds);
-        if (panelsHaveChanged) {
-          if (panelDataArray.find(({
-            idIsFromProps,
-            order
-          }) => !idIsFromProps || order == null)) {
-            devWarningsRef.current.didLogIdAndOrderWarning = true;
-            console.warn(`WARNING: Panel id and order props recommended when panels are dynamically rendered`);
-          }
-        }
-      }
-      if (!didLogPanelConstraintsWarning) {
-        const panelConstraints = panelDataArray.map(panelData => panelData.constraints);
-        for (let panelIndex = 0; panelIndex < panelConstraints.length; panelIndex++) {
-          const panelData = panelDataArray[panelIndex];
-          assert(panelData, `Panel data not found for index ${panelIndex}`);
-          const isValid = validatePanelConstraints({
-            panelConstraints,
-            panelId: panelData.id,
-            panelIndex
-          });
-          if (!isValid) {
-            devWarningsRef.current.didLogPanelConstraintsWarning = true;
-            break;
-          }
-        }
-      }
-    }
-  });
-
-  // External APIs are safe to memoize via committed values ref
-  const collapsePanel = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(panelData => {
-    const {
-      onLayout
-    } = committedValuesRef.current;
-    const {
-      layout: prevLayout,
-      panelDataArray
-    } = eagerValuesRef.current;
-    if (panelData.constraints.collapsible) {
-      const panelConstraintsArray = panelDataArray.map(panelData => panelData.constraints);
-      const {
-        collapsedSize = 0,
-        panelSize,
-        pivotIndices
-      } = panelDataHelper(panelDataArray, panelData, prevLayout);
-      assert(panelSize != null, `Panel size not found for panel "${panelData.id}"`);
-      if (!fuzzyNumbersEqual$1(panelSize, collapsedSize)) {
-        // Store size before collapse;
-        // This is the size that gets restored if the expand() API is used.
-        panelSizeBeforeCollapseRef.current.set(panelData.id, panelSize);
-        const isLastPanel = findPanelDataIndex(panelDataArray, panelData) === panelDataArray.length - 1;
-        const delta = isLastPanel ? panelSize - collapsedSize : collapsedSize - panelSize;
-        const nextLayout = adjustLayoutByDelta({
-          delta,
-          initialLayout: prevLayout,
-          panelConstraints: panelConstraintsArray,
-          pivotIndices,
-          prevLayout,
-          trigger: "imperative-api"
-        });
-        if (!compareLayouts(prevLayout, nextLayout)) {
-          setLayout(nextLayout);
-          eagerValuesRef.current.layout = nextLayout;
-          if (onLayout) {
-            onLayout(nextLayout);
-          }
-          callPanelCallbacks(panelDataArray, nextLayout, panelIdToLastNotifiedSizeMapRef.current);
-        }
-      }
-    }
-  }, []);
-
-  // External APIs are safe to memoize via committed values ref
-  const expandPanel = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)((panelData, minSizeOverride) => {
-    const {
-      onLayout
-    } = committedValuesRef.current;
-    const {
-      layout: prevLayout,
-      panelDataArray
-    } = eagerValuesRef.current;
-    if (panelData.constraints.collapsible) {
-      const panelConstraintsArray = panelDataArray.map(panelData => panelData.constraints);
-      const {
-        collapsedSize = 0,
-        panelSize = 0,
-        minSize: minSizeFromProps = 0,
-        pivotIndices
-      } = panelDataHelper(panelDataArray, panelData, prevLayout);
-      const minSize = minSizeOverride !== null && minSizeOverride !== void 0 ? minSizeOverride : minSizeFromProps;
-      if (fuzzyNumbersEqual$1(panelSize, collapsedSize)) {
-        // Restore this panel to the size it was before it was collapsed, if possible.
-        const prevPanelSize = panelSizeBeforeCollapseRef.current.get(panelData.id);
-        const baseSize = prevPanelSize != null && prevPanelSize >= minSize ? prevPanelSize : minSize;
-        const isLastPanel = findPanelDataIndex(panelDataArray, panelData) === panelDataArray.length - 1;
-        const delta = isLastPanel ? panelSize - baseSize : baseSize - panelSize;
-        const nextLayout = adjustLayoutByDelta({
-          delta,
-          initialLayout: prevLayout,
-          panelConstraints: panelConstraintsArray,
-          pivotIndices,
-          prevLayout,
-          trigger: "imperative-api"
-        });
-        if (!compareLayouts(prevLayout, nextLayout)) {
-          setLayout(nextLayout);
-          eagerValuesRef.current.layout = nextLayout;
-          if (onLayout) {
-            onLayout(nextLayout);
-          }
-          callPanelCallbacks(panelDataArray, nextLayout, panelIdToLastNotifiedSizeMapRef.current);
-        }
-      }
-    }
-  }, []);
-
-  // External APIs are safe to memoize via committed values ref
-  const getPanelSize = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(panelData => {
-    const {
-      layout,
-      panelDataArray
-    } = eagerValuesRef.current;
-    const {
-      panelSize
-    } = panelDataHelper(panelDataArray, panelData, layout);
-    assert(panelSize != null, `Panel size not found for panel "${panelData.id}"`);
-    return panelSize;
-  }, []);
-
-  // This API should never read from committedValuesRef
-  const getPanelStyle = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)((panelData, defaultSize) => {
-    const {
-      panelDataArray
-    } = eagerValuesRef.current;
-    const panelIndex = findPanelDataIndex(panelDataArray, panelData);
-    return computePanelFlexBoxStyle({
-      defaultSize,
-      dragState,
-      layout,
-      panelData: panelDataArray,
-      panelIndex
-    });
-  }, [dragState, layout]);
-
-  // External APIs are safe to memoize via committed values ref
-  const isPanelCollapsed = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(panelData => {
-    const {
-      layout,
-      panelDataArray
-    } = eagerValuesRef.current;
-    const {
-      collapsedSize = 0,
-      collapsible,
-      panelSize
-    } = panelDataHelper(panelDataArray, panelData, layout);
-    assert(panelSize != null, `Panel size not found for panel "${panelData.id}"`);
-    return collapsible === true && fuzzyNumbersEqual$1(panelSize, collapsedSize);
-  }, []);
-
-  // External APIs are safe to memoize via committed values ref
-  const isPanelExpanded = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(panelData => {
-    const {
-      layout,
-      panelDataArray
-    } = eagerValuesRef.current;
-    const {
-      collapsedSize = 0,
-      collapsible,
-      panelSize
-    } = panelDataHelper(panelDataArray, panelData, layout);
-    assert(panelSize != null, `Panel size not found for panel "${panelData.id}"`);
-    return !collapsible || fuzzyCompareNumbers(panelSize, collapsedSize) > 0;
-  }, []);
-  const registerPanel = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(panelData => {
-    const {
-      panelDataArray
-    } = eagerValuesRef.current;
-    panelDataArray.push(panelData);
-    panelDataArray.sort((panelA, panelB) => {
-      const orderA = panelA.order;
-      const orderB = panelB.order;
-      if (orderA == null && orderB == null) {
-        return 0;
-      } else if (orderA == null) {
-        return -1;
-      } else if (orderB == null) {
-        return 1;
-      } else {
-        return orderA - orderB;
-      }
-    });
-    eagerValuesRef.current.panelDataArrayChanged = true;
-    forceUpdate();
-  }, [forceUpdate]);
-
-  // (Re)calculate group layout whenever panels are registered or unregistered.
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useIsomorphicLayoutEffect(() => {
-    if (eagerValuesRef.current.panelDataArrayChanged) {
-      eagerValuesRef.current.panelDataArrayChanged = false;
-      const {
-        autoSaveId,
-        onLayout,
-        storage
-      } = committedValuesRef.current;
-      const {
-        layout: prevLayout,
-        panelDataArray
-      } = eagerValuesRef.current;
-
-      // If this panel has been configured to persist sizing information,
-      // default size should be restored from local storage if possible.
-      let unsafeLayout = null;
-      if (autoSaveId) {
-        const state = loadPanelGroupState(autoSaveId, panelDataArray, storage);
-        if (state) {
-          panelSizeBeforeCollapseRef.current = new Map(Object.entries(state.expandToSizes));
-          unsafeLayout = state.layout;
-        }
-      }
-      if (unsafeLayout == null) {
-        unsafeLayout = calculateUnsafeDefaultLayout({
-          panelDataArray
-        });
-      }
-
-      // Validate even saved layouts in case something has changed since last render
-      // e.g. for pixel groups, this could be the size of the window
-      const nextLayout = validatePanelGroupLayout({
-        layout: unsafeLayout,
-        panelConstraints: panelDataArray.map(panelData => panelData.constraints)
-      });
-      if (!areEqual(prevLayout, nextLayout)) {
-        setLayout(nextLayout);
-        eagerValuesRef.current.layout = nextLayout;
-        if (onLayout) {
-          onLayout(nextLayout);
-        }
-        callPanelCallbacks(panelDataArray, nextLayout, panelIdToLastNotifiedSizeMapRef.current);
-      }
-    }
-  });
-
-  // Reset the cached layout if hidden by the Activity/Offscreen API
-  useIsomorphicLayoutEffect(() => {
-    const eagerValues = eagerValuesRef.current;
-    return () => {
-      eagerValues.layout = [];
-    };
-  }, []);
-  const registerResizeHandle = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(dragHandleId => {
-    let isRTL = false;
-    const panelGroupElement = panelGroupElementRef.current;
-    if (panelGroupElement) {
-      const style = window.getComputedStyle(panelGroupElement, null);
-      if (style.getPropertyValue("direction") === "rtl") {
-        isRTL = true;
-      }
-    }
-    return function resizeHandler(event) {
-      event.preventDefault();
-      const panelGroupElement = panelGroupElementRef.current;
-      if (!panelGroupElement) {
-        return () => null;
-      }
-      const {
-        direction,
-        dragState,
-        id: groupId,
-        keyboardResizeBy,
-        onLayout
-      } = committedValuesRef.current;
-      const {
-        layout: prevLayout,
-        panelDataArray
-      } = eagerValuesRef.current;
-      const {
-        initialLayout
-      } = dragState !== null && dragState !== void 0 ? dragState : {};
-      const pivotIndices = determinePivotIndices(groupId, dragHandleId, panelGroupElement);
-      let delta = calculateDeltaPercentage(event, dragHandleId, direction, dragState, keyboardResizeBy, panelGroupElement);
-      const isHorizontal = direction === "horizontal";
-      if (isHorizontal && isRTL) {
-        delta = -delta;
-      }
-      const panelConstraints = panelDataArray.map(panelData => panelData.constraints);
-      const nextLayout = adjustLayoutByDelta({
-        delta,
-        initialLayout: initialLayout !== null && initialLayout !== void 0 ? initialLayout : prevLayout,
-        panelConstraints,
-        pivotIndices,
-        prevLayout,
-        trigger: isKeyDown(event) ? "keyboard" : "mouse-or-touch"
-      });
-      const layoutChanged = !compareLayouts(prevLayout, nextLayout);
-
-      // Only update the cursor for layout changes triggered by touch/mouse events (not keyboard)
-      // Update the cursor even if the layout hasn't changed (we may need to show an invalid cursor state)
-      if (isPointerEvent(event) || isMouseEvent(event)) {
-        // Watch for multiple subsequent deltas; this might occur for tiny cursor movements.
-        // In this case, Panel sizes might not change–
-        // but updating cursor in this scenario would cause a flicker.
-        if (prevDeltaRef.current != delta) {
-          prevDeltaRef.current = delta;
-          if (!layoutChanged && delta !== 0) {
-            // If the pointer has moved too far to resize the panel any further, note this so we can update the cursor.
-            // This mimics VS Code behavior.
-            if (isHorizontal) {
-              reportConstraintsViolation(dragHandleId, delta < 0 ? EXCEEDED_HORIZONTAL_MIN : EXCEEDED_HORIZONTAL_MAX);
-            } else {
-              reportConstraintsViolation(dragHandleId, delta < 0 ? EXCEEDED_VERTICAL_MIN : EXCEEDED_VERTICAL_MAX);
-            }
-          } else {
-            reportConstraintsViolation(dragHandleId, 0);
-          }
-        }
-      }
-      if (layoutChanged) {
-        setLayout(nextLayout);
-        eagerValuesRef.current.layout = nextLayout;
-        if (onLayout) {
-          onLayout(nextLayout);
-        }
-        callPanelCallbacks(panelDataArray, nextLayout, panelIdToLastNotifiedSizeMapRef.current);
-      }
-    };
-  }, []);
-
-  // External APIs are safe to memoize via committed values ref
-  const resizePanel = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)((panelData, unsafePanelSize) => {
-    const {
-      onLayout
-    } = committedValuesRef.current;
-    const {
-      layout: prevLayout,
-      panelDataArray
-    } = eagerValuesRef.current;
-    const panelConstraintsArray = panelDataArray.map(panelData => panelData.constraints);
-    const {
-      panelSize,
-      pivotIndices
-    } = panelDataHelper(panelDataArray, panelData, prevLayout);
-    assert(panelSize != null, `Panel size not found for panel "${panelData.id}"`);
-    const isLastPanel = findPanelDataIndex(panelDataArray, panelData) === panelDataArray.length - 1;
-    const delta = isLastPanel ? panelSize - unsafePanelSize : unsafePanelSize - panelSize;
-    const nextLayout = adjustLayoutByDelta({
-      delta,
-      initialLayout: prevLayout,
-      panelConstraints: panelConstraintsArray,
-      pivotIndices,
-      prevLayout,
-      trigger: "imperative-api"
-    });
-    if (!compareLayouts(prevLayout, nextLayout)) {
-      setLayout(nextLayout);
-      eagerValuesRef.current.layout = nextLayout;
-      if (onLayout) {
-        onLayout(nextLayout);
-      }
-      callPanelCallbacks(panelDataArray, nextLayout, panelIdToLastNotifiedSizeMapRef.current);
-    }
-  }, []);
-  const reevaluatePanelConstraints = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)((panelData, prevConstraints) => {
-    const {
-      layout,
-      panelDataArray
-    } = eagerValuesRef.current;
-    const {
-      collapsedSize: prevCollapsedSize = 0,
-      collapsible: prevCollapsible
-    } = prevConstraints;
-    const {
-      collapsedSize: nextCollapsedSize = 0,
-      collapsible: nextCollapsible,
-      maxSize: nextMaxSize = 100,
-      minSize: nextMinSize = 0
-    } = panelData.constraints;
-    const {
-      panelSize: prevPanelSize
-    } = panelDataHelper(panelDataArray, panelData, layout);
-    if (prevPanelSize == null) {
-      // It's possible that the panels in this group have changed since the last render
-      return;
-    }
-    if (prevCollapsible && nextCollapsible && fuzzyNumbersEqual$1(prevPanelSize, prevCollapsedSize)) {
-      if (!fuzzyNumbersEqual$1(prevCollapsedSize, nextCollapsedSize)) {
-        resizePanel(panelData, nextCollapsedSize);
-      }
-    } else if (prevPanelSize < nextMinSize) {
-      resizePanel(panelData, nextMinSize);
-    } else if (prevPanelSize > nextMaxSize) {
-      resizePanel(panelData, nextMaxSize);
-    }
-  }, [resizePanel]);
-
-  // TODO Multiple drag handles can be active at the same time so this API is a bit awkward now
-  const startDragging = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)((dragHandleId, event) => {
-    const {
-      direction
-    } = committedValuesRef.current;
-    const {
-      layout
-    } = eagerValuesRef.current;
-    if (!panelGroupElementRef.current) {
-      return;
-    }
-    const handleElement = getResizeHandleElement(dragHandleId, panelGroupElementRef.current);
-    assert(handleElement, `Drag handle element not found for id "${dragHandleId}"`);
-    const initialCursorPosition = getResizeEventCursorPosition(direction, event);
-    setDragState({
-      dragHandleId,
-      dragHandleRect: handleElement.getBoundingClientRect(),
-      initialCursorPosition,
-      initialLayout: layout
-    });
-  }, []);
-  const stopDragging = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(() => {
-    setDragState(null);
-  }, []);
-  const unregisterPanel = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(panelData => {
-    const {
-      panelDataArray
-    } = eagerValuesRef.current;
-    const index = findPanelDataIndex(panelDataArray, panelData);
-    if (index >= 0) {
-      panelDataArray.splice(index, 1);
-
-      // TRICKY
-      // When a panel is removed from the group, we should delete the most recent prev-size entry for it.
-      // If we don't do this, then a conditionally rendered panel might not call onResize when it's re-mounted.
-      // Strict effects mode makes this tricky though because all panels will be registered, unregistered, then re-registered on mount.
-      delete panelIdToLastNotifiedSizeMapRef.current[panelData.id];
-      eagerValuesRef.current.panelDataArrayChanged = true;
-      forceUpdate();
-    }
-  }, [forceUpdate]);
-  const context = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(() => ({
-    collapsePanel,
-    direction,
-    dragState,
-    expandPanel,
-    getPanelSize,
-    getPanelStyle,
-    groupId,
-    isPanelCollapsed,
-    isPanelExpanded,
-    reevaluatePanelConstraints,
-    registerPanel,
-    registerResizeHandle,
-    resizePanel,
-    startDragging,
-    stopDragging,
-    unregisterPanel,
-    panelGroupElement: panelGroupElementRef.current
-  }), [collapsePanel, dragState, direction, expandPanel, getPanelSize, getPanelStyle, groupId, isPanelCollapsed, isPanelExpanded, reevaluatePanelConstraints, registerPanel, registerResizeHandle, resizePanel, startDragging, stopDragging, unregisterPanel]);
-  const style = {
-    display: "flex",
-    flexDirection: direction === "horizontal" ? "row" : "column",
-    height: "100%",
-    overflow: "hidden",
-    width: "100%"
-  };
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(PanelGroupContext.Provider, {
-    value: context
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Type, {
-    ...rest,
-    children,
-    className: classNameFromProps,
-    id: idFromProps,
-    ref: panelGroupElementRef,
-    style: {
-      ...style,
-      ...styleFromProps
-    },
-    // CSS selectors
-    [DATA_ATTRIBUTES.group]: "",
-    [DATA_ATTRIBUTES.groupDirection]: direction,
-    [DATA_ATTRIBUTES.groupId]: groupId
-  }));
-}
-const PanelGroup = (0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)((props, ref) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(PanelGroupWithForwardedRef, {
-  ...props,
-  forwardedRef: ref
-}));
-PanelGroupWithForwardedRef.displayName = "PanelGroup";
-PanelGroup.displayName = "forwardRef(PanelGroup)";
-function findPanelDataIndex(panelDataArray, panelData) {
-  return panelDataArray.findIndex(prevPanelData => prevPanelData === panelData || prevPanelData.id === panelData.id);
-}
-function panelDataHelper(panelDataArray, panelData, layout) {
-  const panelIndex = findPanelDataIndex(panelDataArray, panelData);
-  const isLastPanel = panelIndex === panelDataArray.length - 1;
-  const pivotIndices = isLastPanel ? [panelIndex - 1, panelIndex] : [panelIndex, panelIndex + 1];
-  const panelSize = layout[panelIndex];
-  return {
-    ...panelData.constraints,
-    panelSize,
-    pivotIndices
-  };
-}
-
-// https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/
-
-function useWindowSplitterResizeHandlerBehavior({
-  disabled,
-  handleId,
-  resizeHandler,
-  panelGroupElement
-}) {
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    if (disabled || resizeHandler == null || panelGroupElement == null) {
-      return;
-    }
-    const handleElement = getResizeHandleElement(handleId, panelGroupElement);
-    if (handleElement == null) {
-      return;
-    }
-    const onKeyDown = event => {
-      if (event.defaultPrevented) {
-        return;
-      }
-      switch (event.key) {
-        case "ArrowDown":
-        case "ArrowLeft":
-        case "ArrowRight":
-        case "ArrowUp":
-        case "End":
-        case "Home":
-          {
-            event.preventDefault();
-            resizeHandler(event);
-            break;
-          }
-        case "F6":
-          {
-            event.preventDefault();
-            const groupId = handleElement.getAttribute(DATA_ATTRIBUTES.groupId);
-            assert(groupId, `No group element found for id "${groupId}"`);
-            const handles = getResizeHandleElementsForGroup(groupId, panelGroupElement);
-            const index = getResizeHandleElementIndex(groupId, handleId, panelGroupElement);
-            assert(index !== null, `No resize element found for id "${handleId}"`);
-            const nextIndex = event.shiftKey ? index > 0 ? index - 1 : handles.length - 1 : index + 1 < handles.length ? index + 1 : 0;
-            const nextHandle = handles[nextIndex];
-            nextHandle.focus();
-            break;
-          }
-      }
-    };
-    handleElement.addEventListener("keydown", onKeyDown);
-    return () => {
-      handleElement.removeEventListener("keydown", onKeyDown);
-    };
-  }, [panelGroupElement, disabled, handleId, resizeHandler]);
-}
-
-function PanelResizeHandle({
-  children = null,
-  className: classNameFromProps = "",
-  disabled = false,
-  hitAreaMargins,
-  id: idFromProps,
-  onBlur,
-  onClick,
-  onDragging,
-  onFocus,
-  onPointerDown,
-  onPointerUp,
-  style: styleFromProps = {},
-  tabIndex = 0,
-  tagName: Type = "div",
-  ...rest
-}) {
-  var _hitAreaMargins$coars, _hitAreaMargins$fine;
-  const elementRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
-
-  // Use a ref to guard against users passing inline props
-  const callbacksRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)({
-    onClick,
-    onDragging,
-    onPointerDown,
-    onPointerUp
-  });
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    callbacksRef.current.onClick = onClick;
-    callbacksRef.current.onDragging = onDragging;
-    callbacksRef.current.onPointerDown = onPointerDown;
-    callbacksRef.current.onPointerUp = onPointerUp;
-  });
-  const panelGroupContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(PanelGroupContext);
-  if (panelGroupContext === null) {
-    throw Error(`PanelResizeHandle components must be rendered within a PanelGroup container`);
-  }
-  const {
-    direction,
-    groupId,
-    registerResizeHandle: registerResizeHandleWithParentGroup,
-    startDragging,
-    stopDragging,
-    panelGroupElement
-  } = panelGroupContext;
-  const resizeHandleId = useUniqueId(idFromProps);
-  const [state, setState] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("inactive");
-  const [isFocused, setIsFocused] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
-  const [resizeHandler, setResizeHandler] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
-  const committedValuesRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)({
-    state
-  });
-  useIsomorphicLayoutEffect(() => {
-    committedValuesRef.current.state = state;
-  });
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    if (disabled) {
-      setResizeHandler(null);
-    } else {
-      const resizeHandler = registerResizeHandleWithParentGroup(resizeHandleId);
-      setResizeHandler(() => resizeHandler);
-    }
-  }, [disabled, resizeHandleId, registerResizeHandleWithParentGroup]);
-
-  // Extract hit area margins before passing them to the effect's dependency array
-  // so that inline object values won't trigger re-renders
-  const coarseHitAreaMargins = (_hitAreaMargins$coars = hitAreaMargins === null || hitAreaMargins === void 0 ? void 0 : hitAreaMargins.coarse) !== null && _hitAreaMargins$coars !== void 0 ? _hitAreaMargins$coars : 15;
-  const fineHitAreaMargins = (_hitAreaMargins$fine = hitAreaMargins === null || hitAreaMargins === void 0 ? void 0 : hitAreaMargins.fine) !== null && _hitAreaMargins$fine !== void 0 ? _hitAreaMargins$fine : 5;
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    if (disabled || resizeHandler == null) {
-      return;
-    }
-    const element = elementRef.current;
-    assert(element, "Element ref not attached");
-    let didMove = false;
-    const setResizeHandlerState = (action, isActive, event) => {
-      if (!isActive) {
-        setState("inactive");
-        return;
-      }
-      switch (action) {
-        case "down":
-          {
-            setState("drag");
-            didMove = false;
-            assert(event, 'Expected event to be defined for "down" action');
-            startDragging(resizeHandleId, event);
-            const {
-              onDragging,
-              onPointerDown
-            } = callbacksRef.current;
-            onDragging === null || onDragging === void 0 ? void 0 : onDragging(true);
-            onPointerDown === null || onPointerDown === void 0 ? void 0 : onPointerDown();
-            break;
-          }
-        case "move":
-          {
-            const {
-              state
-            } = committedValuesRef.current;
-            didMove = true;
-            if (state !== "drag") {
-              setState("hover");
-            }
-            assert(event, 'Expected event to be defined for "move" action');
-            resizeHandler(event);
-            break;
-          }
-        case "up":
-          {
-            setState("hover");
-            stopDragging();
-            const {
-              onClick,
-              onDragging,
-              onPointerUp
-            } = callbacksRef.current;
-            onDragging === null || onDragging === void 0 ? void 0 : onDragging(false);
-            onPointerUp === null || onPointerUp === void 0 ? void 0 : onPointerUp();
-            if (!didMove) {
-              onClick === null || onClick === void 0 ? void 0 : onClick();
-            }
-            break;
-          }
-      }
-    };
-    return registerResizeHandle(resizeHandleId, element, direction, {
-      coarse: coarseHitAreaMargins,
-      fine: fineHitAreaMargins
-    }, setResizeHandlerState);
-  }, [coarseHitAreaMargins, direction, disabled, fineHitAreaMargins, registerResizeHandleWithParentGroup, resizeHandleId, resizeHandler, startDragging, stopDragging]);
-  useWindowSplitterResizeHandlerBehavior({
-    disabled,
-    handleId: resizeHandleId,
-    resizeHandler,
-    panelGroupElement
-  });
-  const style = {
-    touchAction: "none",
-    userSelect: "none"
-  };
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Type, {
-    ...rest,
-    children,
-    className: classNameFromProps,
-    id: idFromProps,
-    onBlur: () => {
-      setIsFocused(false);
-      onBlur === null || onBlur === void 0 ? void 0 : onBlur();
-    },
-    onFocus: () => {
-      setIsFocused(true);
-      onFocus === null || onFocus === void 0 ? void 0 : onFocus();
-    },
-    ref: elementRef,
-    role: "separator",
-    style: {
-      ...style,
-      ...styleFromProps
-    },
-    tabIndex,
-    // CSS selectors
-    [DATA_ATTRIBUTES.groupDirection]: direction,
-    [DATA_ATTRIBUTES.groupId]: groupId,
-    [DATA_ATTRIBUTES.resizeHandle]: "",
-    [DATA_ATTRIBUTES.resizeHandleActive]: state === "drag" ? "pointer" : isFocused ? "keyboard" : undefined,
-    [DATA_ATTRIBUTES.resizeHandleEnabled]: !disabled,
-    [DATA_ATTRIBUTES.resizeHandleId]: resizeHandleId,
-    [DATA_ATTRIBUTES.resizeHandleState]: state
-  });
-}
-PanelResizeHandle.displayName = "PanelResizeHandle";
-
-function usePanelGroupContext() {
-  const context = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(PanelGroupContext);
-  return {
-    direction: context === null || context === void 0 ? void 0 : context.direction,
-    groupId: context === null || context === void 0 ? void 0 : context.groupId
-  };
-}
-
-function getPanelElement(id, scope = document) {
-  const element = scope.querySelector(`[data-panel-id="${id}"]`);
-  if (element) {
-    return element;
-  }
-  return null;
-}
-
-function getPanelElementsForGroup(groupId, scope = document) {
-  return Array.from(scope.querySelectorAll(`[data-panel][data-panel-group-id="${groupId}"]`));
-}
-
-function getIntersectingRectangle(rectOne, rectTwo, strict) {
-  if (!intersects(rectOne, rectTwo, strict)) {
-    return {
-      x: 0,
-      y: 0,
-      width: 0,
-      height: 0
-    };
-  }
-  return {
-    x: Math.max(rectOne.x, rectTwo.x),
-    y: Math.max(rectOne.y, rectTwo.y),
-    width: Math.min(rectOne.x + rectOne.width, rectTwo.x + rectTwo.width) - Math.max(rectOne.x, rectTwo.x),
-    height: Math.min(rectOne.y + rectOne.height, rectTwo.y + rectTwo.height) - Math.max(rectOne.y, rectTwo.y)
-  };
-}
-
-
-
-
-/***/ }),
-
 /***/ "./node_modules/react-style-singleton/dist/es2015/component.js":
 /*!*********************************************************************!*\
   !*** ./node_modules/react-style-singleton/dist/es2015/component.js ***!
@@ -51064,25 +49775,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! socket.io-client */ "./node_modules/socket.io-client/build/esm/index.js");
 /* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/activity.js");
 /* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/clock.js");
-/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/mic-off.js");
-/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/mic.js");
-/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/settings.js");
-/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/users.js");
-/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/wifi.js");
-/* harmony import */ var react_resizable_panels__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-resizable-panels */ "./node_modules/react-resizable-panels/dist/react-resizable-panels.browser.development.js");
-/* harmony import */ var _components_ui_button__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/ui/button */ "./src/components/ui/button.jsx");
-/* harmony import */ var _components_ui_card__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/ui/card */ "./src/components/ui/card.jsx");
-/* harmony import */ var _components_ui_badge__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/ui/badge */ "./src/components/ui/badge.jsx");
-/* harmony import */ var _components_ui_switch__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/ui/switch */ "./src/components/ui/switch.jsx");
-/* harmony import */ var _components_ui_dialog__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/ui/dialog */ "./src/components/ui/dialog.jsx");
-/* harmony import */ var _components_MeetingSidebar__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/MeetingSidebar */ "./src/components/MeetingSidebar.jsx");
-/* harmony import */ var _components_ReportView__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./components/ReportView */ "./src/components/ReportView.jsx");
-/* harmony import */ var _components_DefinitionHistory__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./components/DefinitionHistory */ "./src/components/DefinitionHistory.jsx");
-/* harmony import */ var _components_ContextualInsights__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./components/ContextualInsights */ "./src/components/ContextualInsights.jsx");
-/* harmony import */ var _components_CorrectableTranscript__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./components/CorrectableTranscript */ "./src/components/CorrectableTranscript.jsx");
-/* harmony import */ var _components_Settings__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./components/Settings */ "./src/components/Settings.jsx");
-/* harmony import */ var _hooks_useElectronAudio__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./hooks/useElectronAudio */ "./src/hooks/useElectronAudio.js");
-/* harmony import */ var _styles_panels_css__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./styles/panels.css */ "./src/styles/panels.css");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/loader.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/mic-off.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/mic.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/monitor.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/refresh-cw.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/settings.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/wifi.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/circle-check-big.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/triangle-alert.js");
+/* harmony import */ var _components_ui_button__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/ui/button */ "./src/components/ui/button.jsx");
+/* harmony import */ var _components_ui_card__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/ui/card */ "./src/components/ui/card.jsx");
+/* harmony import */ var _components_ui_badge__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/ui/badge */ "./src/components/ui/badge.jsx");
+/* harmony import */ var _components_ui_switch__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./components/ui/switch */ "./src/components/ui/switch.jsx");
+/* harmony import */ var _components_ui_dialog__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./components/ui/dialog */ "./src/components/ui/dialog.jsx");
+/* harmony import */ var _components_MeetingSidebar__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./components/MeetingSidebar */ "./src/components/MeetingSidebar.jsx");
+/* harmony import */ var _components_ReportView__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./components/ReportView */ "./src/components/ReportView.jsx");
+/* harmony import */ var _components_DefinitionHistory__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./components/DefinitionHistory */ "./src/components/DefinitionHistory.jsx");
+/* harmony import */ var _components_ContextualInsights__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./components/ContextualInsights */ "./src/components/ContextualInsights.jsx");
+/* harmony import */ var _components_CorrectableTranscript__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./components/CorrectableTranscript */ "./src/components/CorrectableTranscript.jsx");
+/* harmony import */ var _components_Settings__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./components/Settings */ "./src/components/Settings.jsx");
+/* harmony import */ var _components_MeetingIntelligence__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./components/MeetingIntelligence */ "./src/components/MeetingIntelligence.jsx");
+/* harmony import */ var _hooks_useElectronAudio__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./hooks/useElectronAudio */ "./src/hooks/useElectronAudio.js");
+/* harmony import */ var _styles_panels_css__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./styles/panels.css */ "./src/styles/panels.css");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -51105,6 +49820,8 @@ function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" !=
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 
+
+// Removed react-resizable-panels - no longer needed
 
 
 
@@ -51170,33 +49887,41 @@ function App() {
     _useState22 = _slicedToArray(_useState21, 2),
     reportMeetingId = _useState22[0],
     setReportMeetingId = _useState22[1];
-  var _useState23 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('contextual'),
+  var _useState23 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('insights'),
     _useState24 = _slicedToArray(_useState23, 2),
-    rightPanelView = _useState24[0],
-    setRightPanelView = _useState24[1];
-  var _useState25 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    intelligenceView = _useState24[0],
+    setIntelligenceView = _useState24[1];
+  var _useState25 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
     _useState26 = _slicedToArray(_useState25, 2),
-    useElectronBridge = _useState26[0],
-    setUseElectronBridge = _useState26[1];
-  var _useState27 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    recordingDuration = _useState26[0],
+    setRecordingDuration = _useState26[1];
+  var _useState27 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
     _useState28 = _slicedToArray(_useState27, 2),
-    electronBridgeConnected = _useState28[0],
-    setElectronBridgeConnected = _useState28[1];
+    recordingStartTime = _useState28[0],
+    setRecordingStartTime = _useState28[1];
   var _useState29 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
     _useState30 = _slicedToArray(_useState29, 2),
-    showElectronInstructions = _useState30[0],
-    setShowElectronInstructions = _useState30[1];
+    useElectronBridge = _useState30[0],
+    setUseElectronBridge = _useState30[1];
   var _useState31 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
     _useState32 = _slicedToArray(_useState31, 2),
-    showSettings = _useState32[0],
-    setShowSettings = _useState32[1];
+    electronBridgeConnected = _useState32[0],
+    setElectronBridgeConnected = _useState32[1];
+  var _useState33 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState34 = _slicedToArray(_useState33, 2),
+    showElectronInstructions = _useState34[0],
+    setShowElectronInstructions = _useState34[1];
+  var _useState35 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState36 = _slicedToArray(_useState35, 2),
+    showSettings = _useState36[0],
+    setShowSettings = _useState36[1];
   var socketRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
   var audioContextRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
   var processorRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
   var sourceRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
   var streamRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
   var transcriptEndRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
-  var _useElectronAudio = (0,_hooks_useElectronAudio__WEBPACK_IMPORTED_MODULE_21__["default"])(),
+  var _useElectronAudio = (0,_hooks_useElectronAudio__WEBPACK_IMPORTED_MODULE_25__["default"])(),
     isElectron = _useElectronAudio.isElectron,
     audioSources = _useElectronAudio.audioSources,
     selectedSource = _useElectronAudio.selectedSource,
@@ -51261,13 +49986,23 @@ function App() {
   }, [useElectronBridge]);
 
   // Auto-scroll transcript to bottom when new entries arrive
+  // Only if viewing transcript tab and user is near the bottom
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    if (transcriptEndRef.current) {
-      transcriptEndRef.current.scrollIntoView({
-        behavior: 'smooth'
-      });
+    if (transcriptEndRef.current && intelligenceView === 'transcript') {
+      // Check if user is near the bottom of the scrollable area
+      var scrollContainer = transcriptEndRef.current.parentElement;
+      if (scrollContainer) {
+        var isNearBottom = scrollContainer.scrollHeight - scrollContainer.scrollTop - scrollContainer.clientHeight < 100;
+
+        // Only auto-scroll if user is already following the transcript
+        if (isNearBottom) {
+          transcriptEndRef.current.scrollIntoView({
+            behavior: 'smooth'
+          });
+        }
+      }
     }
-  }, [transcript]);
+  }, [transcript, intelligenceView]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     var wsUrl = 'http://localhost:9000';
     var socket = (0,socket_io_client__WEBPACK_IMPORTED_MODULE_1__.io)(wsUrl);
@@ -51487,6 +50222,8 @@ function App() {
           case 2:
             setIsRecording(true);
             setError(null);
+            setRecordingStartTime(Date.now());
+            setRecordingDuration(0);
             if (!(isElectron && useElectronBridge)) {
               _context3.n = 5;
               break;
@@ -51583,6 +50320,8 @@ function App() {
       stopElectronCapture();
       setIsRecording(false);
       setAudioLevel(0);
+      setRecordingStartTime(null);
+      setRecordingDuration(0);
       // Don't automatically end meeting - user should explicitly click End Meeting
       return;
     }
@@ -51605,196 +50344,228 @@ function App() {
     }
     setIsRecording(false);
     setAudioLevel(0);
+    setRecordingStartTime(null);
+    setRecordingDuration(0);
     // Don't automatically end meeting - user should explicitly click End Meeting
   };
   var formatLatency = function formatLatency(latency) {
     if (!latency) return 'N/A';
     return "".concat(latency, "ms");
   };
+  var formatDuration = function formatDuration(seconds) {
+    if (!seconds) return '00:00';
+    var mins = Math.floor(seconds / 60);
+    var secs = seconds % 60;
+    return "".concat(mins.toString().padStart(2, '0'), ":").concat(secs.toString().padStart(2, '0'));
+  };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "flex h-screen bg-gray-50 dark:bg-gray-900"
+    className: "flex h-screen bg-gray-50 dark:bg-gray-900 relative"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "".concat(showSidebar ? 'w-80' : 'w-0', " transition-all duration-300 overflow-hidden")
   }, showSidebar && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "w-80 border-r bg-white dark:bg-gray-800 shadow-sm"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_MeetingSidebar__WEBPACK_IMPORTED_MODULE_15__["default"], {
+    className: "w-80 border-r bg-white dark:bg-gray-800 shadow-sm h-full"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_MeetingSidebar__WEBPACK_IMPORTED_MODULE_18__["default"], {
     onSelectMeeting: handleSelectMeeting,
     activeMeetingId: activeMeeting === null || activeMeeting === void 0 ? void 0 : activeMeeting.id,
     onNewMeeting: handleNewMeeting,
     onGenerateReport: handleGenerateReport,
     socket: socketRef.current
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "flex-1 flex flex-col"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: function onClick() {
+      return setShowSidebar(!showSidebar);
+    },
+    className: "fixed ".concat(showSidebar ? 'left-[308px]' : 'left-4', " top-1/2 -translate-y-1/2 z-[100] bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-full p-2 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 shadow-lg"),
+    title: showSidebar ? "Hide sidebar" : "Show sidebar"
+  }, showSidebar ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("svg", {
+    className: "h-3 w-3 text-gray-600",
+    fill: "none",
+    stroke: "currentColor",
+    viewBox: "0 0 24 24"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("path", {
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: 2,
+    d: "M11 19l-7-7 7-7m8 14l-7-7 7-7"
+  })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("svg", {
+    className: "h-3 w-3 text-gray-600",
+    fill: "none",
+    stroke: "currentColor",
+    viewBox: "0 0 24 24"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("path", {
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: 2,
+    d: "M13 5l7 7-7 7M5 5l7 7-7 7"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "flex-1 flex flex-col relative"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("header", {
-    className: "border-b bg-white dark:bg-gray-800 px-6 py-4 shadow-sm"
+    className: "border-b bg-white dark:bg-gray-800 px-6 py-3 shadow-sm"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "flex items-center justify-between"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "flex items-center gap-4"
-  }, !showSidebar && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_button__WEBPACK_IMPORTED_MODULE_10__.Button, {
-    variant: "outline",
-    size: "sm",
-    onClick: function onClick() {
-      return setShowSidebar(true);
-    },
-    className: "md:hidden"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_7__["default"], {
-    className: "h-4 w-4"
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "flex items-center gap-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    className: "h-6 w-6 text-blue-600"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", {
-    className: "text-xl font-semibold text-gray-900 dark:text-white"
-  }, "TranscriptIQ"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full font-medium"
-  }, "AI-Powered Meeting Intelligence")), isElectron && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_badge__WEBPACK_IMPORTED_MODULE_12__.Badge, {
-    variant: "secondary",
-    className: "hidden sm:inline-flex"
-  }, "Electron Mode")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "flex items-center gap-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "flex items-center gap-3"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "flex items-center gap-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_8__["default"], {
-    className: "h-4 w-4 ".concat(isConnected ? 'text-green-600' : 'text-red-600')
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
-    className: "text-sm font-medium ".concat(isConnected ? 'text-green-600' : 'text-red-600')
-  }, isConnected ? 'Connected' : 'Disconnected')), activeMeeting && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_badge__WEBPACK_IMPORTED_MODULE_12__.Badge, {
-    variant: activeMeeting.status === 'active' ? 'success' : 'secondary'
-  }, activeMeeting.title, " ", activeMeeting.status === 'active' && '(LIVE)')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_button__WEBPACK_IMPORTED_MODULE_10__.Button, {
-    variant: "outline",
-    size: "sm",
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    className: "h-5 w-5 text-blue-600"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", {
+    className: "text-lg font-semibold text-gray-900 dark:text-white"
+  }, "TranscriptIQ")), isElectron && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_badge__WEBPACK_IMPORTED_MODULE_15__.Badge, {
+    variant: "secondary",
+    className: "text-xs"
+  }, "Electron Mode"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "flex items-center gap-4"
+  }, activeMeeting && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "flex items-center gap-2"
+  }, activeMeeting.status === 'active' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "relative"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "w-2 h-2 bg-green-500 rounded-full animate-pulse"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "absolute inset-0 w-2 h-2 bg-green-500 rounded-full animate-ping"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    className: "text-sm font-medium text-gray-700"
+  }, activeMeeting.title)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "p-2",
+    title: isConnected ? 'Connected' : 'Disconnected'
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_10__["default"], {
+    className: "h-4 w-4 ".concat(isConnected ? 'text-green-500' : 'text-red-500')
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
     onClick: function onClick() {
       return setShowSettings(true);
     },
-    className: "flex items-center gap-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    className: "p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors",
+    title: "Settings"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_9__["default"], {
     className: "h-4 w-4"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
-    className: "hidden sm:inline"
-  }, "Settings")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "p-6 border-b bg-gray-50 dark:bg-gray-900"
+  }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "px-6 py-2 border-b bg-gray-50 dark:bg-gray-900"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "grid grid-cols-1 md:grid-cols-4 gap-4"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_card__WEBPACK_IMPORTED_MODULE_11__.Card, {
-    className: "bg-white dark:bg-gray-800"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_card__WEBPACK_IMPORTED_MODULE_11__.CardContent, {
-    className: "p-4"
+    className: "flex items-center justify-between text-sm"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "flex items-center gap-6"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "flex items-center gap-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "w-2 h-2 rounded-full ".concat(isRecording ? 'bg-red-500' : 'bg-gray-400')
+    className: "w-2 h-2 rounded-full ".concat(isRecording ? 'bg-red-500 animate-pulse' : 'bg-gray-400')
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
-    className: "text-sm font-medium"
-  }, isRecording ? 'Recording' : 'Stopped'), isRecording && isElectron && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_badge__WEBPACK_IMPORTED_MODULE_12__.Badge, {
-    variant: "outline",
-    className: "text-xs"
-  }, useElectronBridge ? 'System Audio' : 'Microphone')))), metrics && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_card__WEBPACK_IMPORTED_MODULE_11__.Card, {
-    className: "bg-white dark:bg-gray-800"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_card__WEBPACK_IMPORTED_MODULE_11__.CardContent, {
-    className: "p-4"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "font-medium"
+  }, isRecording ? 'Recording' : 'Stopped')), metrics && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "flex items-center gap-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    className: "h-4 w-4 text-blue-600"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "text-sm font-medium"
-  }, "Avg Latency"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "text-xs text-muted-foreground"
-  }, formatLatency(Math.round(metrics.avgLatency))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_card__WEBPACK_IMPORTED_MODULE_11__.Card, {
-    className: "bg-white dark:bg-gray-800"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_card__WEBPACK_IMPORTED_MODULE_11__.CardContent, {
-    className: "p-4"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "h-3 w-3 text-blue-600"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    className: "text-gray-600"
+  }, "Avg Latency:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    className: "font-medium"
+  }, formatLatency(Math.round(metrics.avgLatency)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "flex items-center gap-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    className: "h-4 w-4 text-green-600"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "text-sm font-medium"
-  }, "Last Latency"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "text-xs text-muted-foreground"
-  }, formatLatency(((_metrics$deepgram = metrics.deepgram) === null || _metrics$deepgram === void 0 ? void 0 : _metrics$deepgram.lastLatency) || metrics.lastLatency))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_card__WEBPACK_IMPORTED_MODULE_11__.Card, {
-    className: "bg-white dark:bg-gray-800"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_card__WEBPACK_IMPORTED_MODULE_11__.CardContent, {
-    className: "p-4"
+    className: "h-3 w-3 text-green-600"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    className: "text-gray-600"
+  }, "Last Latency:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    className: "font-medium"
+  }, formatLatency(((_metrics$deepgram = metrics.deepgram) === null || _metrics$deepgram === void 0 ? void 0 : _metrics$deepgram.lastLatency) || metrics.lastLatency)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "flex items-center gap-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_9__["default"], {
+    className: "h-3 w-3 text-gray-600"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    className: "text-gray-600"
+  }, "Audio Source:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    className: "font-medium"
+  }, useElectronBridge ? 'System Audio' : 'Microphone'))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "px-4 py-2 border-b bg-white dark:bg-gray-800"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "flex items-center justify-between"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "flex items-center gap-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "flex items-center gap-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_6__["default"], {
-    className: "h-4 w-4 text-gray-600"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "text-sm font-medium"
-  }, "Audio Source"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "text-xs text-muted-foreground"
-  }, useElectronBridge ? 'System Audio' : 'Microphone'))))))), error && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "mx-6 mt-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-800 text-sm"
-  }, "\u26A0\uFE0F ", error), !activeMeeting && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "mx-6 mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "flex items-start gap-3"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "text-yellow-500 text-xl"
-  }, "\u2139\uFE0F"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "font-medium text-yellow-800"
-  }, "No Active Meeting"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "text-yellow-700 text-sm mt-1"
-  }, "Please start a new meeting from the sidebar before recording. All transcripts must be associated with a meeting.")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "p-6 border-b bg-white dark:bg-gray-800"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "flex items-center justify-between gap-4"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "flex flex-col gap-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
-    className: "text-sm font-medium text-gray-700 dark:text-gray-300"
-  }, "Audio Source"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "flex items-center gap-3"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "relative inline-flex items-center bg-gray-100 dark:bg-gray-700 rounded-lg p-1"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
     onClick: function onClick() {
       if (!isRecording) {
-        setUseElectronBridge(false);
-      }
-    },
-    disabled: isRecording,
-    className: "px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200 ".concat(!useElectronBridge ? 'bg-white dark:bg-gray-800 text-blue-600 dark:text-blue-400 shadow-sm' : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200', " ").concat(isRecording ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer')
-  }, "Microphone"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
-    onClick: function onClick() {
-      if (!isRecording) {
-        setUseElectronBridge(true);
-        if (!electronBridgeConnected) {
+        setUseElectronBridge(!useElectronBridge);
+        if (!useElectronBridge && !electronBridgeConnected) {
           setShowElectronInstructions(true);
           checkElectronBridge();
         }
       }
     },
     disabled: isRecording,
-    className: "px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200 ".concat(useElectronBridge ? 'bg-white dark:bg-gray-800 text-blue-600 dark:text-blue-400 shadow-sm' : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200', " ").concat(isRecording ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer')
-  }, "Electron Bridge")), useElectronBridge && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_badge__WEBPACK_IMPORTED_MODULE_12__.Badge, {
-    variant: electronBridgeConnected ? 'success' : 'warning',
-    className: "text-xs"
-  }, electronBridgeConnected ? '✅ Connected' : '⚠️ Not Connected'))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "flex items-center gap-3"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_button__WEBPACK_IMPORTED_MODULE_10__.Button, {
+    className: "flex items-center gap-2 px-2.5 py-1 text-xs font-medium rounded-md transition-all border ".concat(isRecording ? 'opacity-50 cursor-not-allowed bg-gray-50 border-gray-200' : 'bg-white hover:bg-gray-50 border-gray-300'),
+    title: "Click to toggle audio source"
+  }, useElectronBridge ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("svg", {
+    className: "h-3 w-3",
+    fill: "currentColor",
+    viewBox: "0 0 24 24"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("path", {
+    d: "M19.615 3.184c-3.604-.246-11.631-.245-15.23 0C.488 3.45.029 5.804 0 12c.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0C23.512 20.55 23.971 18.196 24 12c-.029-6.185-.484-8.549-4.385-8.816zM9 16.5v-9l9 4.5-9 4.5z"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "System Audio")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    className: "h-3 w-3"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "Microphone")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("svg", {
+    className: "h-3 w-3 text-gray-400",
+    fill: "none",
+    stroke: "currentColor",
+    viewBox: "0 0 24 24"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("path", {
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: 2,
+    d: "M8 9l4-4 4 4m0 6l-4 4-4-4"
+  }))), useElectronBridge && !electronBridgeConnected && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    className: "text-xs text-yellow-600 flex items-center gap-1"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_12__["default"], {
+    className: "h-3 w-3"
+  }), "Not Connected")), !activeMeeting && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "flex items-center gap-1.5 text-xs text-amber-600"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "w-2 h-2 bg-amber-500 rounded-full animate-pulse"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "No active meeting - start one from sidebar")), isRecording && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "w-20 h-1.5 bg-gray-200 rounded-full overflow-hidden"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "h-full bg-gradient-to-r from-green-500 via-yellow-500 to-red-500 transition-all duration-100",
+    style: {
+      width: "".concat(Math.min(100, audioLevel * 200), "%")
+    }
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "flex items-center gap-1"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
     onClick: isRecording ? stopRecording : startRecording,
     disabled: !isConnected || !activeMeeting || (activeMeeting === null || activeMeeting === void 0 ? void 0 : activeMeeting.status) === 'completed' || useElectronBridge && !electronBridgeConnected,
-    variant: isRecording ? "destructive" : "default",
-    size: "lg"
-  }, isRecording ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    className: "h-4 w-4 mr-2"
-  }), "Stop Recording") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_5__["default"], {
-    className: "h-4 w-4 mr-2"
-  }), "Start Recording")), activeMeeting && activeMeeting.status === 'active' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_button__WEBPACK_IMPORTED_MODULE_10__.Button, {
+    className: "p-2 rounded-md transition-all ".concat(isRecording ? 'bg-red-500 hover:bg-red-600 text-white' : 'bg-blue-500 hover:bg-blue-600 text-white disabled:bg-gray-300'),
+    title: isRecording ? "Stop Recording" : "Start Recording"
+  }, isRecording ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    className: "h-4 w-4"
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    className: "h-4 w-4"
+  })), activeMeeting && activeMeeting.status === 'active' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
     onClick: function onClick() {
       if (isRecording) {
         stopRecording();
-      } else {
-        handleEndMeeting();
       }
+      handleEndMeeting();
     },
-    variant: "warning",
-    size: "lg",
-    className: "bg-orange-500 hover:bg-orange-600 text-white"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    className: "h-4 w-4 mr-2"
-  }), "End Meeting"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_button__WEBPACK_IMPORTED_MODULE_10__.Button, {
+    className: "p-2 bg-red-500 hover:bg-red-600 text-white rounded-md transition-all",
+    title: "End Meeting"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("svg", {
+    className: "h-4 w-4",
+    fill: "none",
+    stroke: "currentColor",
+    viewBox: "0 0 24 24"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("path", {
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: 2,
+    d: "M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("path", {
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: 2,
+    d: "M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
     onClick: function onClick() {
       setTranscript([]);
       setExtractedTerms([]);
@@ -51803,92 +50574,68 @@ function App() {
         socketRef.current.emit('transcript:clear');
       }
     },
-    variant: "outline",
-    size: "lg"
-  }, "Clear Transcript"), isRecording && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "w-32 h-3 bg-gray-200 rounded-full overflow-hidden"
+    className: "p-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-all",
+    title: "Clear Transcript"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("svg", {
+    className: "h-4 w-4",
+    fill: "none",
+    stroke: "currentColor",
+    viewBox: "0 0 24 24"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("path", {
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: 2,
+    d: "M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+  })))))), error && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "fixed top-20 right-4 z-50 max-w-sm p-3 bg-red-50 border border-red-200 rounded-lg shadow-lg animate-slide-in"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "h-full bg-gradient-to-r from-green-500 via-yellow-500 to-red-500 transition-all duration-100",
-    style: {
-      width: "".concat(Math.min(100, audioLevel * 200), "%")
-    }
-  }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "flex-1 min-h-0"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_resizable_panels__WEBPACK_IMPORTED_MODULE_9__.PanelGroup, {
-    direction: "horizontal",
-    className: "h-full"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_resizable_panels__WEBPACK_IMPORTED_MODULE_9__.Panel, {
-    defaultSize: 50,
-    minSize: 30
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_card__WEBPACK_IMPORTED_MODULE_11__.Card, {
-    className: "h-full m-4 mr-2 flex flex-col"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_card__WEBPACK_IMPORTED_MODULE_11__.CardHeader, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_card__WEBPACK_IMPORTED_MODULE_11__.CardTitle, {
-    className: "flex items-center gap-2"
-  }, "\uD83D\uDCDD Live Transcript"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_card__WEBPACK_IMPORTED_MODULE_11__.CardDescription, null, "Real-time speech-to-text transcription with confidence scoring")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_card__WEBPACK_IMPORTED_MODULE_11__.CardContent, {
-    className: "flex-1 overflow-y-auto"
-  }, transcript.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "text-center text-muted-foreground py-8"
-  }, isRecording ? 'Listening... Speak to see transcript' : 'Click "Start Recording" to begin') : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_CorrectableTranscript__WEBPACK_IMPORTED_MODULE_19__["default"], {
+    className: "flex items-start gap-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_12__["default"], {
+    className: "h-5 w-5 text-red-500"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    className: "text-sm text-red-800"
+  }, error), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: function onClick() {
+      return setError(null);
+    },
+    className: "ml-auto text-red-500 hover:text-red-700"
+  }, "\xD7"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_MeetingIntelligence__WEBPACK_IMPORTED_MODULE_24__["default"], {
+    intelligenceView: intelligenceView,
+    setIntelligenceView: setIntelligenceView,
+    isRecording: isRecording,
+    recordingStartTime: recordingStartTime,
+    useElectronBridge: useElectronBridge,
+    metrics: metrics,
+    activeMeeting: activeMeeting,
+    socket: socketRef.current,
+    extractedTerms: extractedTerms,
+    termDefinitions: termDefinitions,
     transcript: transcript,
-    socket: socketRef.current,
-    className: "space-y-3"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    ref: transcriptEndRef
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "mt-4 text-xs text-gray-500 text-center"
-  }, "\uD83D\uDCA1 Click on any word to correct it globally across all meetings")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_resizable_panels__WEBPACK_IMPORTED_MODULE_9__.PanelResizeHandle, {
-    className: "w-2 hover:bg-blue-500/20 transition-colors duration-200"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "w-full h-full flex items-center justify-center"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "w-0.5 h-8 bg-gray-300 rounded-full"
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_resizable_panels__WEBPACK_IMPORTED_MODULE_9__.Panel, {
-    defaultSize: 50,
-    minSize: 30
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "h-full m-4 ml-2 flex flex-col"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "flex mb-4"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_button__WEBPACK_IMPORTED_MODULE_10__.Button, {
-    onClick: function onClick() {
-      return setRightPanelView('contextual');
-    },
-    variant: rightPanelView === 'contextual' ? 'default' : 'outline',
-    className: "flex-1 rounded-r-none",
-    size: "sm"
-  }, "Intelligence"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_button__WEBPACK_IMPORTED_MODULE_10__.Button, {
-    onClick: function onClick() {
-      return setRightPanelView('definitions');
-    },
-    variant: rightPanelView === 'definitions' ? 'default' : 'outline',
-    className: "flex-1 rounded-l-none",
-    size: "sm"
-  }, "Glossary")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "flex-1 min-h-0 overflow-y-auto"
-  }, rightPanelView === 'contextual' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ContextualInsights__WEBPACK_IMPORTED_MODULE_18__["default"], {
-    socket: socketRef.current,
-    currentTopic: activeMeeting === null || activeMeeting === void 0 ? void 0 : activeMeeting.title
-  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_DefinitionHistory__WEBPACK_IMPORTED_MODULE_17__["default"], {
-    definitions: termDefinitions,
-    terms: extractedTerms
-  }))))))), showReport && reportMeetingId && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ReportView__WEBPACK_IMPORTED_MODULE_16__["default"], {
+    transcriptEndRef: transcriptEndRef,
+    formatDuration: formatDuration,
+    formatLatency: formatLatency
+  })), showReport && reportMeetingId && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ReportView__WEBPACK_IMPORTED_MODULE_19__["default"], {
     meetingId: reportMeetingId,
     onClose: function onClose() {
       setShowReport(false);
       setReportMeetingId(null);
     }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_dialog__WEBPACK_IMPORTED_MODULE_14__.Dialog, {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_dialog__WEBPACK_IMPORTED_MODULE_17__.Dialog, {
     open: showElectronInstructions,
     onOpenChange: setShowElectronInstructions
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_dialog__WEBPACK_IMPORTED_MODULE_14__.DialogContent, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_dialog__WEBPACK_IMPORTED_MODULE_17__.DialogContent, {
     className: "max-w-2xl"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_dialog__WEBPACK_IMPORTED_MODULE_14__.DialogHeader, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_dialog__WEBPACK_IMPORTED_MODULE_14__.DialogTitle, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_dialog__WEBPACK_IMPORTED_MODULE_17__.DialogHeader, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_dialog__WEBPACK_IMPORTED_MODULE_17__.DialogTitle, {
     className: "flex items-center gap-2"
-  }, "\uD83D\uDDA5\uFE0F Launch TranscriptIQ Audio Bridge"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_dialog__WEBPACK_IMPORTED_MODULE_14__.DialogDescription, null, "To capture system audio without ambient noise, you need to launch the TranscriptIQ Audio Bridge application.")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "flex items-center gap-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    className: "h-5 w-5"
+  }), "Launch TranscriptIQ Audio Bridge")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_dialog__WEBPACK_IMPORTED_MODULE_17__.DialogDescription, null, "To capture system audio without ambient noise, you need to launch the TranscriptIQ Audio Bridge application.")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "space-y-4"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_card__WEBPACK_IMPORTED_MODULE_11__.Card, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_card__WEBPACK_IMPORTED_MODULE_11__.CardHeader, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_card__WEBPACK_IMPORTED_MODULE_11__.CardTitle, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_card__WEBPACK_IMPORTED_MODULE_14__.Card, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_card__WEBPACK_IMPORTED_MODULE_14__.CardHeader, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_card__WEBPACK_IMPORTED_MODULE_14__.CardTitle, {
     className: "text-base"
-  }, "Quick Start")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_card__WEBPACK_IMPORTED_MODULE_11__.CardContent, {
+  }, "Quick Start")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_card__WEBPACK_IMPORTED_MODULE_14__.CardContent, {
     className: "space-y-3"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "space-y-2"
@@ -51906,26 +50653,34 @@ function App() {
     className: "text-sm"
   }, "4. Start the Electron bridge:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("code", {
     className: "block p-3 bg-gray-900 text-green-400 rounded text-sm"
-  }, "npm start")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_card__WEBPACK_IMPORTED_MODULE_11__.Card, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_card__WEBPACK_IMPORTED_MODULE_11__.CardContent, {
+  }, "npm start")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_card__WEBPACK_IMPORTED_MODULE_14__.Card, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_card__WEBPACK_IMPORTED_MODULE_14__.CardContent, {
     className: "p-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "flex items-center gap-3"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "text-2xl"
-  }, electronBridgeConnected ? '✅' : '⏳'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, electronBridgeConnected ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_11__["default"], {
+    className: "h-6 w-6 text-green-500"
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    className: "h-6 w-6 text-blue-500 animate-spin"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "font-medium"
   }, "Status: ", electronBridgeConnected ? 'Connected!' : 'Waiting for connection...'), !electronBridgeConnected && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "text-sm text-muted-foreground"
-  }, "Checking every 3 seconds...")))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_dialog__WEBPACK_IMPORTED_MODULE_14__.DialogFooter, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_button__WEBPACK_IMPORTED_MODULE_10__.Button, {
+  }, "Checking every 3 seconds...")))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_dialog__WEBPACK_IMPORTED_MODULE_17__.DialogFooter, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_button__WEBPACK_IMPORTED_MODULE_13__.Button, {
     onClick: function onClick() {
       return checkElectronBridge();
     },
     variant: "outline"
-  }, "\uD83D\uDD04 Check Again"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_button__WEBPACK_IMPORTED_MODULE_10__.Button, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "flex items-center gap-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_8__["default"], {
+    className: "h-4 w-4"
+  }), "Check Again")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_button__WEBPACK_IMPORTED_MODULE_13__.Button, {
     onClick: function onClick() {
       return setShowElectronInstructions(false);
     }
-  }, electronBridgeConnected ? '✓ Done' : 'Close')))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Settings__WEBPACK_IMPORTED_MODULE_20__["default"], {
+  }, electronBridgeConnected ? '✓ Done' : 'Close')))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Settings__WEBPACK_IMPORTED_MODULE_23__["default"], {
     isOpen: showSettings,
     onClose: function onClose() {
       return setShowSettings(false);
@@ -51958,7 +50713,8 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 function ContextualInsights(_ref) {
   var socket = _ref.socket,
-    currentTopic = _ref.currentTopic;
+    currentTopic = _ref.currentTopic,
+    view = _ref.view;
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
     _useState2 = _slicedToArray(_useState, 2),
     insights = _useState2[0],
@@ -52171,14 +50927,20 @@ function ContextualInsights(_ref) {
         fontSize: '14px',
         marginBottom: '10px'
       }
-    }, "Generate Talking Points"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    }, "Generate Talking Points"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+      style: {
+        fontSize: '12px',
+        color: '#6c757d',
+        marginBottom: '10px'
+      }
+    }, "Enter a topic to get AI-generated talking points based on the current meeting context and discussion."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       style: {
         display: 'flex',
         gap: '10px'
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
       type: "text",
-      placeholder: "Enter topic...",
+      placeholder: "e.g., 'project timeline', 'budget concerns', 'next steps'",
       value: talkingPointTopic,
       onChange: function onChange(e) {
         return setTalkingPointTopic(e.target.value);
@@ -52195,13 +50957,14 @@ function ContextualInsights(_ref) {
       }
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
       onClick: requestTalkingPoints,
+      disabled: !talkingPointTopic.trim(),
       style: {
         padding: '8px 15px',
-        background: '#007bff',
+        background: talkingPointTopic.trim() ? '#007bff' : '#6c757d',
         color: 'white',
         border: 'none',
         borderRadius: '4px',
-        cursor: 'pointer',
+        cursor: talkingPointTopic.trim() ? 'pointer' : 'not-allowed',
         fontSize: '13px'
       }
     }, "Generate"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
@@ -52213,7 +50976,13 @@ function ContextualInsights(_ref) {
         fontSize: '14px',
         marginBottom: '10px'
       }
-    }, "Rolling Summary"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    }, "Rolling Summary"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+      style: {
+        fontSize: '12px',
+        color: '#6c757d',
+        marginBottom: '10px'
+      }
+    }, "Get an AI-generated summary of the recent discussion. Choose a time window:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       style: {
         display: 'flex',
         gap: '10px',
@@ -52266,18 +51035,7 @@ function ContextualInsights(_ref) {
         fontSize: '13px',
         lineHeight: '1.5'
       }
-    }, rollingSummary)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
-      onClick: requestGlossary,
-      style: {
-        padding: '8px 15px',
-        background: '#17a2b8',
-        color: 'white',
-        border: 'none',
-        borderRadius: '4px',
-        cursor: 'pointer',
-        fontSize: '13px'
-      }
-    }, "View Meeting Glossary")));
+    }, rollingSummary)));
   };
   var renderGlossaryTab = function renderGlossaryTab() {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
@@ -52324,6 +51082,17 @@ function ContextualInsights(_ref) {
       }, "Context: ", item.context));
     })));
   };
+
+  // If view prop is provided, render only that specific view without tabs
+  if (view) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      style: {
+        height: '100%'
+      }
+    }, view === 'insights' && renderInsightsTab(), view === 'assistant' && renderAssistantTab(), view === 'glossary' && renderGlossaryTab());
+  }
+
+  // Otherwise render with internal tabs (for backward compatibility)
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     style: {
       background: '#ffffff',
@@ -52845,6 +51614,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/book-open.js");
+
 
 function DefinitionHistory(_ref) {
   var definitions = _ref.definitions,
@@ -52883,9 +51654,14 @@ function DefinitionHistory(_ref) {
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h2", {
       style: {
         marginTop: 0,
-        marginBottom: '20px'
+        marginBottom: '20px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '8px'
       }
-    }, "\uD83D\uDCDA Glossary Terms"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      className: "h-5 w-5"
+    }), "Glossary Terms"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
       style: {
         color: '#6c757d',
         fontStyle: 'italic'
@@ -52905,9 +51681,14 @@ function DefinitionHistory(_ref) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h2", {
     style: {
       marginTop: 0,
-      marginBottom: '20px'
+      marginBottom: '20px',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px'
     }
-  }, "\uD83D\uDCDA Glossary Terms"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    className: "h-5 w-5"
+  }), "Glossary Terms"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     style: {
       padding: '10px',
       background: '#f8f9fa',
@@ -53326,6 +52107,228 @@ var GlobalCorrections = function GlobalCorrections(_ref) {
 
 /***/ }),
 
+/***/ "./src/components/MeetingIntelligence.jsx":
+/*!************************************************!*\
+  !*** ./src/components/MeetingIntelligence.jsx ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_ui_card__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/ui/card */ "./src/components/ui/card.jsx");
+/* harmony import */ var _components_ui_badge__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/ui/badge */ "./src/components/ui/badge.jsx");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/book-open.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/bot.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/brain.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/file-text.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/info.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/lightbulb.js");
+/* harmony import */ var _ContextualInsights__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./ContextualInsights */ "./src/components/ContextualInsights.jsx");
+/* harmony import */ var _DefinitionHistory__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./DefinitionHistory */ "./src/components/DefinitionHistory.jsx");
+/* harmony import */ var _CorrectableTranscript__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./CorrectableTranscript */ "./src/components/CorrectableTranscript.jsx");
+
+
+
+
+
+
+
+function MeetingIntelligence(_ref) {
+  var intelligenceView = _ref.intelligenceView,
+    setIntelligenceView = _ref.setIntelligenceView,
+    isRecording = _ref.isRecording,
+    recordingStartTime = _ref.recordingStartTime,
+    useElectronBridge = _ref.useElectronBridge,
+    metrics = _ref.metrics,
+    activeMeeting = _ref.activeMeeting,
+    socket = _ref.socket,
+    extractedTerms = _ref.extractedTerms,
+    termDefinitions = _ref.termDefinitions,
+    transcript = _ref.transcript,
+    transcriptEndRef = _ref.transcriptEndRef,
+    formatDuration = _ref.formatDuration,
+    formatLatency = _ref.formatLatency;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "flex-1 min-h-0 overflow-hidden"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "h-full flex flex-col"
+  }, isRecording && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "bg-gradient-to-r from-red-50 to-orange-50 border-b border-red-200"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "px-6 py-3"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "flex items-center justify-between"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "flex items-center gap-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "relative"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "w-3 h-3 bg-red-500 rounded-full"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "absolute inset-0 w-3 h-3 bg-red-500 rounded-full animate-ping"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "flex items-center gap-3"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    className: "text-sm font-semibold text-red-700"
+  }, "Recording Active"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_badge__WEBPACK_IMPORTED_MODULE_2__.Badge, {
+    variant: "outline",
+    className: "text-xs bg-white"
+  }, useElectronBridge ? 'System Audio' : 'Microphone'))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "flex items-center gap-6 text-sm"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "text-gray-600"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    className: "font-medium"
+  }, "Duration:"), " ", formatDuration(Math.floor((Date.now() - (recordingStartTime || Date.now())) / 1000))), metrics && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "text-gray-600"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    className: "font-medium"
+  }, "Latency:"), " ", formatLatency(Math.round(metrics.avgLatency))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "flex-1 p-6 min-h-0"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_card__WEBPACK_IMPORTED_MODULE_1__.Card, {
+    className: "h-full flex flex-col shadow-lg overflow-hidden"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_card__WEBPACK_IMPORTED_MODULE_1__.CardHeader, {
+    className: "bg-gradient-to-r from-blue-50 to-indigo-50 border-b"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "flex items-center justify-between"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_card__WEBPACK_IMPORTED_MODULE_1__.CardTitle, {
+    className: "text-2xl flex items-center gap-3"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    className: "h-7 w-7 text-blue-600"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "Meeting Intelligence")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_card__WEBPACK_IMPORTED_MODULE_1__.CardDescription, {
+    className: "mt-1"
+  }, "Real-time insights, proactive assistance, and terminology extraction")), activeMeeting && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "flex flex-col items-end gap-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_badge__WEBPACK_IMPORTED_MODULE_2__.Badge, {
+    variant: "success",
+    className: "text-sm px-3 py-1"
+  }, activeMeeting.title), !isRecording && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    className: "text-xs text-gray-500"
+  }, "Ready to record")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_card__WEBPACK_IMPORTED_MODULE_1__.CardContent, {
+    className: "flex-1 p-0 flex flex-col overflow-hidden"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "border-b bg-white sticky top-0 z-10"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "flex"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: function onClick() {
+      return setIntelligenceView('insights');
+    },
+    className: "flex-1 px-6 py-4 text-sm font-medium transition-all border-b-2 ".concat(intelligenceView === 'insights' ? 'border-blue-600 text-blue-600 bg-blue-50' : 'border-transparent text-gray-600 hover:text-gray-900 hover:bg-gray-50')
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "flex flex-col items-center gap-1"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_8__["default"], {
+    className: "h-5 w-5"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "Insights"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: function onClick() {
+      return setIntelligenceView('assistant');
+    },
+    className: "flex-1 px-6 py-4 text-sm font-medium transition-all border-b-2 ".concat(intelligenceView === 'assistant' ? 'border-blue-600 text-blue-600 bg-blue-50' : 'border-transparent text-gray-600 hover:text-gray-900 hover:bg-gray-50')
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "flex flex-col items-center gap-1"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    className: "h-5 w-5"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "Assistant"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: function onClick() {
+      return setIntelligenceView('glossary');
+    },
+    className: "flex-1 px-6 py-4 text-sm font-medium transition-all border-b-2 ".concat(intelligenceView === 'glossary' ? 'border-blue-600 text-blue-600 bg-blue-50' : 'border-transparent text-gray-600 hover:text-gray-900 hover:bg-gray-50')
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "flex flex-col items-center gap-1"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    className: "h-5 w-5"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "Glossary"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: function onClick() {
+      return setIntelligenceView('transcript');
+    },
+    className: "flex-1 px-6 py-4 text-sm font-medium transition-all border-b-2 ".concat(intelligenceView === 'transcript' ? 'border-blue-600 text-blue-600 bg-blue-50' : 'border-transparent text-gray-600 hover:text-gray-900 hover:bg-gray-50')
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "flex flex-col items-center gap-1"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    className: "h-5 w-5"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "Transcript"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "flex-1 overflow-y-auto bg-gray-50 relative",
+    style: {
+      minHeight: 0
+    }
+  }, intelligenceView === 'insights' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "p-6"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "bg-white rounded-lg p-6 shadow-sm"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ContextualInsights__WEBPACK_IMPORTED_MODULE_9__["default"], {
+    socket: socket,
+    currentTopic: activeMeeting === null || activeMeeting === void 0 ? void 0 : activeMeeting.title,
+    view: "insights"
+  }))), intelligenceView === 'assistant' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "p-6"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "bg-white rounded-lg p-6 shadow-sm"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ContextualInsights__WEBPACK_IMPORTED_MODULE_9__["default"], {
+    socket: socket,
+    currentTopic: activeMeeting === null || activeMeeting === void 0 ? void 0 : activeMeeting.title,
+    view: "assistant"
+  }))), intelligenceView === 'glossary' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "p-6"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "bg-white rounded-lg p-6 shadow-sm"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", {
+    className: "text-lg font-semibold mb-4"
+  }, "Meeting-Specific Terms"), extractedTerms.length === 0 && termDefinitions.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "text-center py-8 text-gray-500"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "text-4xl mb-3"
+  }, "\uD83D\uDCD6"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+    className: "text-sm"
+  }, "No terms defined yet in this meeting context."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+    className: "text-xs mt-2"
+  }, "Terms will appear here as they're mentioned 3+ times.")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_DefinitionHistory__WEBPACK_IMPORTED_MODULE_10__["default"], {
+    definitions: termDefinitions,
+    terms: extractedTerms
+  }))), intelligenceView === 'transcript' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "p-6"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "bg-white rounded-lg p-6 shadow-sm"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "flex items-center justify-between mb-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", {
+    className: "text-lg font-semibold"
+  }, "Live Transcript"), transcript.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_ui_badge__WEBPACK_IMPORTED_MODULE_2__.Badge, {
+    variant: "outline",
+    className: "text-xs"
+  }, transcript.length, " segments")), transcript.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "text-center py-12 text-gray-500"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "text-4xl mb-3"
+  }, "\uD83C\uDF99\uFE0F"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+    className: "text-sm"
+  }, isRecording ? 'Listening... Speak to see transcript' : 'Start recording to see live transcript')) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "space-y-3"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_CorrectableTranscript__WEBPACK_IMPORTED_MODULE_11__["default"], {
+    transcript: transcript,
+    socket: socket,
+    className: "space-y-2"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    ref: transcriptEndRef
+  })), transcript.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "mt-6 pt-4 border-t text-xs text-gray-500 text-center"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px'
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    className: "h-4 w-4"
+  }), "Click on any word to correct it globally across all meetings"))))))))));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MeetingIntelligence);
+
+/***/ }),
+
 /***/ "./src/components/MeetingSidebar.jsx":
 /*!*******************************************!*\
   !*** ./src/components/MeetingSidebar.jsx ***!
@@ -53338,6 +52341,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/check.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/circle.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/download.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/file-text.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/plus.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/search.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/target.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/trash-2.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/house.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/pen-line.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
 function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
@@ -53358,6 +52371,7 @@ function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) 
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+
 
 function MeetingSidebar(_ref) {
   var onSelectMeeting = _ref.onSelectMeeting,
@@ -53393,6 +52407,10 @@ function MeetingSidebar(_ref) {
     _useState12 = _slicedToArray(_useState11, 2),
     editingTitle = _useState12[0],
     setEditingTitle = _useState12[1];
+  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+    _useState14 = _slicedToArray(_useState13, 2),
+    exportMenuOpen = _useState14[0],
+    setExportMenuOpen = _useState14[1];
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     fetchMeetings();
 
@@ -53494,44 +52512,13 @@ function MeetingSidebar(_ref) {
       return _ref2.apply(this, arguments);
     };
   }();
-  var handleSearch = /*#__PURE__*/function () {
-    var _ref3 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
-      var response, data, _t2;
-      return _regenerator().w(function (_context2) {
-        while (1) switch (_context2.p = _context2.n) {
-          case 0:
-            if (searchTerm.trim()) {
-              _context2.n = 1;
-              break;
-            }
-            fetchMeetings();
-            return _context2.a(2);
-          case 1:
-            _context2.p = 1;
-            _context2.n = 2;
-            return fetch("http://localhost:9000/api/meetings?search=".concat(encodeURIComponent(searchTerm)));
-          case 2:
-            response = _context2.v;
-            _context2.n = 3;
-            return response.json();
-          case 3:
-            data = _context2.v;
-            setMeetings(data.meetings || []);
-            _context2.n = 5;
-            break;
-          case 4:
-            _context2.p = 4;
-            _t2 = _context2.v;
-            console.error('Error searching meetings:', _t2);
-          case 5:
-            return _context2.a(2);
-        }
-      }, _callee2, null, [[1, 4]]);
-    }));
-    return function handleSearch() {
-      return _ref3.apply(this, arguments);
-    };
-  }();
+
+  // Filter meetings based on search term
+  var filteredMeetings = meetings.filter(function (meeting) {
+    if (!searchTerm.trim()) return true;
+    var searchLower = searchTerm.toLowerCase();
+    return meeting.title.toLowerCase().includes(searchLower) || new Date(meeting.start_time).toLocaleDateString().includes(searchTerm) || meeting.status && meeting.status.toLowerCase().includes(searchLower);
+  });
   var handleNewMeeting = function handleNewMeeting() {
     var title = newMeetingTitle.trim() || "Meeting ".concat(new Date().toLocaleString());
     onNewMeeting({
@@ -53543,10 +52530,10 @@ function MeetingSidebar(_ref) {
     setTimeout(fetchMeetings, 500);
   };
   var deleteMeeting = /*#__PURE__*/function () {
-    var _ref4 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3(meetingId, e) {
-      var meeting, confirmMessage, _t3;
-      return _regenerator().w(function (_context3) {
-        while (1) switch (_context3.p = _context3.n) {
+    var _ref3 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2(meetingId, e) {
+      var meeting, confirmMessage, _t2;
+      return _regenerator().w(function (_context2) {
+        while (1) switch (_context2.p = _context2.n) {
           case 0:
             e.stopPropagation();
 
@@ -53556,48 +52543,48 @@ function MeetingSidebar(_ref) {
             });
             confirmMessage = (meeting === null || meeting === void 0 ? void 0 : meeting.status) === 'active' ? 'This meeting is currently active. Are you sure you want to delete it and stop recording?' : 'Are you sure you want to delete this meeting and all associated data (transcripts, terms, reports)?';
             if (window.confirm(confirmMessage)) {
-              _context3.n = 1;
+              _context2.n = 1;
               break;
             }
-            return _context3.a(2);
+            return _context2.a(2);
           case 1:
-            _context3.p = 1;
-            _context3.n = 2;
+            _context2.p = 1;
+            _context2.n = 2;
             return fetch("http://localhost:9000/api/meetings/".concat(meetingId), {
               method: 'DELETE'
             });
           case 2:
             fetchMeetings();
-            _context3.n = 4;
+            _context2.n = 4;
             break;
           case 3:
-            _context3.p = 3;
-            _t3 = _context3.v;
-            console.error('Error deleting meeting:', _t3);
+            _context2.p = 3;
+            _t2 = _context2.v;
+            console.error('Error deleting meeting:', _t2);
           case 4:
-            return _context3.a(2);
+            return _context2.a(2);
         }
-      }, _callee3, null, [[1, 3]]);
+      }, _callee2, null, [[1, 3]]);
     }));
     return function deleteMeeting(_x, _x2) {
-      return _ref4.apply(this, arguments);
+      return _ref3.apply(this, arguments);
     };
   }();
   var renameMeeting = /*#__PURE__*/function () {
-    var _ref5 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4(meetingId, newTitle) {
-      var response, _t4;
-      return _regenerator().w(function (_context4) {
-        while (1) switch (_context4.p = _context4.n) {
+    var _ref4 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3(meetingId, newTitle) {
+      var response, _t3;
+      return _regenerator().w(function (_context3) {
+        while (1) switch (_context3.p = _context3.n) {
           case 0:
             if (newTitle.trim()) {
-              _context4.n = 1;
+              _context3.n = 1;
               break;
             }
             alert('Meeting title cannot be empty');
-            return _context4.a(2, false);
+            return _context3.a(2, false);
           case 1:
-            _context4.p = 1;
-            _context4.n = 2;
+            _context3.p = 1;
+            _context3.n = 2;
             return fetch("http://localhost:9000/api/meetings/".concat(meetingId), {
               method: 'PUT',
               headers: {
@@ -53608,9 +52595,9 @@ function MeetingSidebar(_ref) {
               })
             });
           case 2:
-            response = _context4.v;
+            response = _context3.v;
             if (response.ok) {
-              _context4.n = 3;
+              _context3.n = 3;
               break;
             }
             throw new Error('Failed to rename meeting');
@@ -53625,18 +52612,18 @@ function MeetingSidebar(_ref) {
             });
             setEditingMeetingId(null);
             setEditingTitle('');
-            return _context4.a(2, true);
+            return _context3.a(2, true);
           case 4:
-            _context4.p = 4;
-            _t4 = _context4.v;
-            console.error('Error renaming meeting:', _t4);
+            _context3.p = 4;
+            _t3 = _context3.v;
+            console.error('Error renaming meeting:', _t3);
             alert('Failed to rename meeting');
-            return _context4.a(2, false);
+            return _context3.a(2, false);
         }
-      }, _callee4, null, [[1, 4]]);
+      }, _callee3, null, [[1, 4]]);
     }));
     return function renameMeeting(_x3, _x4) {
-      return _ref5.apply(this, arguments);
+      return _ref4.apply(this, arguments);
     };
   }();
   var startEditing = function startEditing(meeting, e) {
@@ -53649,52 +52636,52 @@ function MeetingSidebar(_ref) {
     setEditingTitle('');
   };
   var handleKeyPress = /*#__PURE__*/function () {
-    var _ref6 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5(e, meetingId) {
-      return _regenerator().w(function (_context5) {
-        while (1) switch (_context5.n) {
+    var _ref5 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4(e, meetingId) {
+      return _regenerator().w(function (_context4) {
+        while (1) switch (_context4.n) {
           case 0:
             if (!(e.key === 'Enter')) {
-              _context5.n = 2;
+              _context4.n = 2;
               break;
             }
-            _context5.n = 1;
+            _context4.n = 1;
             return renameMeeting(meetingId, editingTitle);
           case 1:
-            _context5.n = 3;
+            _context4.n = 3;
             break;
           case 2:
             if (e.key === 'Escape') {
               cancelEditing();
             }
           case 3:
-            return _context5.a(2);
+            return _context4.a(2);
         }
-      }, _callee5);
+      }, _callee4);
     }));
     return function handleKeyPress(_x5, _x6) {
-      return _ref6.apply(this, arguments);
+      return _ref5.apply(this, arguments);
     };
   }();
   var exportMeeting = /*#__PURE__*/function () {
-    var _ref7 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee6(meetingId, format, e) {
-      var response, data, blob, url, a, _data, _blob, _url, _a, _t5;
-      return _regenerator().w(function (_context6) {
-        while (1) switch (_context6.p = _context6.n) {
+    var _ref6 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5(meetingId, format, e) {
+      var response, data, blob, url, a, _data, _blob, _url, _a, _t4;
+      return _regenerator().w(function (_context5) {
+        while (1) switch (_context5.p = _context5.n) {
           case 0:
             e.stopPropagation();
-            _context6.p = 1;
-            _context6.n = 2;
+            _context5.p = 1;
+            _context5.n = 2;
             return fetch("http://localhost:9000/api/meetings/".concat(meetingId, "/export?format=").concat(format));
           case 2:
-            response = _context6.v;
+            response = _context5.v;
             if (!(format === 'json')) {
-              _context6.n = 4;
+              _context5.n = 4;
               break;
             }
-            _context6.n = 3;
+            _context5.n = 3;
             return response.json();
           case 3:
-            data = _context6.v;
+            data = _context5.v;
             blob = new Blob([JSON.stringify(data, null, 2)], {
               type: 'application/json'
             });
@@ -53703,17 +52690,17 @@ function MeetingSidebar(_ref) {
             a.href = url;
             a.download = "meeting-".concat(meetingId, ".json");
             a.click();
-            _context6.n = 6;
+            _context5.n = 6;
             break;
           case 4:
             if (!(format === 'csv')) {
-              _context6.n = 6;
+              _context5.n = 6;
               break;
             }
-            _context6.n = 5;
+            _context5.n = 5;
             return response.text();
           case 5:
-            _data = _context6.v;
+            _data = _context5.v;
             _blob = new Blob([_data], {
               type: 'text/csv'
             });
@@ -53723,19 +52710,19 @@ function MeetingSidebar(_ref) {
             _a.download = "meeting-".concat(meetingId, ".csv");
             _a.click();
           case 6:
-            _context6.n = 8;
+            _context5.n = 8;
             break;
           case 7:
-            _context6.p = 7;
-            _t5 = _context6.v;
-            console.error('Error exporting meeting:', _t5);
+            _context5.p = 7;
+            _t4 = _context5.v;
+            console.error('Error exporting meeting:', _t4);
           case 8:
-            return _context6.a(2);
+            return _context5.a(2);
         }
-      }, _callee6, null, [[1, 7]]);
+      }, _callee5, null, [[1, 7]]);
     }));
     return function exportMeeting(_x7, _x8, _x9) {
-      return _ref7.apply(this, arguments);
+      return _ref6.apply(this, arguments);
     };
   }();
   var formatDuration = function formatDuration(seconds) {
@@ -53747,7 +52734,20 @@ function MeetingSidebar(_ref) {
     }
     return "".concat(minutes, "m");
   };
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+
+  // Add click outside handler to close export menu
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    var handleClickOutside = function handleClickOutside() {
+      if (exportMenuOpen) {
+        setExportMenuOpen(null);
+      }
+    };
+    document.addEventListener('click', handleClickOutside);
+    return function () {
+      return document.removeEventListener('click', handleClickOutside);
+    };
+  }, [exportMenuOpen]);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("style", null, "\n                    @keyframes pulse {\n                        0% {\n                            box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7);\n                        }\n                        70% {\n                            box-shadow: 0 0 0 4px rgba(40, 167, 69, 0);\n                        }\n                        100% {\n                            box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);\n                        }\n                    }\n                "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     style: {
       width: '300px',
       height: '100vh',
@@ -53769,12 +52769,16 @@ function MeetingSidebar(_ref) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", {
     style: {
       margin: '0 0 10px 0',
-      fontSize: '18px'
-    }
-  }, "\uD83D\uDCC1 TranscriptIQ Sessions"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    style: {
+      fontSize: '18px',
       display: 'flex',
-      gap: '5px',
+      alignItems: 'center',
+      gap: '8px'
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_9__["default"], {
+    className: "h-5 w-5"
+  }), "Sessions"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    style: {
+      position: 'relative',
       marginBottom: '10px'
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
@@ -53784,27 +52788,23 @@ function MeetingSidebar(_ref) {
     onChange: function onChange(e) {
       return setSearchTerm(e.target.value);
     },
-    onKeyPress: function onKeyPress(e) {
-      return e.key === 'Enter' && handleSearch();
-    },
     style: {
-      flex: 1,
-      padding: '5px 10px',
+      width: '100%',
+      padding: '5px 30px 5px 10px',
       border: '1px solid #ced4da',
       borderRadius: '4px',
       fontSize: '14px'
     }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
-    onClick: handleSearch,
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    className: "h-4 w-4 text-gray-500",
     style: {
-      padding: '5px 10px',
-      background: '#007bff',
-      color: 'white',
-      border: 'none',
-      borderRadius: '4px',
-      cursor: 'pointer'
+      position: 'absolute',
+      right: '8px',
+      top: '50%',
+      transform: 'translateY(-50%)',
+      pointerEvents: 'none'
     }
-  }, "\uD83D\uDD0D")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
     onClick: function onClick() {
       return setShowNewMeetingModal(true);
     },
@@ -53822,7 +52822,15 @@ function MeetingSidebar(_ref) {
       animation: activeMeetingId ? 'none' : 'pulse 2s infinite',
       transition: 'all 0.3s'
     }
-  }, activeMeetingId ? '+ New Meeting' : '🎯 Start New Meeting'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("style", null, "\n                    @keyframes pulse {\n                        0% { transform: scale(1); }\n                        50% { transform: scale(1.02); }\n                        100% { transform: scale(1); }\n                    }\n                ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, activeMeetingId ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "flex items-center gap-2 justify-center"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    className: "h-4 w-4"
+  }), "New Meeting") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "flex items-center gap-2 justify-center"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    className: "h-5 w-5"
+  }), "Start New Meeting")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("style", null, "\n                    @keyframes pulse {\n                        0% { transform: scale(1); }\n                        50% { transform: scale(1.02); }\n                        100% { transform: scale(1); }\n                    }\n                ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     style: {
       flex: 1,
       overflowY: 'auto',
@@ -53834,13 +52842,13 @@ function MeetingSidebar(_ref) {
       padding: '20px',
       color: '#6c757d'
     }
-  }, "Loading sessions...") : meetings.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, "Loading sessions...") : filteredMeetings.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     style: {
       textAlign: 'center',
       padding: '20px',
       color: '#6c757d'
     }
-  }, "No sessions yet") : meetings.map(function (meeting) {
+  }, "No sessions yet") : filteredMeetings.map(function (meeting) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       key: meeting.id,
       onClick: function onClick() {
@@ -53950,18 +52958,9 @@ function MeetingSidebar(_ref) {
         e.currentTarget.style.color = '#6c757d';
       },
       title: "Rename meeting"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("svg", {
-      width: "14",
-      height: "14",
-      viewBox: "0 0 24 24",
-      fill: "none",
-      stroke: "currentColor",
-      strokeWidth: "2"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("path", {
-      d: "M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("path", {
-      d: "M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
-    })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_10__["default"], {
+      className: "h-3.5 w-3.5"
+    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       style: {
         fontSize: '12px',
         color: '#6c757d'
@@ -53974,78 +52973,146 @@ function MeetingSidebar(_ref) {
       }
     }, meeting.word_count, " words \u2022 ", meeting.unique_terms_count, " terms")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       style: {
-        padding: '2px 6px',
-        borderRadius: '3px',
-        fontSize: '11px',
-        fontWeight: '500',
-        background: meeting.status === 'active' ? '#d4edda' : '#f8f9fa',
-        color: meeting.status === 'active' ? '#155724' : '#6c757d'
+        display: 'flex',
+        alignItems: 'center',
+        gap: '4px'
       }
-    }, meeting.status === 'active' ? '● LIVE' : meeting.status)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    }, meeting.status === 'active' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      className: "h-2 w-2",
+      fill: "#28a745",
+      stroke: "#28a745",
+      style: {
+        animation: 'pulse 2s infinite'
+      },
+      title: "Live"
+    }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      className: "h-4 w-4 text-green-500",
+      title: "Completed"
+    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       style: {
         display: 'flex',
-        gap: '5px',
-        marginTop: '8px'
+        gap: '4px',
+        marginTop: '8px',
+        alignItems: 'center'
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      style: {
+        position: 'relative'
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
       onClick: function onClick(e) {
-        return exportMeeting(meeting.id, 'json', e);
+        e.stopPropagation();
+        setExportMenuOpen(exportMenuOpen === meeting.id ? null : meeting.id);
       },
       style: {
-        padding: '3px 8px',
-        fontSize: '11px',
+        padding: '4px 8px',
         background: '#17a2b8',
         color: 'white',
         border: 'none',
         borderRadius: '3px',
-        cursor: 'pointer'
+        cursor: 'pointer',
+        display: 'flex',
+        alignItems: 'center'
       },
-      title: "Export as JSON"
-    }, "JSON"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+      title: "Export data"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      className: "h-3.5 w-3.5"
+    })), exportMenuOpen === meeting.id && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      style: {
+        position: 'absolute',
+        top: '100%',
+        left: 0,
+        marginTop: '2px',
+        background: 'white',
+        border: '1px solid #dee2e6',
+        borderRadius: '3px',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+        zIndex: 1000,
+        minWidth: '80px'
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
       onClick: function onClick(e) {
-        return exportMeeting(meeting.id, 'csv', e);
+        exportMeeting(meeting.id, 'json', e);
+        setExportMenuOpen(null);
       },
       style: {
-        padding: '3px 8px',
+        display: 'block',
+        width: '100%',
+        padding: '6px 12px',
         fontSize: '11px',
-        background: '#6c757d',
-        color: 'white',
+        background: 'transparent',
         border: 'none',
-        borderRadius: '3px',
-        cursor: 'pointer'
+        textAlign: 'left',
+        cursor: 'pointer',
+        color: '#212529'
       },
-      title: "Export as CSV"
-    }, "CSV"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+      onMouseEnter: function onMouseEnter(e) {
+        return e.currentTarget.style.background = '#f8f9fa';
+      },
+      onMouseLeave: function onMouseLeave(e) {
+        return e.currentTarget.style.background = 'transparent';
+      }
+    }, "JSON"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+      onClick: function onClick(e) {
+        exportMeeting(meeting.id, 'csv', e);
+        setExportMenuOpen(null);
+      },
+      style: {
+        display: 'block',
+        width: '100%',
+        padding: '6px 12px',
+        fontSize: '11px',
+        background: 'transparent',
+        border: 'none',
+        borderTop: '1px solid #dee2e6',
+        textAlign: 'left',
+        cursor: 'pointer',
+        color: '#212529'
+      },
+      onMouseEnter: function onMouseEnter(e) {
+        return e.currentTarget.style.background = '#f8f9fa';
+      },
+      onMouseLeave: function onMouseLeave(e) {
+        return e.currentTarget.style.background = 'transparent';
+      }
+    }, "CSV"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
       onClick: function onClick(e) {
         e.stopPropagation();
         onGenerateReport(meeting.id);
       },
       style: {
-        padding: '3px 8px',
-        fontSize: '11px',
+        padding: '4px 8px',
         background: '#28a745',
         color: 'white',
         border: 'none',
         borderRadius: '3px',
-        cursor: 'pointer'
+        cursor: 'pointer',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '4px'
       },
       title: "Generate Report"
-    }, "\uD83D\uDCCA Report"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      className: "h-3.5 w-3.5"
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
       onClick: function onClick(e) {
         return deleteMeeting(meeting.id, e);
       },
       style: {
-        padding: '3px 8px',
-        fontSize: '11px',
+        padding: '4px 8px',
         background: '#dc3545',
         color: 'white',
         border: 'none',
         borderRadius: '3px',
         cursor: 'pointer',
-        marginLeft: 'auto'
+        marginLeft: 'auto',
+        display: 'flex',
+        alignItems: 'center'
       },
       title: "Delete meeting"
-    }, "Delete")));
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_8__["default"], {
+      className: "h-3.5 w-3.5"
+    }))));
   })), showNewMeetingModal && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     style: {
       position: 'fixed',
@@ -54117,7 +53184,7 @@ function MeetingSidebar(_ref) {
       cursor: 'pointer',
       fontWeight: 'bold'
     }
-  }, "Start Meeting")))));
+  }, "Start Meeting"))))));
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MeetingSidebar);
 
@@ -54135,6 +53202,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/bot.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/clipboard-list.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/dollar-sign.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/download.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/file-text.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/key-round.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/refresh-cw.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/chart-column.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/file-pen-line.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/sparkles.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/triangle-alert.js");
 function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
 function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
@@ -54149,6 +53227,7 @@ function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) 
 function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
 function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+
 
 
 // Simple markdown renderer
@@ -54323,14 +53402,36 @@ function ReportView(_ref) {
     _useState0 = _slicedToArray(_useState9, 2),
     costsExpanded = _useState0[0],
     setCostsExpanded = _useState0[1];
+  var _useState1 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+    _useState10 = _slicedToArray(_useState1, 2),
+    abortController = _useState10[0],
+    setAbortController = _useState10[1];
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState12 = _slicedToArray(_useState11, 2),
+    exportMenuOpen = _useState12[0],
+    setExportMenuOpen = _useState12[1];
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     if (meetingId) {
       loadReport(false);
     }
   }, [meetingId]);
+
+  // Add click outside handler to close export menu
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    var handleClickOutside = function handleClickOutside() {
+      if (exportMenuOpen) {
+        setExportMenuOpen(false);
+      }
+    };
+    document.addEventListener('click', handleClickOutside);
+    return function () {
+      return document.removeEventListener('click', handleClickOutside);
+    };
+  }, [exportMenuOpen]);
   var loadReport = /*#__PURE__*/function () {
     var _ref2 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
       var forceRegenerate,
+        controller,
         url,
         response,
         data,
@@ -54340,6 +53441,14 @@ function ReportView(_ref) {
         while (1) switch (_context.p = _context.n) {
           case 0:
             forceRegenerate = _args.length > 0 && _args[0] !== undefined ? _args[0] : false;
+            // Cancel any existing request
+            if (abortController) {
+              abortController.abort();
+            }
+
+            // Create new AbortController for this request
+            controller = new AbortController();
+            setAbortController(controller);
             if (forceRegenerate) {
               setRegenerating(true);
             } else {
@@ -54349,7 +53458,9 @@ function ReportView(_ref) {
             _context.p = 1;
             url = "http://localhost:9000/api/meetings/".concat(meetingId, "/report").concat(forceRegenerate ? '?regenerate=true' : '');
             _context.n = 2;
-            return fetch(url);
+            return fetch(url, {
+              signal: controller.signal
+            });
           case 2:
             response = _context.v;
             if (response.ok) {
@@ -54368,11 +53479,17 @@ function ReportView(_ref) {
           case 5:
             _context.p = 5;
             _t = _context.v;
-            setError(_t.message);
+            if (_t.name === 'AbortError') {
+              // Request was cancelled
+              console.log('Report generation cancelled');
+            } else {
+              setError(_t.message);
+            }
           case 6:
             _context.p = 6;
             setLoading(false);
             setRegenerating(false);
+            setAbortController(null);
             return _context.f(6);
           case 7:
             return _context.a(2);
@@ -54386,11 +53503,62 @@ function ReportView(_ref) {
   var handleRegenerate = function handleRegenerate() {
     loadReport(true);
   };
+  var handleCancel = function handleCancel() {
+    if (abortController) {
+      abortController.abort();
+      setAbortController(null);
+    }
+    setLoading(false);
+    setRegenerating(false);
+    onClose();
+  };
   var exportReport = function exportReport(format) {
     if (!report) return;
     var date = new Date().toISOString().split('T')[0];
     var filename = "".concat(report.meeting.title.replace(/[^a-z0-9]/gi, '_').toLowerCase(), "_").concat(date);
-    if (format === 'json') {
+    if (format === 'markdown') {
+      // Generate Markdown content
+      var mdContent = "# ".concat(report.meeting.title, "\n\n");
+      mdContent += "**Date:** ".concat(new Date(report.meeting.startTime).toLocaleDateString(), "\n");
+      mdContent += "**Duration:** ".concat(report.meeting.duration, "\n");
+      mdContent += "**Words:** ".concat(report.statistics.wordCount.toLocaleString(), " | **Terms:** ").concat(report.statistics.uniqueTerms, "\n\n");
+      if (report.costs && report.costs.total > 0) {
+        mdContent += "## API Usage Costs\n\n";
+        mdContent += "- **LLM Processing:** $".concat(report.costs.llm.toFixed(6), "\n");
+        mdContent += "- **Transcription:** $".concat(report.costs.transcription.toFixed(6), "\n");
+        mdContent += "- **Knowledge Retrieval:** $".concat(report.costs.knowledge.toFixed(6), "\n");
+        mdContent += "- **Total:** $".concat(report.costs.total.toFixed(6), "\n\n");
+      }
+      mdContent += "## Executive Summary\n\n".concat(report.summary, "\n\n");
+      if (report.keyTerms && report.keyTerms.length > 0) {
+        mdContent += "## Key Terms & Definitions\n\n";
+        report.keyTerms.forEach(function (term) {
+          mdContent += "### ".concat(term.term, " (").concat(term.frequency, "x)\n\n");
+          mdContent += "".concat(term.definition, "\n\n");
+          if (term.sources && term.sources.length > 0) {
+            mdContent += "**Sources:** ".concat(term.sources.map(function (s) {
+              return s.url !== 'meeting-context' ? "[".concat(s.title, "](").concat(s.url, ")") : s.title;
+            }).join(', '), "\n\n");
+          }
+        });
+      }
+      mdContent += "## Full Transcript\n\n";
+      report.fullTranscript.forEach(function (segment) {
+        var time = new Date(segment.timestamp).toLocaleTimeString();
+        var confidence = segment.confidence ? " (".concat(Math.round(segment.confidence * 100), "%)") : '';
+        mdContent += "**[".concat(time, "]").concat(confidence, "** ").concat(segment.text, "\n\n");
+      });
+      mdContent += "---\n\n*Generated on ".concat(new Date().toLocaleString(), "*\n");
+      var blob = new Blob([mdContent], {
+        type: 'text/markdown;charset=utf-8'
+      });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = "".concat(filename, ".md");
+      a.click();
+      URL.revokeObjectURL(url);
+    } else if (format === 'json') {
       var dataStr = JSON.stringify(report, null, 2);
       var dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
       var exportFileDefaultName = "".concat(filename, ".json");
@@ -54412,7 +53580,7 @@ function ReportView(_ref) {
       _linkElement.setAttribute('download', "".concat(filename, "_terms.csv"));
       _linkElement.click();
     } else if (format === 'html') {
-      var htmlContent = "\n<!DOCTYPE html>\n<html>\n<head>\n    <title>".concat(report.meeting.title, " - Meeting Report</title>\n    <style>\n        body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }\n        .header { border-bottom: 2px solid #007bff; padding-bottom: 20px; margin-bottom: 30px; }\n        .summary { background: #f8f9fa; padding: 20px; border-radius: 5px; margin: 20px 0; }\n        .term { border: 1px solid #dee2e6; padding: 15px; margin: 10px 0; border-radius: 5px; }\n        .transcript { background: #f1f3f4; padding: 10px; margin: 5px 0; border-radius: 3px; }\n        .costs { background: #fff3cd; padding: 20px; border-radius: 5px; margin: 20px 0; border: 1px solid #ffeaa7; }\n        .cost-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 15px; margin: 15px 0; }\n        .cost-item { background: white; padding: 15px; border-radius: 5px; text-align: center; border: 1px solid #ffeaa7; }\n        .cost-total { background: #f8d7da; border: 2px solid #dc3545; }\n        .cost-label { font-size: 12px; color: #856404; text-transform: uppercase; font-weight: bold; margin-bottom: 5px; }\n        .cost-total .cost-label { color: #721c24; }\n        .cost-value { font-size: 20px; font-weight: bold; color: #495057; }\n        .cost-total .cost-value { color: #721c24; }\n    </style>\n</head>\n<body>\n    <div class=\"header\">\n        <h1>\uD83D\uDCCA ").concat(report.meeting.title, "</h1>\n        <p><strong>Duration:</strong> ").concat(report.meeting.duration, " | <strong>Date:</strong> ").concat(new Date(report.meeting.startTime).toLocaleDateString(), "</p>\n        <p><strong>Words:</strong> ").concat(report.statistics.wordCount.toLocaleString(), " | <strong>Terms:</strong> ").concat(report.statistics.uniqueTerms, " | <strong>Segments:</strong> ").concat(report.statistics.transcriptSegments, "</p>\n    </div>\n    \n    ").concat(report.costs && report.costs.total > 0 ? "\n    <div class=\"costs\">\n        <h2>\uD83D\uDCB0 API Usage Costs</h2>\n        <p style=\"color: #856404; font-size: 14px;\">Estimated costs based on API provider pricing</p>\n        <div class=\"cost-grid\">\n            <div class=\"cost-item\">\n                <div class=\"cost-label\">LLM Processing</div>\n                <div class=\"cost-value\">$".concat(report.costs.llm.toFixed(6), "</div>\n            </div>\n            <div class=\"cost-item\">\n                <div class=\"cost-label\">Transcription</div>\n                <div class=\"cost-value\">$").concat(report.costs.transcription.toFixed(6), "</div>\n            </div>\n            <div class=\"cost-item\">\n                <div class=\"cost-label\">Knowledge Retrieval</div>\n                <div class=\"cost-value\">$").concat(report.costs.knowledge.toFixed(6), "</div>\n            </div>\n            <div class=\"cost-item cost-total\">\n                <div class=\"cost-label\">Total Cost</div>\n                <div class=\"cost-value\">$").concat(report.costs.total.toFixed(6), "</div>\n            </div>\n        </div>\n        ").concat(report.costs.lastUpdated ? "<p style=\"font-size: 11px; color: #856404; font-style: italic;\">Last updated: ".concat(new Date(report.costs.lastUpdated).toLocaleString(), "</p>") : '', "\n    </div>\n    ") : '', "\n    \n    <div class=\"summary\">\n        <h2>Summary</h2>\n        ").concat(report.summary.split('\\n').map(function (p) {
+      var htmlContent = "\n<!DOCTYPE html>\n<html>\n<head>\n    <title>".concat(report.meeting.title, " - Meeting Report</title>\n    <style>\n        body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }\n        .header { border-bottom: 2px solid #007bff; padding-bottom: 20px; margin-bottom: 30px; }\n        .summary { background: #f8f9fa; padding: 20px; border-radius: 5px; margin: 20px 0; }\n        .term { border: 1px solid #dee2e6; padding: 15px; margin: 10px 0; border-radius: 5px; }\n        .transcript { background: #f1f3f4; padding: 10px; margin: 5px 0; border-radius: 3px; }\n        .costs { background: #fff3cd; padding: 20px; border-radius: 5px; margin: 20px 0; border: 1px solid #ffeaa7; }\n        .cost-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 15px; margin: 15px 0; }\n        .cost-item { background: white; padding: 15px; border-radius: 5px; text-align: center; border: 1px solid #ffeaa7; }\n        .cost-total { background: #f8d7da; border: 2px solid #dc3545; }\n        .cost-label { font-size: 12px; color: #856404; text-transform: uppercase; font-weight: bold; margin-bottom: 5px; }\n        .cost-total .cost-label { color: #721c24; }\n        .cost-value { font-size: 20px; font-weight: bold; color: #495057; }\n        .cost-total .cost-value { color: #721c24; }\n    </style>\n</head>\n<body>\n    <div class=\"header\">\n        <h1>").concat(report.meeting.title, "</h1>\n        <p><strong>Duration:</strong> ").concat(report.meeting.duration, " | <strong>Date:</strong> ").concat(new Date(report.meeting.startTime).toLocaleDateString(), "</p>\n        <p><strong>Words:</strong> ").concat(report.statistics.wordCount.toLocaleString(), " | <strong>Terms:</strong> ").concat(report.statistics.uniqueTerms, " | <strong>Segments:</strong> ").concat(report.statistics.transcriptSegments, "</p>\n    </div>\n    \n    ").concat(report.costs && report.costs.total > 0 ? "\n    <div class=\"costs\">\n        <h2>API Usage Costs</h2>\n        <p style=\"color: #856404; font-size: 14px;\">Estimated costs based on API provider pricing</p>\n        <div class=\"cost-grid\">\n            <div class=\"cost-item\">\n                <div class=\"cost-label\">LLM Processing</div>\n                <div class=\"cost-value\">$".concat(report.costs.llm.toFixed(6), "</div>\n            </div>\n            <div class=\"cost-item\">\n                <div class=\"cost-label\">Transcription</div>\n                <div class=\"cost-value\">$").concat(report.costs.transcription.toFixed(6), "</div>\n            </div>\n            <div class=\"cost-item\">\n                <div class=\"cost-label\">Knowledge Retrieval</div>\n                <div class=\"cost-value\">$").concat(report.costs.knowledge.toFixed(6), "</div>\n            </div>\n            <div class=\"cost-item cost-total\">\n                <div class=\"cost-label\">Total Cost</div>\n                <div class=\"cost-value\">$").concat(report.costs.total.toFixed(6), "</div>\n            </div>\n        </div>\n        ").concat(report.costs.lastUpdated ? "<p style=\"font-size: 11px; color: #856404; font-style: italic;\">Last updated: ".concat(new Date(report.costs.lastUpdated).toLocaleString(), "</p>") : '', "\n    </div>\n    ") : '', "\n    \n    <div class=\"summary\">\n        <h2>Summary</h2>\n        ").concat(report.summary.split('\\n').map(function (p) {
         return "<p>".concat(p, "</p>");
       }).join(''), "\n    </div>\n    \n    <h2>Key Terms & Definitions (").concat(report.keyTerms.length, ")</h2>\n    ").concat(report.keyTerms.map(function (term) {
         return "\n        <div class=\"term\">\n            <h3>".concat(term.term, " <small>(").concat(term.frequency, " mentions)</small></h3>\n            <p>").concat(term.definition, "</p>\n        </div>\n    ");
@@ -54462,7 +53630,15 @@ function ReportView(_ref) {
         alignItems: 'center',
         gap: '5px'
       }
-    }, regenerating ? '🤖 Regenerating report with fresh AI analysis' : '📊 Generating meeting report', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    }, regenerating ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      className: "flex items-center gap-2"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      className: "h-5 w-5"
+    }), "Regenerating report with fresh AI analysis") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      className: "flex items-center gap-2"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_8__["default"], {
+      className: "h-5 w-5"
+    }), "Generating meeting report"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
       style: {
         animation: 'dots 1.5s infinite',
         width: '20px',
@@ -54475,7 +53651,27 @@ function ReportView(_ref) {
         fontSize: '14px',
         maxWidth: '300px'
       }
-    }, regenerating ? 'This may take a moment as we re-analyze the entire meeting' : 'Analyzing transcript and generating insights...'));
+    }, regenerating ? 'This may take a moment as we re-analyze the entire meeting' : 'Analyzing transcript and generating insights...'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+      onClick: handleCancel,
+      style: {
+        marginTop: '20px',
+        padding: '10px 24px',
+        background: '#dc3545',
+        color: 'white',
+        border: 'none',
+        borderRadius: '6px',
+        fontSize: '14px',
+        fontWeight: '500',
+        cursor: 'pointer',
+        transition: 'background 0.2s'
+      },
+      onMouseOver: function onMouseOver(e) {
+        return e.target.style.background = '#c82333';
+      },
+      onMouseOut: function onMouseOut(e) {
+        return e.target.style.background = '#dc3545';
+      }
+    }, "Cancel"));
   }
   if (error) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
@@ -54493,9 +53689,9 @@ function ReportView(_ref) {
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       style: {
-        padding: '20px',
+        padding: '15px 20px',
         borderBottom: '1px solid #dee2e6',
-        background: '#f8f9fa'
+        background: 'white'
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       style: {
@@ -54503,21 +53699,46 @@ function ReportView(_ref) {
         justifyContent: 'space-between',
         alignItems: 'center'
       }
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h2", {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       style: {
-        margin: 0
+        display: 'flex',
+        alignItems: 'center',
+        gap: '10px'
       }
-    }, "\uD83D\uDCCA Meeting Report"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      className: "h-5 w-5 text-red-500"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", {
+      style: {
+        margin: 0,
+        fontSize: '16px',
+        fontWeight: '600'
+      }
+    }, "Meeting Report")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
       onClick: onClose,
       style: {
-        padding: '8px 12px',
-        background: '#6c757d',
-        color: 'white',
-        border: 'none',
-        borderRadius: '4px',
-        cursor: 'pointer'
+        width: '32px',
+        height: '32px',
+        background: 'white',
+        color: '#6c757d',
+        border: '1px solid #dee2e6',
+        borderRadius: '50%',
+        cursor: 'pointer',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontSize: '18px',
+        fontWeight: 'normal',
+        transition: 'all 0.2s'
+      },
+      onMouseEnter: function onMouseEnter(e) {
+        e.currentTarget.style.background = '#f8f9fa';
+        e.currentTarget.style.borderColor = '#adb5bd';
+      },
+      onMouseLeave: function onMouseLeave(e) {
+        e.currentTarget.style.background = 'white';
+        e.currentTarget.style.borderColor = '#dee2e6';
       }
-    }, "\u2715 Close"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    }, "\xD7"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       style: {
         flex: 1,
         display: 'flex',
@@ -54529,12 +53750,12 @@ function ReportView(_ref) {
         textAlign: 'center',
         color: '#dc3545'
       }
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_11__["default"], {
+      className: "h-12 w-12 text-red-500",
       style: {
-        fontSize: '48px',
         marginBottom: '20px'
       }
-    }, "\u26A0\uFE0F"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", null, "Error Loading Report"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, error), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", null, "Error Loading Report"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, error), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
       onClick: function onClick() {
         return loadReport(false);
       },
@@ -54597,7 +53818,15 @@ function ReportView(_ref) {
       alignItems: 'center',
       gap: '5px'
     }
-  }, "\uD83E\uDD16 Regenerating report with fresh AI analysis", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px'
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    className: "h-5 w-5"
+  }), "Regenerating report with fresh AI analysis"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
     style: {
       animation: 'dots 1.5s infinite',
       width: '20px',
@@ -54614,15 +53843,43 @@ function ReportView(_ref) {
     style: {
       marginBottom: '8px'
     }
-  }, "\u2728 Enhanced multi-stage processing"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("small", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px'
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_10__["default"], {
+    className: "h-4 w-4"
+  }), "Enhanced multi-stage processing")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("small", {
     style: {
       opacity: 0.8
     }
-  }, "This may take 10-30 seconds")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("style", null, "\n                        @keyframes spin {\n                            0% { transform: rotate(0deg); }\n                            100% { transform: rotate(360deg); }\n                        }\n                        \n                        @keyframes dots {\n                            0%, 20% { content: ''; }\n                            40% { content: '.'; }\n                            60% { content: '..'; }\n                            80%, 100% { content: '...'; }\n                        }\n                    ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, "This may take 10-30 seconds")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: handleCancel,
     style: {
-      padding: '20px',
+      marginTop: '20px',
+      padding: '10px 24px',
+      background: '#dc3545',
+      color: 'white',
+      border: 'none',
+      borderRadius: '6px',
+      fontSize: '14px',
+      fontWeight: '500',
+      cursor: 'pointer',
+      transition: 'background 0.2s'
+    },
+    onMouseOver: function onMouseOver(e) {
+      return e.target.style.background = '#c82333';
+    },
+    onMouseOut: function onMouseOut(e) {
+      return e.target.style.background = '#dc3545';
+    }
+  }, "Cancel Regeneration"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("style", null, "\n                        @keyframes spin {\n                            0% { transform: rotate(0deg); }\n                            100% { transform: rotate(360deg); }\n                        }\n                        \n                        @keyframes dots {\n                            0%, 20% { content: ''; }\n                            40% { content: '.'; }\n                            60% { content: '..'; }\n                            80%, 100% { content: '...'; }\n                        }\n                    ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    style: {
+      padding: '15px 20px',
       borderBottom: '1px solid #dee2e6',
-      background: '#f8f9fa'
+      background: 'white'
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     style: {
@@ -54630,111 +53887,219 @@ function ReportView(_ref) {
       justifyContent: 'space-between',
       alignItems: 'center'
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h2", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     style: {
-      margin: 0
+      display: 'flex',
+      alignItems: 'center',
+      gap: '10px'
     }
-  }, "\uD83D\uDCCA Meeting Report"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
-    onClick: onClose,
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    className: "h-5 w-5 text-blue-600"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", {
     style: {
-      padding: '8px 12px',
-      background: '#6c757d',
-      color: 'white',
-      border: 'none',
-      borderRadius: '4px',
-      cursor: 'pointer'
-    }
-  }, "\u2715 Close")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    style: {
-      marginTop: '10px',
-      fontSize: '14px',
-      color: '#6c757d'
+      margin: 0,
+      fontSize: '16px',
+      fontWeight: '600'
     }
   }, report.meeting.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     style: {
       fontSize: '12px',
       color: '#6c757d',
-      marginTop: '5px'
+      marginTop: '2px'
     }
-  }, new Date(report.meeting.startTime).toLocaleDateString(), " \u2022 ", report.meeting.duration, " \u2022", report.statistics.wordCount.toLocaleString(), " words \u2022 ", report.statistics.uniqueTerms, " terms")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, new Date(report.meeting.startTime).toLocaleDateString(), " \u2022 ", report.meeting.duration, " \u2022", report.statistics.wordCount.toLocaleString(), " words"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: onClose,
     style: {
-      padding: '15px 20px',
+      width: '32px',
+      height: '32px',
+      background: 'white',
+      color: '#6c757d',
+      border: '1px solid #dee2e6',
+      borderRadius: '50%',
+      cursor: 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      fontSize: '18px',
+      fontWeight: 'normal',
+      transition: 'all 0.2s'
+    },
+    onMouseEnter: function onMouseEnter(e) {
+      e.currentTarget.style.background = '#f8f9fa';
+      e.currentTarget.style.borderColor = '#adb5bd';
+    },
+    onMouseLeave: function onMouseLeave(e) {
+      e.currentTarget.style.background = 'white';
+      e.currentTarget.style.borderColor = '#dee2e6';
+    }
+  }, "\xD7"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    style: {
+      padding: '10px 15px',
       borderBottom: '1px solid #dee2e6',
       display: 'flex',
-      gap: '10px',
-      flexWrap: 'wrap',
-      alignItems: 'center'
+      gap: '8px',
+      alignItems: 'center',
+      background: 'white'
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
     onClick: handleRegenerate,
     disabled: regenerating,
     style: {
-      padding: '8px 16px',
+      padding: '6px 10px',
       background: regenerating ? '#6c757d' : '#ffc107',
       color: regenerating ? 'white' : '#212529',
       border: 'none',
       borderRadius: '4px',
       cursor: regenerating ? 'not-allowed' : 'pointer',
-      fontWeight: 'bold',
       display: 'flex',
       alignItems: 'center',
-      gap: '5px'
-    }
-  }, regenerating ? '⏳ Regenerating...' : '🔄 Regenerate Report'), (report === null || report === void 0 ? void 0 : report.cached) && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+      justifyContent: 'center',
+      transition: 'all 0.2s'
+    },
+    title: regenerating ? 'Regenerating...' : 'Regenerate Report'
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    className: "h-4 w-4"
+  })), (report === null || report === void 0 ? void 0 : report.cached) && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
     style: {
       padding: '4px 8px',
       background: '#d4edda',
       color: '#155724',
       borderRadius: '3px',
-      fontSize: '12px',
+      fontSize: '11px',
       fontWeight: '500'
     }
-  }, "\uD83D\uDCC4 Cached"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, "Cached"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     style: {
       marginLeft: 'auto',
-      display: 'flex',
-      gap: '10px'
+      position: 'relative'
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
-    onClick: function onClick() {
-      return exportReport('html');
+    onClick: function onClick(e) {
+      e.stopPropagation();
+      setExportMenuOpen(!exportMenuOpen);
     },
     style: {
-      padding: '8px 16px',
+      padding: '6px 10px',
       background: '#17a2b8',
       color: 'white',
       border: 'none',
-      borderRadius: '4px',
+      borderRadius: '3px',
       cursor: 'pointer',
-      fontSize: '13px'
+      display: 'flex',
+      alignItems: 'center'
+    },
+    title: "Export report"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    className: "h-3.5 w-3.5"
+  })), exportMenuOpen && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    style: {
+      position: 'absolute',
+      top: '100%',
+      right: 0,
+      marginTop: '2px',
+      background: 'white',
+      border: '1px solid #dee2e6',
+      borderRadius: '3px',
+      boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+      zIndex: 1000,
+      minWidth: '100px'
     }
-  }, "\uD83D\uDCC4 HTML"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
-    onClick: function onClick() {
-      return exportReport('csv');
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: function onClick(e) {
+      e.stopPropagation();
+      exportReport('markdown');
+      setExportMenuOpen(false);
     },
     style: {
-      padding: '8px 16px',
-      background: '#28a745',
-      color: 'white',
+      display: 'block',
+      width: '100%',
+      padding: '8px 12px',
+      fontSize: '12px',
+      background: 'transparent',
       border: 'none',
-      borderRadius: '4px',
+      textAlign: 'left',
       cursor: 'pointer',
-      fontSize: '13px'
+      color: '#212529'
+    },
+    onMouseEnter: function onMouseEnter(e) {
+      return e.currentTarget.style.background = '#f8f9fa';
+    },
+    onMouseLeave: function onMouseLeave(e) {
+      return e.currentTarget.style.background = 'transparent';
     }
-  }, "\uD83D\uDCCA CSV"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
-    onClick: function onClick() {
-      return exportReport('json');
+  }, "Markdown"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: function onClick(e) {
+      e.stopPropagation();
+      exportReport('html');
+      setExportMenuOpen(false);
     },
     style: {
-      padding: '8px 16px',
-      background: '#6f42c1',
-      color: 'white',
+      display: 'block',
+      width: '100%',
+      padding: '8px 12px',
+      fontSize: '12px',
+      background: 'transparent',
       border: 'none',
-      borderRadius: '4px',
+      borderTop: '1px solid #dee2e6',
+      textAlign: 'left',
       cursor: 'pointer',
-      fontSize: '13px'
+      color: '#212529'
+    },
+    onMouseEnter: function onMouseEnter(e) {
+      return e.currentTarget.style.background = '#f8f9fa';
+    },
+    onMouseLeave: function onMouseLeave(e) {
+      return e.currentTarget.style.background = 'transparent';
     }
-  }, "\uD83D\uDCBE JSON"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, "HTML Report"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: function onClick(e) {
+      e.stopPropagation();
+      exportReport('json');
+      setExportMenuOpen(false);
+    },
+    style: {
+      display: 'block',
+      width: '100%',
+      padding: '8px 12px',
+      fontSize: '12px',
+      background: 'transparent',
+      border: 'none',
+      borderTop: '1px solid #dee2e6',
+      textAlign: 'left',
+      cursor: 'pointer',
+      color: '#212529'
+    },
+    onMouseEnter: function onMouseEnter(e) {
+      return e.currentTarget.style.background = '#f8f9fa';
+    },
+    onMouseLeave: function onMouseLeave(e) {
+      return e.currentTarget.style.background = 'transparent';
+    }
+  }, "JSON Data"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: function onClick(e) {
+      e.stopPropagation();
+      exportReport('csv');
+      setExportMenuOpen(false);
+    },
+    style: {
+      display: 'block',
+      width: '100%',
+      padding: '8px 12px',
+      fontSize: '12px',
+      background: 'transparent',
+      border: 'none',
+      borderTop: '1px solid #dee2e6',
+      textAlign: 'left',
+      cursor: 'pointer',
+      color: '#212529'
+    },
+    onMouseEnter: function onMouseEnter(e) {
+      return e.currentTarget.style.background = '#f8f9fa';
+    },
+    onMouseLeave: function onMouseLeave(e) {
+      return e.currentTarget.style.background = 'transparent';
+    }
+  }, "CSV Terms")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     style: {
       flex: 1,
       overflowY: 'auto'
@@ -54762,11 +54127,9 @@ function ReportView(_ref) {
       alignItems: 'center',
       gap: '10px'
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
-    style: {
-      fontSize: '16px'
-    }
-  }, "\uD83D\uDCB0"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    className: "h-4 w-4"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     style: {
       fontWeight: 'bold',
       fontSize: '14px',
@@ -54904,7 +54267,15 @@ function ReportView(_ref) {
       marginBottom: '15px',
       fontSize: '16px'
     }
-  }, "\uD83D\uDCCB Executive Summary"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px'
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    className: "h-4 w-4"
+  }), "Executive Summary")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     style: {
       fontSize: '14px',
       lineHeight: '1.6',
@@ -54924,7 +54295,15 @@ function ReportView(_ref) {
       marginBottom: '15px',
       fontSize: '16px'
     }
-  }, "\uD83D\uDD11 Key Terms & Definitions (", report.keyTerms.length, ")"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px'
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    className: "h-4 w-4"
+  }), "Key Terms & Definitions (", report.keyTerms.length, ")")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     style: {
       fontSize: '13px',
       color: '#6c757d',
@@ -55000,7 +54379,15 @@ function ReportView(_ref) {
       marginBottom: '15px',
       fontSize: '16px'
     }
-  }, "\uD83D\uDCDD Full Transcript (", report.statistics.transcriptSegments, " segments)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px'
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_9__["default"], {
+    className: "h-4 w-4"
+  }), "Full Transcript (", report.statistics.transcriptSegments, " segments)")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     style: {
       fontSize: '13px',
       color: '#6c757d',
@@ -55061,7 +54448,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _GlobalCorrections__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GlobalCorrections */ "./src/components/GlobalCorrections.jsx");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/brain.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/key.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/triangle-alert.js");
+/* harmony import */ var _GlobalCorrections__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./GlobalCorrections */ "./src/components/GlobalCorrections.jsx");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -55076,12 +54466,17 @@ function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" !=
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 
+
 function Settings(_ref) {
   var _providerStatus$trans, _providerStatus$trans2, _providerStatus$trans3, _providerStatus$trans4, _providerStatus$trans5, _providerStatus$trans6, _providerStatus$trans7, _providerStatus$trans8, _providerStatus$trans9, _providerStatus$trans0, _providerStatus$trans1, _providerStatus$trans10, _providerStatus$trans11, _providerStatus$trans12, _providerStatus$trans13, _providerStatus$llm, _providerStatus$knowl, _providerStatus$knowl2, _providerStatus$knowl3, _providerStatus$knowl4, _providerStatus$knowl5, _providerStatus$knowl6, _providerStatus$knowl7, _providerStatus$knowl8, _providerStatus$knowl9, _providerStatus$knowl0, _providerStatus$knowl1;
   var isOpen = _ref.isOpen,
     onClose = _ref.onClose,
     socket = _ref.socket;
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('api'),
+    _useState2 = _slicedToArray(_useState, 2),
+    activeTab = _useState2[0],
+    setActiveTab = _useState2[1];
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
       // Transcription API Keys
       deepgramApiKey: '',
       assemblyaiApiKey: '',
@@ -55117,23 +54512,25 @@ function Settings(_ref) {
       transcriptionConfidenceThreshold: 0.8,
       enableContextualIntelligence: true,
       enableKnowledgeRetrieval: true,
-      cacheExpiryHours: 24
+      cacheExpiryHours: 24,
+      // AI Prompts
+      talkingPointsPrompt: "Based on this meeting context, generate 3-5 intelligent talking points or questions about \"{topic}\".\n\nCONTEXT:\n{context}\n\nMEETING GLOSSARY:\n{glossary}\n\nGenerate talking points that show understanding and move the conversation forward."
     }),
-    _useState2 = _slicedToArray(_useState, 2),
-    settings = _useState2[0],
-    setSettings = _useState2[1];
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
     _useState4 = _slicedToArray(_useState3, 2),
-    isSaving = _useState4[0],
-    setIsSaving = _useState4[1];
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+    settings = _useState4[0],
+    setSettings = _useState4[1];
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState6 = _slicedToArray(_useState5, 2),
+    isSaving = _useState6[0],
+    setIsSaving = _useState6[1];
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
       type: '',
       text: ''
     }),
-    _useState6 = _slicedToArray(_useState5, 2),
-    message = _useState6[0],
-    setMessage = _useState6[1];
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+    _useState8 = _slicedToArray(_useState7, 2),
+    message = _useState8[0],
+    setMessage = _useState8[1];
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
       // Transcription providers
       deepgram: false,
       assemblyai: false,
@@ -55153,31 +54550,31 @@ function Settings(_ref) {
       serpapi: false,
       brave: false
     }),
-    _useState8 = _slicedToArray(_useState7, 2),
-    showApiKeys = _useState8[0],
-    setShowApiKeys = _useState8[1];
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+    _useState0 = _slicedToArray(_useState9, 2),
+    showApiKeys = _useState0[0],
+    setShowApiKeys = _useState0[1];
+  var _useState1 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
       openai: [],
       anthropic: [],
       gemini: []
     }),
-    _useState0 = _slicedToArray(_useState9, 2),
-    availableModels = _useState0[0],
-    setAvailableModels = _useState0[1];
-  var _useState1 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
     _useState10 = _slicedToArray(_useState1, 2),
-    loadingModels = _useState10[0],
-    setLoadingModels = _useState10[1];
+    availableModels = _useState10[0],
+    setAvailableModels = _useState10[1];
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState12 = _slicedToArray(_useState11, 2),
+    loadingModels = _useState12[0],
+    setLoadingModels = _useState12[1];
 
   // Track which providers have valid API keys
-  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
       llm: {},
       transcription: {},
       knowledge: {}
     }),
-    _useState12 = _slicedToArray(_useState11, 2),
-    providerStatus = _useState12[0],
-    setProviderStatus = _useState12[1];
+    _useState14 = _slicedToArray(_useState13, 2),
+    providerStatus = _useState14[0],
+    setProviderStatus = _useState14[1];
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     if (isOpen && socket) {
       // Load current settings when modal opens
@@ -55208,12 +54605,14 @@ function Settings(_ref) {
           type: 'success',
           text: 'Settings saved successfully!'
         });
+        // Close modal after a brief delay to show success message
         setTimeout(function () {
-          return setMessage({
+          setMessage({
             type: '',
             text: ''
           });
-        }, 3000);
+          onClose();
+        }, 500);
       } else {
         setMessage({
           type: 'error',
@@ -55401,6 +54800,76 @@ function Settings(_ref) {
     }
   }, "\u2715")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     style: {
+      display: 'flex',
+      borderBottom: '1px solid #e5e7eb',
+      background: '#f9fafb'
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: function onClick() {
+      return setActiveTab('api');
+    },
+    style: {
+      flex: 1,
+      padding: '12px',
+      background: activeTab === 'api' ? 'white' : 'transparent',
+      border: 'none',
+      borderBottom: activeTab === 'api' ? '2px solid #3b82f6' : 'none',
+      cursor: 'pointer',
+      fontSize: '14px',
+      fontWeight: activeTab === 'api' ? '600' : '500',
+      color: activeTab === 'api' ? '#1e40af' : '#6b7280',
+      transition: 'all 0.2s'
+    }
+  }, "API Keys"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: function onClick() {
+      return setActiveTab('prompts');
+    },
+    style: {
+      flex: 1,
+      padding: '12px',
+      background: activeTab === 'prompts' ? 'white' : 'transparent',
+      border: 'none',
+      borderBottom: activeTab === 'prompts' ? '2px solid #3b82f6' : 'none',
+      cursor: 'pointer',
+      fontSize: '14px',
+      fontWeight: activeTab === 'prompts' ? '600' : '500',
+      color: activeTab === 'prompts' ? '#1e40af' : '#6b7280',
+      transition: 'all 0.2s'
+    }
+  }, "AI Prompts"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: function onClick() {
+      return setActiveTab('corrections');
+    },
+    style: {
+      flex: 1,
+      padding: '12px',
+      background: activeTab === 'corrections' ? 'white' : 'transparent',
+      border: 'none',
+      borderBottom: activeTab === 'corrections' ? '2px solid #3b82f6' : 'none',
+      cursor: 'pointer',
+      fontSize: '14px',
+      fontWeight: activeTab === 'corrections' ? '600' : '500',
+      color: activeTab === 'corrections' ? '#1e40af' : '#6b7280',
+      transition: 'all 0.2s'
+    }
+  }, "Corrections"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: function onClick() {
+      return setActiveTab('config');
+    },
+    style: {
+      flex: 1,
+      padding: '12px',
+      background: activeTab === 'config' ? 'white' : 'transparent',
+      border: 'none',
+      borderBottom: activeTab === 'config' ? '2px solid #3b82f6' : 'none',
+      cursor: 'pointer',
+      fontSize: '14px',
+      fontWeight: activeTab === 'config' ? '600' : '500',
+      color: activeTab === 'config' ? '#1e40af' : '#6b7280',
+      transition: 'all 0.2s'
+    }
+  }, "Configuration")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    style: {
       flex: 1,
       overflowY: 'auto',
       padding: '24px'
@@ -55415,7 +54884,7 @@ function Settings(_ref) {
       border: "1px solid ".concat(message.type === 'success' ? '#bbf7d0' : '#fecaca'),
       fontSize: '14px'
     }
-  }, message.text), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, message.text), activeTab === 'api' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     style: {
       marginBottom: '32px'
     }
@@ -55426,7 +54895,15 @@ function Settings(_ref) {
       fontWeight: '600',
       color: '#111827'
     }
-  }, "\uD83D\uDD11 API Keys & LLM Configuration"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px'
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    className: "h-4 w-4"
+  }), "API Keys & LLM Configuration")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     style: {
       display: 'flex',
       flexDirection: 'column',
@@ -55556,7 +55033,15 @@ function Settings(_ref) {
       fontSize: '13px',
       color: '#92400e'
     }
-  }, "\u26A0\uFE0F The selected transcription provider is not configured. Please add a valid API key or select a different provider.")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px'
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    className: "h-4 w-4"
+  }), "The selected transcription provider is not configured. Please add a valid API key or select a different provider."))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     style: {
       padding: '16px',
       background: '#f9fafb',
@@ -55571,7 +55056,15 @@ function Settings(_ref) {
       fontWeight: '600',
       color: '#1e40af'
     }
-  }, "\uD83E\uDDE0 Large Language Model Provider"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px'
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    className: "h-4 w-4"
+  }), "Large Language Model Provider")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     style: {
       marginBottom: '12px'
     }
@@ -55744,7 +55237,15 @@ function Settings(_ref) {
       fontSize: '13px',
       color: '#92400e'
     }
-  }, "\u26A0\uFE0F The selected LLM provider is not configured. Please add a valid API key or select a different provider.")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px'
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    className: "h-4 w-4"
+  }), "The selected LLM provider is not configured. Please add a valid API key or select a different provider."))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     style: {
       padding: '16px',
       background: '#f9fafb',
@@ -55862,7 +55363,15 @@ function Settings(_ref) {
       fontSize: '13px',
       color: '#92400e'
     }
-  }, "\u26A0\uFE0F The selected knowledge provider is not configured. Please add a valid API key or select a different provider.")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px'
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    className: "h-4 w-4"
+  }), "The selected knowledge provider is not configured. Please add a valid API key or select a different provider."))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     style: {
       marginBottom: '32px'
     }
@@ -55873,7 +55382,15 @@ function Settings(_ref) {
       fontWeight: '600',
       color: '#111827'
     }
-  }, "\uD83E\uDDE0 AI Intelligence"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px'
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(lucide_react__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    className: "h-4 w-4"
+  }), "AI Intelligence")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     style: {
       display: 'flex',
       flexDirection: 'column',
@@ -56091,13 +55608,80 @@ function Settings(_ref) {
     onBlur: function onBlur(e) {
       return e.target.style.borderColor = '#d1d5db';
     }
-  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }))))), activeTab === 'prompts' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     style: {
       marginBottom: '32px'
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_GlobalCorrections__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", {
+    style: {
+      fontSize: '16px',
+      fontWeight: '600',
+      marginBottom: '16px',
+      color: '#111827'
+    }
+  }, "AI Prompts Customization"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", {
+    style: {
+      display: 'block',
+      marginBottom: '6px',
+      fontSize: '14px',
+      fontWeight: '500',
+      color: '#374151'
+    }
+  }, "Talking Points Generation Prompt"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+    style: {
+      fontSize: '12px',
+      color: '#6b7280',
+      marginBottom: '8px'
+    }
+  }, "Customize the prompt used to generate talking points. Use ", '{topic}', " for the user's topic, ", '{context}', " for meeting context, and ", '{glossary}', " for terms."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("textarea", {
+    value: settings.talkingPointsPrompt,
+    onChange: function onChange(e) {
+      return handleInputChange('talkingPointsPrompt', e.target.value);
+    },
+    rows: "8",
+    style: {
+      width: '100%',
+      padding: '8px 12px',
+      border: '1px solid #d1d5db',
+      borderRadius: '6px',
+      fontSize: '13px',
+      fontFamily: 'monospace',
+      background: 'white',
+      outline: 'none',
+      resize: 'vertical'
+    },
+    onFocus: function onFocus(e) {
+      return e.target.style.borderColor = '#3b82f6';
+    },
+    onBlur: function onBlur(e) {
+      return e.target.style.borderColor = '#d1d5db';
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: function onClick() {
+      var defaultPrompt = "Based on this meeting context, generate 3-5 intelligent talking points or questions about \"{topic}\".\n\nCONTEXT:\n{context}\n\nMEETING GLOSSARY:\n{glossary}\n\nGenerate talking points that show understanding and move the conversation forward.";
+      handleInputChange('talkingPointsPrompt', defaultPrompt);
+      setMessage({
+        type: 'info',
+        text: 'Restored default talking points prompt'
+      });
+    },
+    style: {
+      marginTop: '8px',
+      padding: '6px 12px',
+      background: '#6b7280',
+      color: 'white',
+      border: 'none',
+      borderRadius: '4px',
+      fontSize: '12px',
+      cursor: 'pointer'
+    }
+  }, "Restore Default"))), activeTab === 'corrections' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    style: {
+      marginBottom: '32px'
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_GlobalCorrections__WEBPACK_IMPORTED_MODULE_4__["default"], {
     socket: socket
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", {
+  })), activeTab === 'config' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", {
     style: {
       margin: '0 0 16px 0',
       fontSize: '16px',

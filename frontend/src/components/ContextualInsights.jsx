@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function ContextualInsights({ socket, currentTopic }) {
+function ContextualInsights({ socket, currentTopic, view }) {
     const [insights, setInsights] = useState(null);
     const [talkingPoints, setTalkingPoints] = useState([]);
     const [rollingSummary, setRollingSummary] = useState('');
@@ -180,10 +180,13 @@ function ContextualInsights({ socket, currentTopic }) {
                     <h4 style={{ fontSize: '14px', marginBottom: '10px' }}>
                         Generate Talking Points
                     </h4>
+                    <p style={{ fontSize: '12px', color: '#6c757d', marginBottom: '10px' }}>
+                        Enter a topic to get AI-generated talking points based on the current meeting context and discussion.
+                    </p>
                     <div style={{ display: 'flex', gap: '10px' }}>
                         <input
                             type="text"
-                            placeholder="Enter topic..."
+                            placeholder="e.g., 'project timeline', 'budget concerns', 'next steps'"
                             value={talkingPointTopic}
                             onChange={(e) => setTalkingPointTopic(e.target.value)}
                             onKeyPress={(e) => e.key === 'Enter' && requestTalkingPoints()}
@@ -197,13 +200,14 @@ function ContextualInsights({ socket, currentTopic }) {
                         />
                         <button
                             onClick={requestTalkingPoints}
+                            disabled={!talkingPointTopic.trim()}
                             style={{
                                 padding: '8px 15px',
-                                background: '#007bff',
+                                background: talkingPointTopic.trim() ? '#007bff' : '#6c757d',
                                 color: 'white',
                                 border: 'none',
                                 borderRadius: '4px',
-                                cursor: 'pointer',
+                                cursor: talkingPointTopic.trim() ? 'pointer' : 'not-allowed',
                                 fontSize: '13px'
                             }}
                         >
@@ -217,6 +221,9 @@ function ContextualInsights({ socket, currentTopic }) {
                     <h4 style={{ fontSize: '14px', marginBottom: '10px' }}>
                         Rolling Summary
                     </h4>
+                    <p style={{ fontSize: '12px', color: '#6c757d', marginBottom: '10px' }}>
+                        Get an AI-generated summary of the recent discussion. Choose a time window:
+                    </p>
                     <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
                         <button
                             onClick={() => requestRollingSummary(60000)}
@@ -273,24 +280,6 @@ function ContextualInsights({ socket, currentTopic }) {
                         </div>
                     )}
                 </div>
-                
-                {/* Meeting Glossary */}
-                <div>
-                    <button
-                        onClick={requestGlossary}
-                        style={{
-                            padding: '8px 15px',
-                            background: '#17a2b8',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '4px',
-                            cursor: 'pointer',
-                            fontSize: '13px'
-                        }}
-                    >
-                        View Meeting Glossary
-                    </button>
-                </div>
             </div>
         );
     };
@@ -334,6 +323,18 @@ function ContextualInsights({ socket, currentTopic }) {
         );
     };
     
+    // If view prop is provided, render only that specific view without tabs
+    if (view) {
+        return (
+            <div style={{ height: '100%' }}>
+                {view === 'insights' && renderInsightsTab()}
+                {view === 'assistant' && renderAssistantTab()}
+                {view === 'glossary' && renderGlossaryTab()}
+            </div>
+        );
+    }
+    
+    // Otherwise render with internal tabs (for backward compatibility)
     return (
         <div style={{
             background: '#ffffff',
